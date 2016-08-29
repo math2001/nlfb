@@ -1,0 +1,387 @@
+::-webkit-scrollbar {
+  box-sizing: content-box;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #808080;
+  border-radius: 50px;
+  border: 1px solid #fff;
+}
+::-webkit-scrollbar-thumb:active {
+  border-color: transparent;
+}
+::-webkit-scrollbar-button {
+  height: 5px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 7px;
+  border-bottom: 2px solid transparent;
+}
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  font-family: "Trebuchet MS";
+  font-size: 16px;
+  height: 100%;
+}
+.wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+* {
+  box-sizing: border-box;
+}
+.atomic-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.main {
+  border-top: 1px solid #ccc;
+  width: 100%;
+  z-index: 50;
+  position: absolute;
+  bottom: 0;
+  top: 57px;
+}
+.sidebar {
+  display: inline-block;
+  width: 20%;
+  margin: 0;
+  vertical-align: top;
+  padding-left: 10px;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+.sidebar h3 {
+  margin: 0;
+  margin-top: 10px;
+}
+.sep {
+  width: 2px;
+  border: 2px solid transparent;
+  position: absolute;
+  left: 20%;
+  top: 0;
+  bottom: 0;
+  background-color: #aaa;
+  cursor: col-resize;
+  z-index: 500;
+}
+article {
+  margin: 0;
+  display: inline-block;
+  width: 80%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding-left: 10px;
+}
+.navbar {
+  border-bottom: 1px solid #aaa;
+  height: 57px;
+  position: relative;
+}
+.navbar-btn-wrapper {
+  vertical-align: middle;
+  margin: 13px 5px;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  position: relative;
+}
+.navbar-btn {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -12.5px;
+  margin-top: -12.5px;
+/* transition all .1s */
+}
+.navbar-btn path {
+  fill: #999;
+}
+.navbar-btn:hover path {
+  fill: #333;
+}
+.navbar-btn-wrapper:first-of-type {
+  transform: rotate(90deg);
+}
+.breadcrumb {
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 7px;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  left: 100px;
+  margin-top: 0;
+  line-height: 57px;
+}
+.breadcrumb li {
+  display: inline-block;
+}
+.breadcrumb li:not(:last-of-type)::after {
+  content: "/";
+  color: #aaa;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+.breadcrumb a {
+  color: #86a1ea;
+  text-decoration: none;
+}
+.breadcrumb a:hover {
+  color: #1c42a7;
+}
+header {
+  background-color: #e7f1fd;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 10px;
+/* padding-top 3px */
+}
+header a,
+header button {
+  text-decoration: none;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  border: none;
+  font-size: 100%;
+  font-family: inherit;
+  color: #999;
+  margin: 0;
+  padding: 0;
+}
+header a:hover,
+header button:hover {
+  color: #4f5b66;
+}
+header a.brand {
+  height: 100%;
+  font-size: 130%;
+  display: inline-block;
+/* font-size 150% */
+  font-weight: bold;
+  margin-right: 10px;
+  vertical-align: top;
+}
+header nav {
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0;
+}
+header ul {
+  vertical-align: top;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+}
+header nav ul li {
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
+header .nav-sep {
+  border-left: 1px solid #aaa;
+  height: 50%;
+  width: 1px;
+  vertical-align: middle;
+}
+header .search-wrapper {
+  display: inline-block;
+  float: right;
+  margin: 0;
+  margin-right: 10px;
+/* background-color #fcc */
+  height: 100%;
+  line-height: 45px;
+}
+header .search {
+  border: none;
+  padding: 5px;
+  outline: none;
+  width: 200px;
+  background-color: transparent;
+  font-family: "Trebuchet MS";
+  font-size: 90%;
+  border-bottom: 4px solid rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+header .search.error {
+  border-color: #ff8080;
+}
+header .search.error::-webkit-input-placeholder {
+  color: #ff8080;
+  font-style: italic;
+}
+header .search:focus {
+  width: 300px;
+  transition: all 0.3s;
+}
+.projects {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.projects ul {
+  padding-left: 10px;
+}
+.projects li {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: clip;
+  overflow: hidden;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.projects li a {
+  cursor: pointer;
+}
+.projects li a:hover {
+  text-decoration: underline;
+}
+.spoiler-button,
+.spoiler-replace {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  display: inline-block;
+  border: 2px solid #ccc;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotate(45deg);
+  margin-right: 10px;
+  transition: all 0.2s;
+}
+.spoiler-button[deployed=on],
+.spoiler-replace[deployed=on] {
+  transform: rotate(135deg);
+  margin-left: 3px;
+  margin-right: 7px;
+}
+.spoiler-button:hover,
+.spoiler-replace:hover {
+  border-top-color: #333;
+  border-right-color: #333;
+}
+.spoiler-replace {
+  border-color: transparent;
+}
+.spoiler-replace:hover {
+  border-color: transparent;
+}
+.items {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  position: absolute;
+  left: 10px;
+  right: 0;
+  overflow: auto;
+  top: 62px;
+  bottom: 0;
+}
+.items[showing="on"] {
+  left: 50px;
+  right: -50px;
+  opacity: 0;
+}
+.item {
+  padding: 2px;
+  cursor: default;
+}
+.item:hover {
+  background-color: #e5ebf7;
+}
+.item img {
+  width: 20px;
+  vertical-align: middle;
+}
+.cd-empty {
+  font-size: 75px;
+  text-align: center;
+  font-weight: bold;
+  color: #ccc;
+  font-family: "Verdana";
+}
+.hljs-comment,
+.hljs-quote {
+  color: #a7adba;
+}
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-pseudo {
+  color: #d08770;
+}
+.hljs-attribute {
+  color: #4f5b66;
+  font-style: italic;
+}
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #96b5b4;
+}
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #7b9726;
+}
+.hljs-title,
+.hljs-section {
+  color: #407ee7;
+}
+.hljs-keyword,
+.hljs-attr {
+  color: #b48ead;
+}
+.hljs-selector-tag {
+  color: #bf616a;
+}
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #eff1f5;
+  color: #4f5b66;
+  padding: 0.5em;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}

@@ -81,7 +81,7 @@ function listdir($path) {
 		$text = file_get_contents($path);
 		if (
 			in_array('extension', array_keys($pathinfo = pathinfo($path))) AND
-			in_array(strtolower($pathinfo['extension']), ['jpg', 'png', 'bmp', 'jpeg', 'gif', 'ico']
+			in_array(strtolower($pathinfo['extension']), ['jpg', 'png', 'bmp', 'jpeg', 'gif', 'ico', 'svg']
 		)) {
 			header('content-type: image/png');
 			return $path;

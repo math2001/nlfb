@@ -1,0 +1,14 @@
+font(family, size, style=normal, weight=normal, line-height-size=false)
+	font-family family
+	font-size size
+	font-style style
+	font-weight weight
+		
+	if line-height-size == true
+		line-height size
+
+size(w, h=null)
+	if h == null
+		h = w
+	width w
+	height h

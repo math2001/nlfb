@@ -1,0 +1,97 @@
+/* -------------------------------- */
+/* ------------ header ------------ */
+/* -------------------------------- */
+
+header 
+	background-color #e7f1fd
+	height 56px
+	line-height 56px
+	padding-left 10px
+	
+	/* padding-top 3px */
+
+
+header a, header button 
+	text-decoration none
+	height 100%
+	display inline-block
+	vertical-align top
+	cursor pointer
+	border none
+	font-size 100%
+	font-family inherit
+	color #999
+	margin 0
+	padding 0
+
+header a:hover, header button:hover 
+	color #4f5b66
+
+
+header a.brand 
+	height 100%
+	font-size 130%
+	display inline-block
+	/* font-size 150% */
+	font-weight bold
+	margin-right 10px
+	vertical-align top
+
+header nav 
+	height 100%
+	display inline-block
+	vertical-align top
+	padding 0
+
+header ul 
+	vertical-align top
+	height 100%
+	padding 0
+	margin 0
+	display inline-block
+	position relative
+
+
+header nav ul li 
+	display inline-block
+	vertical-align top
+	height 100%
+
+header .nav-sep 
+	border-left 1px solid #aaa
+	height 50%
+	width 1px
+	vertical-align middle
+
+
+header .search-wrapper 
+	display inline-block
+	float right
+	margin 0
+	margin-right 10px
+	/* background-color #fcc */
+	height 100%
+	line-height 45px
+
+
+
+
+header .search 
+	border none
+	padding 5px
+	outline none
+	width 200px
+	background-color transparent
+	font-family "Trebuchet MS"
+	font-size 90%
+	border-bottom 4px solid rgba(0, 0, 0, 0.1)
+	transition all .3s
+	&.error
+		border-color lighten(red, 50%)
+		&::-webkit-input-placeholder
+			color lighten(red, 50%)
+			font-style italic
+
+header .search:focus 
+	width 300px
+	transition all .3s
