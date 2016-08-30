@@ -2,4 +2,32 @@
 
 Don't like the home page of wamp, and you just **cannot** stand this awful *apache made* "browser".
 
-Well, in just **2** steps, you can easily
+Well, in just **2** steps, you can easily have a pretty nice browser.
+
+## Installation
+
+1. Simply download the zip, and extract it in your `www` folder.
+2. open the `index.php` file and add this line at the beginning: `header('location: _nlfb/');`
+
+That's it, open [localhost](http://localhost) and *savourez*.
+
+## Current features
+
+- Sidebar
+- Breadcrumbs
+- File can be view and are colored by the great [highlightjs](https://highlightjs.org/)
+- If it is an image, it just renders it.
+- Search in current folder based on letters' order (`ctrl` brings up `controller`)
+- alias
+
+## Features to add (imperative)
+
+- open in **real**
+- ignored projects - folders/files
+
+## Features to add
+
+- copy (name, path, URL path) &#10003;
+- view mode (icon, list)
+- load full sidebar at the beginning
+- customs alias
