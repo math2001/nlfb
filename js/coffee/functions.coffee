@@ -5,13 +5,18 @@ len = (el) ->
 		console.error "length of \"#{el}\" is undefined!"
 	return 0
 
+die = (msg) ->
+	throw msg || 'die'
+
 int   = (el) -> parseInt(el)
 float = (el) -> parseFloat(el)
 str   = (el) -> '' + el
 list  = (el) -> (e for e in el)
 arr   = (el) -> list(el)
 
-say = -> alert(list(arguments).join(' ')); console.log arguments
+isArray = (obj) -> Array.isArray(obj)
+
+say = -> alert(list(arguments).join(' '));
 
 gi = (arr, index) ->
 	# get index
@@ -28,8 +33,6 @@ getFileType = (filename, real=true) ->
 			return 'git'
 	extension
 
-
-	
 
 array_diff = (arr1, arr2) ->
 	arr = []
@@ -72,6 +75,15 @@ add = (arr1, arr2) ->
 		arr1.push(el)
 	return arr1
 	
+class Path
+	constructor: (@path, @sep='/') ->
+
+	moveUp = ->
+		@path = @path.split(@sep).slice(0, -1).join(@sep)
+
+	go = (path...) ->
+		say path
+
 
 trim = (str, charToRemove=' ') ->
 	start = 0
@@ -121,3 +133,39 @@ extract = (obj, objToSave=false) ->
 			objToSave[key] = obj[key]
 
 	null
+
+
+
+startWith = (str, word, type='any') ->
+	tested = str.slice(0, len(word))
+	if typeof word == typeof 'str'
+		return tested == word
+
+	if typeof word != typeof ['foo']
+		for w in word
+			if type == 'all' and tested != word
+				return false
+			if type == 'any' and tested == word
+				return true
+
+		if type == 'all'
+			return true
+		else
+			return false
+
+
+		
+
+openInNewTab = (url...) ->
+	if isArray(url)
+		console.log url
+		url = url.join('/')
+	if not startWith(url, ['http://', 'https', 'file://'])
+		url = 'http://' + url
+	$("<a>").attr("href", url).attr("target", "_blank")[0].click();
+
+openFromDataHrefRecursive = (el) ->
+	if el.nodeName.toLowerCase() == 'a'
+		el = el.parentNode
+	href = el.getAttribute('data-href')
+	openInNewTab 'localhost', href

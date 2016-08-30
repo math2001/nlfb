@@ -22,12 +22,12 @@ That's it, open [localhost](http://localhost) and *savourez*.
 
 ## Features to add (imperative)
 
-- open in **real**
+- open in **real** &#10004;
 - ignored projects - folders/files
 
 ## Features to add
 
-- copy (name, path, URL path) &#10003;
+- copy (name, path, URL path)
 - view mode (icon, list)
 - load full sidebar at the beginning
 - customs alias

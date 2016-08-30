@@ -1,4 +1,5 @@
-var add, arr, array_diff, code, extend, extract, float, forEach, getFileType, getPath, gi, int, len, list, moveUp, quote, say, str, trim;
+var Path, add, arr, array_diff, code, die, extend, extract, float, forEach, getFileType, getPath, gi, int, isArray, len, list, moveUp, openFromDataHrefRecursive, openInNewTab, quote, say, startWith, str, trim,
+  slice = [].slice;
 
 len = function(el) {
   if (el.length !== void 0) {
@@ -7,6 +8,10 @@ len = function(el) {
     console.error("length of \"" + el + "\" is undefined!");
   }
   return 0;
+};
+
+die = function(msg) {
+  throw msg || 'die';
 };
 
 int = function(el) {
@@ -35,9 +40,12 @@ arr = function(el) {
   return list(el);
 };
 
+isArray = function(obj) {
+  return Array.isArray(obj);
+};
+
 say = function() {
-  alert(list(arguments).join(' '));
-  return console.log(arguments);
+  return alert(list(arguments).join(' '));
 };
 
 gi = function(arr, index) {
@@ -128,6 +136,28 @@ add = function(arr1, arr2) {
   return arr1;
 };
 
+Path = (function() {
+  var go, moveUp;
+
+  function Path(path1, sep) {
+    this.path = path1;
+    this.sep = sep != null ? sep : '/';
+  }
+
+  moveUp = function() {
+    return this.path = this.path.split(this.sep).slice(0, -1).join(this.sep);
+  };
+
+  go = function() {
+    var path;
+    path = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+    return say(path);
+  };
+
+  return Path;
+
+})();
+
 trim = function(str, charToRemove) {
   var char, cont, end, i, j, k, len1, len2, ref, start;
   if (charToRemove == null) {
@@ -200,4 +230,53 @@ extract = function(obj, objToSave) {
     }
   }
   return null;
+};
+
+startWith = function(str, word, type) {
+  var j, len1, tested, w;
+  if (type == null) {
+    type = 'any';
+  }
+  tested = str.slice(0, len(word));
+  if (typeof word === typeof 'str') {
+    return tested === word;
+  }
+  if (typeof word !== typeof ['foo']) {
+    for (j = 0, len1 = word.length; j < len1; j++) {
+      w = word[j];
+      if (type === 'all' && tested !== word) {
+        return false;
+      }
+      if (type === 'any' && tested === word) {
+        return true;
+      }
+    }
+    if (type === 'all') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
+openInNewTab = function() {
+  var url;
+  url = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+  if (isArray(url)) {
+    console.log(url);
+    url = url.join('/');
+  }
+  if (!startWith(url, ['http://', 'https', 'file://'])) {
+    url = 'http://' + url;
+  }
+  return $("<a>").attr("href", url).attr("target", "_blank")[0].click();
+};
+
+openFromDataHrefRecursive = function(el) {
+  var href;
+  if (el.nodeName.toLowerCase() === 'a') {
+    el = el.parentNode;
+  }
+  href = el.getAttribute('data-href');
+  return openInNewTab('localhost', href);
 };

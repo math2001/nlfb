@@ -78,7 +78,7 @@
 	</div>
 
 	<menu id="item-contextmenu" type="context">
-		<menuitem label="test" onclick="console.log(event.fromElement)"></menuitem>
+		<menuitem label="Open in real" onclick="openFromDataHrefRecursive(event.fromElement)"></menuitem>
 		<menu label="Copy" class="copy">
 			<menuitem label="Name" onclick="copy(event.fromElement.nodeName == 'A' ? event.fromElement.parentNode : event.fromElement)"></menuitem>
 			<menuitem label="Path"></menuitem>
