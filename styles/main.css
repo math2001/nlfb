@@ -253,7 +253,7 @@ header .search:focus {
 .projects li {
   width: 100%;
   white-space: nowrap;
-  text-overflow: clip;
+  text-overflow: ellipsis;
   overflow: hidden;
   margin-bottom: 5px;
   margin-top: 5px;

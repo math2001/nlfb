@@ -47,11 +47,6 @@
 			 			<path d="M336.554,86.871c-11.975-18.584-27.145-34.707-44.706-47.731L330.801,0H217.436v113.91L270.4,60.691  c40.142,28.131,65.042,74.724,65.042,124.571c0,83.744-68.13,151.874-151.874,151.874S31.694,269.005,31.694,185.262  c0-58.641,32.781-111.009,85.551-136.669l-13.119-26.979C73.885,36.318,48.315,59.1,30.182,87.494  c-18.637,29.184-28.488,62.991-28.488,97.768c0,100.286,81.588,181.874,181.874,181.874s181.874-81.588,181.874-181.874  C365.442,150.223,355.453,116.201,336.554,86.871z"/>
 			 			</svg>
 			 		</span>
-			 		<!-- <span class="navbar-btn-wrapper">
-			 			<svg viewBox="0 0 1000 1000" class="navbar-btn" id="open-in-browser">
-			 			<path d="M500,390.3l216.9,219.5H553.6v326.7H446.4V609.7H283L500,390.3z M880.2,63.6c30.6,0,56.6,11.1,77.9,33.2c21.3,22.1,31.9,47.6,31.9,76.5v653.3c0,28.9-11.1,54.4-33.2,76.6c-22.1,22.1-47.6,33.2-76.5,33.2H663.4V826.6h216.9V283H119.8v543.6h216.9v109.8H119.8c-30.6,0-56.6-11.1-77.9-33.2C20.6,881.1,10,855.6,10,826.6V173.3c0-28.9,10.6-54.4,31.9-76.5c21.3-22.1,47.2-33.2,77.9-33.2H880.2L880.2,63.6z"/>
-			 			</svg>
-			 		</span> -->
 					<ul class="breadcrumb">
 						<li class="mute">Loading...</li>
 					</ul>
@@ -85,14 +80,10 @@
 		</menu>
 	</menu>
 
-	<script type="text/javascript" src="http://localhost/tests/jquery.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script type="text/javascript" src="./highlight.js"></script>
 	<script type="text/javascript" src="./js/functions.js"></script>
-	<!-- <script type="text/javascript" src="./index.script.js"></script> -->
 	<script type="text/javascript" src="./js/main.js"></script>
-	<script type="text/javascript">
-		
-	</script>
 
 </body>
 </html>
