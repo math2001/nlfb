@@ -21,4 +21,4 @@ class Config
 			return undefined
 
 
-		
+		"navigation"

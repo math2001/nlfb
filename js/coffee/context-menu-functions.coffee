@@ -31,8 +31,8 @@ class CMF
 	@toogleShowHiddenFiles: ($menuitem) ->
 		if window.$items.hasClass('hiding-files')
 			window.$items.removeClass('hiding-files')
-			$menuitem.text('Show hidden items')
+			$menuitem.text('Hide hidden items')
 		else
 			window.$items.addClass('hiding-files')
-			$menuitem.text('Hide hidden items')
+			$menuitem.text('Show hidden items')
 		

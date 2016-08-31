@@ -47,10 +47,10 @@ CMF = (function() {
   CMF.toogleShowHiddenFiles = function($menuitem) {
     if (window.$items.hasClass('hiding-files')) {
       window.$items.removeClass('hiding-files');
-      return $menuitem.text('Show hidden items');
+      return $menuitem.text('Hide hidden items');
     } else {
       window.$items.addClass('hiding-files');
-      return $menuitem.text('Hide hidden items');
+      return $menuitem.text('Show hidden items');
     }
   };
 

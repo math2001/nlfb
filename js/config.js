@@ -30,6 +30,7 @@ Config = (function() {
       console.error("config: the key " + key + " is unset!");
       return void 0;
     }
+    return "navigation";
   };
 
   return Config;

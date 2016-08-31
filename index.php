@@ -48,7 +48,7 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
-				<ul class="items">
+				<ul class="items hiding-files">
 					Loading...
 				</ul>
 			</article>

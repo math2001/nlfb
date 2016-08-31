@@ -105,7 +105,7 @@ update = function(mess, type, jqXHR) {
     var $new;
     extract(mess, window);
     $new = $('<ul></ul>');
-    $new.addClasses('items', 'hiding-files');
+    $new.attr('class', window.$items.attr('class'));
     if (len(dirs) + len(files) === 0) {
       $new.html('<p class="cd-empty">Empty</p>');
     } else {
