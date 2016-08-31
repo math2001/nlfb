@@ -10,7 +10,10 @@ Config = (function() {
     }
     default_config = {
       totalSlideTime: 500,
-      contextMenuTime: 50
+      contextMenuTime: 50,
+      iProjects: ['_nlfb'],
+      iFolders: ['.git'],
+      iFiles: []
     };
     return window._config = config ? $.extend(default_config, config) : default_config;
   };

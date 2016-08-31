@@ -69,14 +69,6 @@
 
 	</div>
 
-	<!-- <menu id="item-contextmenu-default">
-		<menuitem label="Open in real" onclick="openFromDataHref(event.fromElement)"></menuitem>
-		<menu label="Copy" class="copy">
-			<menuitem label="Test" onclick="runCopyName()"></menuitem>
-			<menuitem label="Name" onclick="copyName(event.fromElement)"></menuitem>
-			<menuitem label="Path"></menuitem>
-		</menu>
-	</menu> -->
 	<ul id="item-contextmenu" class="context-menu" style="display: none;">
 		<li class="context-menu-item-action" onclick="CMF.openFromDataHref();">Open in real</li>
 		<li class="context-menu-item">
@@ -84,9 +76,10 @@
 			<ul class="context-menu-sub">
 				<li class="context-menu-item-action" onclick="CMF.copyName();">Name</li>
 				<li class="context-menu-item-action" onclick="CMF.copyPath()">Path</li>
-				<li class="context-menu-item-action" onclick="CMF.copyPath(true)">Path for URL</li>
+				<li class="context-menu-item-action" onclick="CMF.copyPath('for url')">Path for URL</li>
 			</ul>
 		</li>
+		<li class="context-menu-item-action" onclick="CMF.toogleShowHiddenFiles($(this))">Show hidden items</li>
 	</ul>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

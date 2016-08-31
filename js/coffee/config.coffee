@@ -5,7 +5,9 @@ class Config
 		default_config = 
 			totalSlideTime: 500
 			contextMenuTime: 50
-
+			iProjects: ['_nlfb']
+			iFolders: ['.git']
+			iFiles: []
 
 		window._config = if config then $.extend default_config, config else default_config
 

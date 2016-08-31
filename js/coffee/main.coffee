@@ -35,11 +35,14 @@ advancedResearch = (arr, pattern) ->
 
 addItemsTo = ($el, dirs=[], files=[]) ->
 	dirImg = '<img src="img/folder.svg" alt="folder">'
+	hide = ''
 	for dir in dirs
-		$el.append("<li contextmenuc='item-contextmenu' class=item data-href='#{getPath(dir)}'>#{dirImg} <a>#{dir}</a></li>")
+		hide = if $.inArray(dir, Config.get('iFolders')) > -1 then ' item-hide' else ''
+		$el.append("<li contextmenuc='item-contextmenu' class='item#{hide}' data-href='#{getPath(dir)}'>#{dirImg} <a>#{dir}</a></li>")
 	for file in files
+		hide = if $.inArray(dir, Config.get('iFiles')) > -1 then ' item-hide' else ''
 		$el.append(
-			"<li contextmenuc='item-contextmenu' class=item data-href='#{getPath(file)}'>
+			"<li contextmenuc='item-contextmenu' class='item#{hide}' data-href='#{getPath(file)}'>
 				<img src='img/file_types/#{getFileType(file)}.svg' onerror='this.src=\"img/file_types/default.svg\"'>
 				<a>#{file}</a>
 			</li>")
@@ -80,7 +83,7 @@ update = (mess, type, jqXHR) ->
 	folderContent = () ->
 		extract mess, window
 		$new = $ '<ul></ul>'
-		$new.addClass('items')
+		$new.addClasses('items', 'hiding-files')
 		if len(dirs) + len(files) == 0
 			$new.html('<p class="cd-empty">Empty</p>')
 		else
@@ -165,6 +168,8 @@ loadProjects = ($el=window.$sidebar) ->
 		$ul = window.$sidebar.find('ul').first()
 		$ul.find('li').remove()
 		forEach(dirs, (dir, has_folder) ->
+			if !$.inArray(dir, Config.get('iProjects'))
+				return false
 			$ul.append(
 				$('<li></li>')
 				.append(
@@ -214,7 +219,6 @@ handleExpandFolder = () ->
 manageSideBarResize = () ->
 	window.resizingSidebar = false
 	window.$sep.bind('mousedown', ->
-		console.log 'resizingSidebar'
 		window.resizingSidebar = true
 	)
 	$(document).bind('mouseup', ->
@@ -265,7 +269,6 @@ manageContextMenu = ->
 			top: e.clientY - 16,
 			left: e.clientX	
 		}).fadeIn()
-		# console.log window.$contextmenu.length
 	)
 
 	hide = ->

@@ -259,7 +259,6 @@ openInNewTab = function() {
   var url;
   url = 1 <= arguments.length ? slice.call(arguments, 0) : [];
   if ($.isArray(url)) {
-    console.log(url);
     url = url.join('/');
   }
   if (!startWith(url, ['http://', 'https', 'file://'])) {
@@ -282,4 +281,13 @@ copy = function(str) {
   }
   $input.remove();
   return str;
+};
+
+$.fn.addClasses = function() {
+  var arg, j, len1;
+  for (j = 0, len1 = arguments.length; j < len1; j++) {
+    arg = arguments[j];
+    this.addClass(arg);
+  }
+  return this;
 };

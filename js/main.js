@@ -45,7 +45,7 @@ advancedResearch = function(arr, pattern) {
 };
 
 addItemsTo = function($el, dirs, files) {
-  var dir, dirImg, file, j, k, len1, len2;
+  var dir, dirImg, file, hide, j, k, len1, len2;
   if (dirs == null) {
     dirs = [];
   }
@@ -53,13 +53,16 @@ addItemsTo = function($el, dirs, files) {
     files = [];
   }
   dirImg = '<img src="img/folder.svg" alt="folder">';
+  hide = '';
   for (j = 0, len1 = dirs.length; j < len1; j++) {
     dir = dirs[j];
-    $el.append("<li contextmenuc='item-contextmenu' class=item data-href='" + (getPath(dir)) + "'>" + dirImg + " <a>" + dir + "</a></li>");
+    hide = $.inArray(dir, Config.get('iFolders')) > -1 ? ' item-hide' : '';
+    $el.append("<li contextmenuc='item-contextmenu' class='item" + hide + "' data-href='" + (getPath(dir)) + "'>" + dirImg + " <a>" + dir + "</a></li>");
   }
   for (k = 0, len2 = files.length; k < len2; k++) {
     file = files[k];
-    $el.append("<li contextmenuc='item-contextmenu' class=item data-href='" + (getPath(file)) + "'> <img src='img/file_types/" + (getFileType(file)) + ".svg' onerror='this.src=\"img/file_types/default.svg\"'> <a>" + file + "</a> </li>");
+    hide = $.inArray(dir, Config.get('iFiles')) > -1 ? ' item-hide' : '';
+    $el.append("<li contextmenuc='item-contextmenu' class='item" + hide + "' data-href='" + (getPath(file)) + "'> <img src='img/file_types/" + (getFileType(file)) + ".svg' onerror='this.src=\"img/file_types/default.svg\"'> <a>" + file + "</a> </li>");
   }
   return null;
 };
@@ -102,7 +105,7 @@ update = function(mess, type, jqXHR) {
     var $new;
     extract(mess, window);
     $new = $('<ul></ul>');
-    $new.addClass('items');
+    $new.addClasses('items', 'hiding-files');
     if (len(dirs) + len(files) === 0) {
       $new.html('<p class="cd-empty">Empty</p>');
     } else {
@@ -194,6 +197,9 @@ loadProjects = function($el) {
     $ul = window.$sidebar.find('ul').first();
     $ul.find('li').remove();
     return forEach(dirs, function(dir, has_folder) {
+      if (!$.inArray(dir, Config.get('iProjects'))) {
+        return false;
+      }
       return $ul.append($('<li></li>').append(has_folder ? '<span class="spoiler-button"></span>' : '<span class="spoiler-replace"></span>').append($('<a></a>').text(dir).attr('data-href', dir)));
     });
   };
@@ -232,7 +238,6 @@ handleExpandFolder = function() {
 manageSideBarResize = function() {
   window.resizingSidebar = false;
   window.$sep.bind('mousedown', function() {
-    console.log('resizingSidebar');
     return window.resizingSidebar = true;
   });
   return $(document).bind('mouseup', function() {

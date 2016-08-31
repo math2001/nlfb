@@ -27,4 +27,12 @@ class CMF
 			return copy el.getAttribute('data-href')
 		else 
 			return copy encodeURIComponent(el.getAttribute('data-href')).replace(/%2F/g, '/')
+
+	@toogleShowHiddenFiles: ($menuitem) ->
+		if window.$items.hasClass('hiding-files')
+			window.$items.removeClass('hiding-files')
+			$menuitem.text('Show hidden items')
+		else
+			window.$items.addClass('hiding-files')
+			$menuitem.text('Hide hidden items')
 		

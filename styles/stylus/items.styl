@@ -78,6 +78,18 @@
 	&:hover, &[focused=on]
 		background-color #e5ebf7
 	
+	&.item-hide
+		height 25px
+		opacity .7
+		transition all .5s
+	
+.items.hiding-files
+	.item-hide
+		height 0
+		margin 0
+		overflow hidden
+		opacity 0
+	
 .item img
 	width 20px
 	vertical-align middle
@@ -93,3 +105,4 @@
 	font-weight bold
 	color #ccc
 	font-family "Verdana"
+	

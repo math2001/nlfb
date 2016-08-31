@@ -161,7 +161,6 @@ startWith = (str, word, type='any') ->
 
 openInNewTab = (url...) ->
 	if $.isArray(url)
-		console.log url
 		url = url.join('/')
 	if not startWith(url, ['http://', 'https', 'file://'])
 		url = 'http://' + url
@@ -192,3 +191,7 @@ copy = (str) ->
 # ------------ Jquery plugin ------------ #
 # --------------------------------------- #
 
+$.fn.addClasses = ->
+	for arg in arguments
+		this.addClass(arg)
+	return this
