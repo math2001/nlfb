@@ -90,7 +90,7 @@
 	</ul>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script type="text/javascript" src="./highlight.js"></script>
+	<script type="text/javascript" src="./js/highlight.js"></script>
 	<script type="text/javascript" src="./js/functions.js"></script>
 	<script type="text/javascript" src="./js/config.js"></script>
 	<script type="text/javascript" src="./js/context-menu-functions.js"></script>
