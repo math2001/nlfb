@@ -4,14 +4,16 @@ var stylus = require('gulp-stylus')
 var livereload = require('gulp-livereload')
 var plumber = require('gulp-plumber')
 
-gulp.task('coffee', function () {
+gulp.task('coffee-compile', function () {
 	return gulp.src('js/coffee/*.coffee')
 		.pipe(plumber())
 		.pipe(coffee({
 			bare: true
 		}))
 		.pipe(gulp.dest('js'))
-		.pipe(livereload())
+})
+gulp.task('coffee', ['coffee-compile'], function () {
+	livereload.reload()
 })
 gulp.task('stylus', function () {
 	return gulp.src('styles/stylus/main.styl')
@@ -36,12 +38,9 @@ gulp.task('atomic-reload', function () {
 
 
 gulp.task('watch', function () {
+	livereload.listen()
 	gulp.watch('js/coffee/*.coffee', ['coffee'])
 	gulp.watch('styles/stylus/*.styl', ['stylus'])
-	livereload({
-		host: 'localhost',
-		start: true
-	})
 	gulp.watch(['**/*.php']).on('change', function (e) {
 		livereload.changed(e.path)
 	})

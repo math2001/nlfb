@@ -1,4 +1,4 @@
-var Path, add, arr, array_diff, code, die, extend, extract, float, forEach, getFileType, getPath, gi, int, isArray, len, list, moveUp, openFromDataHrefRecursive, openInNewTab, quote, say, startWith, str, trim,
+var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, gi, int, len, list, moveUp, openInNewTab, quote, say, startWith, str, trim,
   slice = [].slice;
 
 len = function(el) {
@@ -38,10 +38,6 @@ list = function(el) {
 
 arr = function(el) {
   return list(el);
-};
-
-isArray = function(obj) {
-  return Array.isArray(obj);
 };
 
 say = function() {
@@ -262,7 +258,7 @@ startWith = function(str, word, type) {
 openInNewTab = function() {
   var url;
   url = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-  if (isArray(url)) {
+  if ($.isArray(url)) {
     console.log(url);
     url = url.join('/');
   }
@@ -272,11 +268,18 @@ openInNewTab = function() {
   return $("<a>").attr("href", url).attr("target", "_blank")[0].click();
 };
 
-openFromDataHrefRecursive = function(el) {
-  var href;
-  if (el.nodeName.toLowerCase() === 'a') {
-    el = el.parentNode;
+copy = function(str) {
+  var $input;
+  $input = $('<input type="text" />').val(str).appendTo($('body')).css({
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    'z-index': 5000
+  }).select();
+  if (!document.execCommand('copy')) {
+    console.warn('unnable to copy "' + str + '"!');
   }
-  href = el.getAttribute('data-href');
-  return openInNewTab('localhost', href);
+  $input.remove();
+  return str;
 };

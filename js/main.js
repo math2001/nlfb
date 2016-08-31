@@ -55,11 +55,11 @@ addItemsTo = function($el, dirs, files) {
   dirImg = '<img src="img/folder.svg" alt="folder">';
   for (j = 0, len1 = dirs.length; j < len1; j++) {
     dir = dirs[j];
-    $el.append("<li contextmenu='item-contextmenu' class=item data-href='" + (getPath(dir)) + "'>" + dirImg + " <a>" + dir + "</a></li>");
+    $el.append("<li contextmenuc='item-contextmenu' class=item data-href='" + (getPath(dir)) + "'>" + dirImg + " <a>" + dir + "</a></li>");
   }
   for (k = 0, len2 = files.length; k < len2; k++) {
     file = files[k];
-    $el.append("<li contextmenu='item-contextmenu' class=item data-href='" + (getPath(file)) + "'> <img src='img/file_types/" + (getFileType(file)) + ".svg' onerror='this.src=\"img/file_types/default.svg\"'> <a>" + file + "</a> </li>");
+    $el.append("<li contextmenuc='item-contextmenu' class=item data-href='" + (getPath(file)) + "'> <img src='img/file_types/" + (getFileType(file)) + ".svg' onerror='this.src=\"img/file_types/default.svg\"'> <a>" + file + "</a> </li>");
   }
   return null;
 };
@@ -96,7 +96,7 @@ updateBreadcrumb = function() {
 };
 
 update = function(mess, type, jqXHR) {
-  var codeContent, folderContent, func, imageContent, time, totalTime;
+  var codeContent, folderContent, func, imageContent, time;
   updateBreadcrumb();
   folderContent = function() {
     var $new;
@@ -132,8 +132,7 @@ update = function(mess, type, jqXHR) {
   }
   window.files = null;
   window.dirs = null;
-  totalTime = (window.config !== void 0 ? window.config.totalTime : false) || 500;
-  time = totalTime / 2;
+  time = Config.get('totalSlideTime') / 2;
   return window.$items.animate({
     opacity: 0,
     overflow: "hidden",
@@ -172,7 +171,7 @@ loadDirs = function(path, func, data) {
   return $.ajax({
     url: "./index.server.php",
     method: "GET",
-    data: extend({
+    data: $.extend({
       path: path || getPath()
     }, data || {})
   }).done(func || update).fail(function(jqXHR, type, obj) {
@@ -273,25 +272,47 @@ manageSearch = function() {
 };
 
 manageContextMenu = function() {
-  var $main;
-  $main = $('#item-contextmenu');
-  return $main.find('menuitem.copy');
+  var contextMenuTime, hide;
+  window.lastContextMenuFromElement = null;
+  window.toRemoveFocus = null;
+  contextMenuTime = Config.get('contextMenuTime');
+  $(document).on('contextmenu', 'li[data-href]', function(e) {
+    e.preventDefault();
+    window.lastContextMenuFromElement = this;
+    window.toRemoveFocus = $(this).attr('focused', 'on');
+    return window.$contextmenu.css({
+      top: e.clientY - 16,
+      left: e.clientX
+    }).fadeIn();
+  });
+  hide = function() {
+    window.$contextmenu.fadeOut(contextMenuTime);
+    if (window.toRemoveFocus !== null) {
+      return window.toRemoveFocus.attr('focused', 'off');
+    }
+  };
+  window.$contextmenu.bind('clickoutside', hide);
+  window.$contextmenu.bind('mousedownoutside', hide);
+  return window.$contextmenu.find('[class*=action]').bind('click', hide);
 };
 
 $(window).ready(function() {
+  Config.init();
   window.$main = $('#main');
   window.$items = $('.items');
   window.$breadcrumb = $('.breadcrumb');
   window.$sidebar = $('#sidebar');
   window.$sep = $('#sep');
   window.$search = $('#search');
+  window.$contextmenu = $('#item-contextmenu');
   loadDirs();
   loadProjects();
-  manageSearch();
   $('#refresh').click(function() {
     return loadDirs();
   });
+  manageSearch();
   manageSideBarResize();
+  manageContextMenu();
   $(window).bind('hashchange', function() {
     return loadDirs();
   });

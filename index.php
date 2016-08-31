@@ -4,8 +4,6 @@
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="./styles/main.css">
 	<link rel="icon" type="image/png" href="./img/folder.png">
-	<!-- <link rel="stylesheet" type="text/css" href="./index.style.css"> -->
-	<!-- <link rel="stylesheet" type="text/css" href="./index.highlight.css"> -->
 	<meta name="viewport" content="width=device-width" />
 	<title>Localhost</title>
 </head>
@@ -37,7 +35,6 @@
 			<article id="main">
 			 	<div class="navbar">
 			 		<span class="navbar-btn-wrapper">
-			 			<!-- <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj4KICA8cGF0aCBmaWxsPSIjNTU1IiBkPSJNOSA0bC02IDYgNiA2IDEuNC0xLjRMNi44IDExSDE2VjlINi44bDMuNi0zLjZ6Ii8+Cjwvc3ZnPg==" alt="Move up" class="navbar-btn" id="move-up"> -->
 			 			<svg viewBox="0 0 20 20" class="navbar-btn" id="move-up">
 			 			  <path fill="#555" d="M9 4l-6 6 6 6 1.4-1.4L6.8 11H16V9H6.8l3.6-3.6z"/>
 			 			</svg>
@@ -72,17 +69,32 @@
 
 	</div>
 
-	<menu id="item-contextmenu" type="context">
-		<menuitem label="Open in real" onclick="openFromDataHrefRecursive(event.fromElement)"></menuitem>
+	<!-- <menu id="item-contextmenu-default">
+		<menuitem label="Open in real" onclick="openFromDataHref(event.fromElement)"></menuitem>
 		<menu label="Copy" class="copy">
-			<menuitem label="Name" onclick="copy(event.fromElement.nodeName == 'A' ? event.fromElement.parentNode : event.fromElement)"></menuitem>
+			<menuitem label="Test" onclick="runCopyName()"></menuitem>
+			<menuitem label="Name" onclick="copyName(event.fromElement)"></menuitem>
 			<menuitem label="Path"></menuitem>
 		</menu>
-	</menu>
+	</menu> -->
+	<ul id="item-contextmenu" class="context-menu" style="display: none;">
+		<li class="context-menu-item-action" onclick="CMF.openFromDataHref();">Open in real</li>
+		<li class="context-menu-item">
+			Copy <span class="arrow">&gt;</span>
+			<ul class="context-menu-sub">
+				<li class="context-menu-item-action" onclick="CMF.copyName();">Name</li>
+				<li class="context-menu-item-action" onclick="CMF.copyPath()">Path</li>
+				<li class="context-menu-item-action" onclick="CMF.copyPath(true)">Path for URL</li>
+			</ul>
+		</li>
+	</ul>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script type="text/javascript" src="./highlight.js"></script>
 	<script type="text/javascript" src="./js/functions.js"></script>
+	<script type="text/javascript" src="./js/config.js"></script>
+	<script type="text/javascript" src="./js/context-menu-functions.js"></script>
+	<script type="text/javascript" src="./js/jquery-outside.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 
 </body>

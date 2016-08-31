@@ -27,7 +27,8 @@ That's it, open [localhost](http://localhost) and *savourez*.
 
 ## Features to add
 
-- copy (name, path, URL path)
+- copy (name, path, URL path) &#10004;
 - view mode (icon, list)
 - load full sidebar at the beginning
 - customs alias
+- add icons to context menu

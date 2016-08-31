@@ -14,9 +14,9 @@ str   = (el) -> '' + el
 list  = (el) -> (e for e in el)
 arr   = (el) -> list(el)
 
-isArray = (obj) -> Array.isArray(obj)
-
 say = -> alert(list(arguments).join(' '));
+
+
 
 gi = (arr, index) ->
 	# get index
@@ -24,6 +24,8 @@ gi = (arr, index) ->
 		return arr[index]
 	else
 		return arr[len(arr) + index]
+
+
 
 getFileType = (filename, real=true) -> 
 	extension = gi(filename.split('.'), -1)
@@ -84,6 +86,7 @@ class Path
 	go = (path...) ->
 		say path
 
+	
 
 trim = (str, charToRemove=' ') ->
 	start = 0
@@ -157,15 +160,35 @@ startWith = (str, word, type='any') ->
 		
 
 openInNewTab = (url...) ->
-	if isArray(url)
+	if $.isArray(url)
 		console.log url
 		url = url.join('/')
 	if not startWith(url, ['http://', 'https', 'file://'])
 		url = 'http://' + url
 	$("<a>").attr("href", url).attr("target", "_blank")[0].click();
 
-openFromDataHrefRecursive = (el) ->
-	if el.nodeName.toLowerCase() == 'a'
-		el = el.parentNode
-	href = el.getAttribute('data-href')
-	openInNewTab 'localhost', href
+
+
+
+copy = (str) ->
+	$input = $('<input type="text" />')
+		.val(str)
+		.appendTo($('body'))
+		.css({
+			position: 'absolute',
+			top: '50%'
+			left: '50%'
+			transform: 'translate(-50%, -50%)',
+			'z-index': 5000
+		}).select()
+	if not document.execCommand('copy')
+		console.warn 'unnable to copy "' + str + '"!'
+		
+	$input.remove()
+	return str
+
+
+# --------------------------------------- #
+# ------------ Jquery plugin ------------ #
+# --------------------------------------- #
+

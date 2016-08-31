@@ -36,10 +36,10 @@ advancedResearch = (arr, pattern) ->
 addItemsTo = ($el, dirs=[], files=[]) ->
 	dirImg = '<img src="img/folder.svg" alt="folder">'
 	for dir in dirs
-		$el.append("<li contextmenu='item-contextmenu' class=item data-href='#{getPath(dir)}'>#{dirImg} <a>#{dir}</a></li>")
+		$el.append("<li contextmenuc='item-contextmenu' class=item data-href='#{getPath(dir)}'>#{dirImg} <a>#{dir}</a></li>")
 	for file in files
 		$el.append(
-			"<li contextmenu='item-contextmenu' class=item data-href='#{getPath(file)}'>
+			"<li contextmenuc='item-contextmenu' class=item data-href='#{getPath(file)}'>
 				<img src='img/file_types/#{getFileType(file)}.svg' onerror='this.src=\"img/file_types/default.svg\"'>
 				<a>#{file}</a>
 			</li>")
@@ -119,8 +119,8 @@ update = (mess, type, jqXHR) ->
 	window.files = null
 	window.dirs = null
 
-	totalTime = (if window.config != undefined then window.config.totalTime else false) || 500
-	time = totalTime / 2
+	# totalTime = (if window.config != undefined then window.config.totalTime else false) || 500
+	time = Config.get('totalSlideTime') / 2
 	window.$items.animate({
 		opacity: 0,
 		overflow: "hidden",
@@ -147,8 +147,8 @@ update = (mess, type, jqXHR) ->
 loadDirs = (path=false, func=false, data=false) ->
 	$.ajax({
 		url: "./index.server.php",
-		method: "GET",
-		data: extend({
+		method: "GET", 
+		data: $.extend({
 			path: path || getPath()
 		}, data || {})
 	}).done(func || update).fail((jqXHR, type, obj) ->
@@ -251,27 +251,55 @@ manageSearch = ->
 	)
 
 manageContextMenu = ->
-	$main = $('#item-contextmenu')
 
-	$main.find('menuitem.copy')
+	window.lastContextMenuFromElement = null
+	window.toRemoveFocus = null
+
+	contextMenuTime = Config.get('contextMenuTime')
+
+	$(document).on('contextmenu', 'li[data-href]', (e) ->
+		e.preventDefault()
+		window.lastContextMenuFromElement = this
+		window.toRemoveFocus = $(this).attr('focused', 'on')
+		window.$contextmenu.css({
+			top: e.clientY - 16,
+			left: e.clientX	
+		}).fadeIn()
+		# console.log window.$contextmenu.length
+	)
+
+	hide = ->
+		window.$contextmenu.fadeOut(contextMenuTime)
+		window.toRemoveFocus.attr('focused', 'off') if window.toRemoveFocus != null
+
+
+
+	window.$contextmenu.bind('clickoutside', hide)
+	window.$contextmenu.bind('mousedownoutside', hide)
+	window.$contextmenu.find('[class*=action]').bind('click', hide)
 
 $(window).ready( ->
-	window.$main = $ '#main'
-	window.$items = $ '.items'
-	window.$breadcrumb = $ '.breadcrumb'
-	window.$sidebar = $ '#sidebar'
-	window.$sep = $ '#sep'
-	window.$search = $ '#search'
+
+	Config.init()
+
+	window.$main        = $ '#main'
+	window.$items       = $ '.items'
+	window.$breadcrumb  = $ '.breadcrumb'
+	window.$sidebar     = $ '#sidebar'
+	window.$sep         = $ '#sep'
+	window.$search      = $ '#search'
+	window.$contextmenu = $ '#item-contextmenu'
 
 	loadDirs()
 	loadProjects()
-	manageSearch()
 
 	$('#refresh').click(->
 		loadDirs()
 	)
 
+	manageSearch()
 	manageSideBarResize()
+	manageContextMenu()
 
 	$(window).bind('hashchange', ->
 		loadDirs()

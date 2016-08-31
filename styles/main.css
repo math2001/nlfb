@@ -314,7 +314,8 @@ header .search:focus {
   padding: 2px;
   cursor: default;
 }
-.item:hover {
+.item:hover,
+.item[focused=on] {
   background-color: #e5ebf7;
 }
 .item img {
@@ -327,6 +328,43 @@ header .search:focus {
   font-weight: bold;
   color: #ccc;
   font-family: "Verdana";
+}
+.context-menu,
+.context-menu-sub {
+  position: absolute;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  padding: 0;
+  list-style: none;
+  width: 150px;
+  z-index: 5000;
+}
+.context-menu-sub {
+  display: none;
+  left: 150px;
+  margin-left: -2px;
+}
+.context-menu-sub[side=left] {
+  left: -150px;
+}
+[class*="context-menu-item"] {
+  padding: 5px;
+  cursor: default;
+  position: relative;
+}
+[class*="context-menu-item"] .arrow {
+  position: absolute;
+  right: 10px;
+  font-family: consolas;
+  font-weight: bold;
+}
+[class*="context-menu-item"]:hover {
+  background-color: #eaf0fc;
+}
+[class*="context-menu-item"]:hover .context-menu-sub {
+  display: block;
 }
 .hljs-comment,
 .hljs-quote {

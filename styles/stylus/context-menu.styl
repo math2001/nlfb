@@ -1,0 +1,37 @@
+width = 150px
+.context-menu
+	position absolute
+	border 1px solid #aaa
+	background-color white
+	top 0
+	left 0
+	padding 0
+	list-style none
+	width width
+	z-index 5000
+
+.context-menu-sub
+	@extend .context-menu
+	display none
+	left width
+	margin-left -2px
+	&[side=left]
+		left -(width)
+
+[class*="context-menu-item"]
+	padding 5px
+	cursor default
+	position relative
+	
+	.arrow
+		position absolute
+		right 10px
+		font-family consolas
+		font-weight bold
+		
+	
+	&:hover
+		background-color #e5ebf7 + #050505
+			
+		.context-menu-sub
+			display block
