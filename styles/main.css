@@ -41,6 +41,7 @@ body {
 }
 * {
   box-sizing: border-box;
+  outline: none;
 }
 .atomic-center {
   position: absolute;
@@ -113,7 +114,6 @@ article {
   left: 50%;
   margin-left: -12.5px;
   margin-top: -12.5px;
-/* transition all .1s */
 }
 .navbar-btn path {
   fill: #999;
@@ -131,9 +131,15 @@ article {
   padding: 0;
   list-style: none;
   position: absolute;
-  left: 100px;
+  left: 150px;
   margin-top: 0;
   line-height: 57px;
+}
+.breadcrumb input[type=text] {
+  border: none;
+  border-left: 2px solid #ccc;
+  padding-left: 5px;
+  font-family: "Trebuchet MS";
 }
 .breadcrumb li {
   display: inline-block;

@@ -225,6 +225,47 @@ handleExpandFolder = () ->
 		$ul.slideDown()
 	, { forsidebar: 'yes' })
 
+manageEditPath = () ->
+	$input = $('<input type="text">')
+			.attr('placeholder', 'Path...')
+	window.isEditPathHidden = true
+
+	hideEditPath = ->
+		$input.unbind()
+		window.$breadcrumb.html(window.prevBreadcrumbHtml)
+		if Config.get('emptyEditPathValueOnHide')
+			$input.val('')
+		window.isEditPathHidden = true
+
+		
+	window.$editPath.bind('click', ->
+		if window.isEditPathHidden == true
+			window.isEditPathHidden = false
+			$input.bind('keydown', (e) ->
+				if e.keyCode == code('enter')
+					path = $(this).val()
+					if path == location.hash.slice(1)
+						loadDirs() # refresh
+					else
+						unless path[0] == '/'
+							path = pathJoin(location.hash.slice(1), path)
+						else
+							path = path.slice(1)
+						hideEditPath()
+						location.hash = '#' + path
+
+				else if e.keyCode == code('escape')
+					hideEditPath()
+			).bind('blur', ->
+				hideEditPath()
+			)
+			window.prevBreadcrumbHtml = window.$breadcrumb.html()
+			window.$breadcrumb.html($input)
+			$input.focus()
+		else
+			hideEditPath()
+	)
+
 manageSideBarResize = () ->
 	window.resizingSidebar = false
 	window.$sep.bind('mousedown', ->
@@ -264,73 +305,13 @@ manageSearch = ->
 		addItemsTo(window.$items, dirs, files)
 	)
 
-manageContextMenuShit = ->
-
-
-	window.lastContextMenuFromElement = null
-	window.toRemoveFocus = null
-
-	docSize = 
-		height: window.$document.height()
-		width: window.$document.width()
-
-	position = (x, y, width, height) ->
-		pos.y = 'bottom'
-		pos.x = 'right'
-		if y + height > documentSize.height
-			pos.y = 'top'
-		if x + width > documentSize.width
-			pos.x = 'left'
-		return pos
-
-	window.$contextmenuWidth = window.$contextmenu.outerWidth()
-	window.$contextmenuHeight = window.$contextmenu.outerHeight()
-
-	window.$contextmenu.hide()
-
-	contextMenuTime = Config.get('contextMenuTime')
-
-	$(document).on('contextmenu', 'li[data-href]', (e) ->
-		e.preventDefault()
-		window.lastContextMenuFromElement = this
-		window.toRemoveFocus = $(this).attr('focused', 'on')
-
-		pos = 
-			top: e.clientY + (if e.clientY + window.$contextmenuHeight > docSize.height then (- window.$contextmenuHeight) else 0),
-
-		if e.clientX + window.$contextmenuWidth > docSize.width
-			pos.left = docSize.width - window.$contextmenuWidth
-		else
-			pos.left = e.clientX
-
-		window.$contextmenu.css(pos).fadeIn(contextMenuTime)
-	)
-	$('.context-menu-item:has(.context-menu-sub)').bind('mouseenter', (e) ->
-		$this = $(this)
-		$contextMenuSub = $this.find('.context-menu-sub')
-		width = $contextMenuSub.outerWidth()
-		height = $contextMenuSub.outerHeight()
-		if $contextMenuSub.offset().left + width > docSize.width
-			$contextMenuSub.attr('posx', 'left')
-		else
-			$contextMenuSub.attr('posx', 'right')
-	)
-
-	hide = ->
-		window.$contextmenu.fadeOut(contextMenuTime)
-		window.toRemoveFocus.attr('focused', 'off') if window.toRemoveFocus != null
-
-
-
-	window.$contextmenu.bind('clickoutside', hide)
-	window.$contextmenu.bind('mousedownoutside', hide)
-	window.$contextmenu.find('[class*=action]').bind('click', hide)
 
 
 $(window).ready( ->
 
 	Config.init()
 
+	window.$editPath    = $ '#edit-path'
 	window.$main        = $ '#main'
 	window.$items       = $ '.items'
 	window.$breadcrumb  = $ '.breadcrumb'
@@ -351,6 +332,7 @@ $(window).ready( ->
 	manageSearch()
 	manageSideBarResize()
 	manageContextMenu()
+	manageEditPath()
 
 	$(window).bind('hashchange', ->
 		loadDirs()

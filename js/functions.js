@@ -69,6 +69,12 @@ code = function(letter) {
   if (letter === 'escape') {
     return 27;
   }
+  if (letter === 'enter' || letter === 'return') {
+    return 13;
+  }
+  if (len(letter) !== 1) {
+    return console.error("code: unknow abrv '" + letter + "'");
+  }
   return letter.charCodeAt(0) - 32;
 };
 

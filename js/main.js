@@ -1,4 +1,4 @@
-var addItemsTo, advancedResearch, handleExpandFolder, loadDirs, loadProjects, manageContextMenuShit, manageSearch, manageSideBarResize, shortenPath, update, updateBreadcrumb;
+var addItemsTo, advancedResearch, handleExpandFolder, loadDirs, loadProjects, manageEditPath, manageSearch, manageSideBarResize, shortenPath, update, updateBreadcrumb;
 
 advancedResearch = function(arr, pattern) {
   var el, highlightLetters, indexes, j, len1, match, results;
@@ -244,6 +244,51 @@ handleExpandFolder = function() {
   });
 };
 
+manageEditPath = function() {
+  var $input, hideEditPath;
+  $input = $('<input type="text">').attr('placeholder', 'Path...');
+  window.isEditPathHidden = true;
+  hideEditPath = function() {
+    $input.unbind();
+    window.$breadcrumb.html(window.prevBreadcrumbHtml);
+    if (Config.get('emptyEditPathValueOnHide')) {
+      $input.val('');
+    }
+    return window.isEditPathHidden = true;
+  };
+  return window.$editPath.bind('click', function() {
+    if (window.isEditPathHidden === true) {
+      window.isEditPathHidden = false;
+      $input.bind('keydown', function(e) {
+        var path;
+        if (e.keyCode === code('enter')) {
+          path = $(this).val();
+          if (path === location.hash.slice(1)) {
+            return loadDirs();
+          } else {
+            if (path[0] !== '/') {
+              path = pathJoin(location.hash.slice(1), path);
+            } else {
+              path = path.slice(1);
+            }
+            hideEditPath();
+            return location.hash = '#' + path;
+          }
+        } else if (e.keyCode === code('escape')) {
+          return hideEditPath();
+        }
+      }).bind('blur', function() {
+        return hideEditPath();
+      });
+      window.prevBreadcrumbHtml = window.$breadcrumb.html();
+      window.$breadcrumb.html($input);
+      return $input.focus();
+    } else {
+      return hideEditPath();
+    }
+  });
+};
+
 manageSideBarResize = function() {
   window.resizingSidebar = false;
   window.$sep.bind('mousedown', function() {
@@ -287,69 +332,9 @@ manageSearch = function() {
   });
 };
 
-manageContextMenuShit = function() {
-  var contextMenuTime, docSize, hide, position;
-  window.lastContextMenuFromElement = null;
-  window.toRemoveFocus = null;
-  docSize = {
-    height: window.$document.height(),
-    width: window.$document.width()
-  };
-  position = function(x, y, width, height) {
-    pos.y = 'bottom';
-    pos.x = 'right';
-    if (y + height > documentSize.height) {
-      pos.y = 'top';
-    }
-    if (x + width > documentSize.width) {
-      pos.x = 'left';
-    }
-    return pos;
-  };
-  window.$contextmenuWidth = window.$contextmenu.outerWidth();
-  window.$contextmenuHeight = window.$contextmenu.outerHeight();
-  window.$contextmenu.hide();
-  contextMenuTime = Config.get('contextMenuTime');
-  $(document).on('contextmenu', 'li[data-href]', function(e) {
-    var pos;
-    e.preventDefault();
-    window.lastContextMenuFromElement = this;
-    window.toRemoveFocus = $(this).attr('focused', 'on');
-    pos = {
-      top: e.clientY + (e.clientY + window.$contextmenuHeight > docSize.height ? -window.$contextmenuHeight : 0)
-    };
-    if (e.clientX + window.$contextmenuWidth > docSize.width) {
-      pos.left = docSize.width - window.$contextmenuWidth;
-    } else {
-      pos.left = e.clientX;
-    }
-    return window.$contextmenu.css(pos).fadeIn(contextMenuTime);
-  });
-  $('.context-menu-item:has(.context-menu-sub)').bind('mouseenter', function(e) {
-    var $contextMenuSub, $this, height, width;
-    $this = $(this);
-    $contextMenuSub = $this.find('.context-menu-sub');
-    width = $contextMenuSub.outerWidth();
-    height = $contextMenuSub.outerHeight();
-    if ($contextMenuSub.offset().left + width > docSize.width) {
-      return $contextMenuSub.attr('posx', 'left');
-    } else {
-      return $contextMenuSub.attr('posx', 'right');
-    }
-  });
-  hide = function() {
-    window.$contextmenu.fadeOut(contextMenuTime);
-    if (window.toRemoveFocus !== null) {
-      return window.toRemoveFocus.attr('focused', 'off');
-    }
-  };
-  window.$contextmenu.bind('clickoutside', hide);
-  window.$contextmenu.bind('mousedownoutside', hide);
-  return window.$contextmenu.find('[class*=action]').bind('click', hide);
-};
-
 $(window).ready(function() {
   Config.init();
+  window.$editPath = $('#edit-path');
   window.$main = $('#main');
   window.$items = $('.items');
   window.$breadcrumb = $('.breadcrumb');
@@ -366,6 +351,7 @@ $(window).ready(function() {
   manageSearch();
   manageSideBarResize();
   manageContextMenu();
+  manageEditPath();
   $(window).bind('hashchange', function() {
     return loadDirs();
   });
