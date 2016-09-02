@@ -79,7 +79,4 @@ manageContextMenu = ->
 				callback: CTX.toogleShowHiddenFiles
 			}
 		}
-		events: {
-			show: ->
-		}
 	});

@@ -6,7 +6,7 @@ Well, in just **2** steps, you can easily have a pretty nice browser.
 
 ## Installation
 
-1. Simply download the zip, and extract it in your `www` folder.
+1. Simply download the zip, and extract it in your `www` folder (or just *gitclone* it into `www`).
 2. open the `index.php` file and add this line at the beginning: `header('location: _nlfb/');`
 
 That's it, open [localhost](http://localhost) and *savourez*.
@@ -23,12 +23,14 @@ That's it, open [localhost](http://localhost) and *savourez*.
 ## Features to add (imperative)
 
 - open in **real** &#10004;
-- ignored projects - folders/files
+- ignored projects - folders/files &#10004;
 
 ## Features to add
 
 - copy (name, path, URL path) &#10004;
 - view mode (icon, list)
-- load full sidebar at the beginning
+- load full sidebar at the beginning (settings)
 - customs alias
 - add icons to context menu
+- add input to type the path
+- set miniature for image corresponding

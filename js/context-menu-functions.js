@@ -105,9 +105,6 @@ manageContextMenu = function() {
         name: 'Toogle hidden file',
         callback: CTX.toogleShowHiddenFiles
       }
-    },
-    events: {
-      show: function() {}
     }
   });
 };
