@@ -233,8 +233,9 @@ manageSideBarResize = () ->
 	)
 
 manageSearch = ->
-	$(document).bind('keydown', ->
-		window.$search.focus()
+	$(document).bind('keydown', (e) ->
+		if e.keyCode == 32
+			window.$search.focus()
 	)
 	window.$search.bind('input', (e) ->
 		if window.files == null or window.dirs == null
@@ -254,10 +255,29 @@ manageSearch = ->
 		addItemsTo(window.$items, dirs, files)
 	)
 
-manageContextMenu = ->
+manageContextMenuShit = ->
+
 
 	window.lastContextMenuFromElement = null
 	window.toRemoveFocus = null
+
+	docSize = 
+		height: window.$document.height()
+		width: window.$document.width()
+
+	position = (x, y, width, height) ->
+		pos.y = 'bottom'
+		pos.x = 'right'
+		if y + height > documentSize.height
+			pos.y = 'top'
+		if x + width > documentSize.width
+			pos.x = 'left'
+		return pos
+
+	window.$contextmenuWidth = window.$contextmenu.outerWidth()
+	window.$contextmenuHeight = window.$contextmenu.outerHeight()
+
+	window.$contextmenu.hide()
 
 	contextMenuTime = Config.get('contextMenuTime')
 
@@ -265,10 +285,26 @@ manageContextMenu = ->
 		e.preventDefault()
 		window.lastContextMenuFromElement = this
 		window.toRemoveFocus = $(this).attr('focused', 'on')
-		window.$contextmenu.css({
-			top: e.clientY - 16,
-			left: e.clientX	
-		}).fadeIn()
+
+		pos = 
+			top: e.clientY + (if e.clientY + window.$contextmenuHeight > docSize.height then (- window.$contextmenuHeight) else 0),
+
+		if e.clientX + window.$contextmenuWidth > docSize.width
+			pos.left = docSize.width - window.$contextmenuWidth
+		else
+			pos.left = e.clientX
+
+		window.$contextmenu.css(pos).fadeIn(contextMenuTime)
+	)
+	$('.context-menu-item:has(.context-menu-sub)').bind('mouseenter', (e) ->
+		$this = $(this)
+		$contextMenuSub = $this.find('.context-menu-sub')
+		width = $contextMenuSub.outerWidth()
+		height = $contextMenuSub.outerHeight()
+		if $contextMenuSub.offset().left + width > docSize.width
+			$contextMenuSub.attr('posx', 'left')
+		else
+			$contextMenuSub.attr('posx', 'right')
 	)
 
 	hide = ->
@@ -281,6 +317,9 @@ manageContextMenu = ->
 	window.$contextmenu.bind('mousedownoutside', hide)
 	window.$contextmenu.find('[class*=action]').bind('click', hide)
 
+
+
+
 $(window).ready( ->
 
 	Config.init()
@@ -292,6 +331,8 @@ $(window).ready( ->
 	window.$sep         = $ '#sep'
 	window.$search      = $ '#search'
 	window.$contextmenu = $ '#item-contextmenu'
+
+	window.$document = $ document
 
 	loadDirs()
 	loadProjects()

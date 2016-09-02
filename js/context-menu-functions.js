@@ -1,15 +1,10 @@
-var CMF;
+var CTX, manageContextMenu;
 
-CMF = (function() {
-  function CMF() {}
+CTX = (function() {
+  function CTX() {}
 
-  CMF._default = function() {
-    return window.lastContextMenuFromElement;
-  };
-
-  CMF.openFromDataHref = function() {
-    var el, href;
-    el = CMF._default();
+  CTX.openInReal = function(el) {
+    var href;
     if (el.nodeName.toLowerCase() === 'a') {
       el = el.parentNode;
     }
@@ -17,9 +12,8 @@ CMF = (function() {
     return openInNewTab('localhost', href);
   };
 
-  CMF.copyName = function() {
-    var $el, el;
-    el = CMF._default();
+  CTX.copyName = function(el) {
+    var $el;
     if (el.nodeName.toLowerCase() === 'li') {
       $el = $(el).find('a');
     } else {
@@ -28,12 +22,10 @@ CMF = (function() {
     return copy($el.text());
   };
 
-  CMF.copyPath = function(forurl) {
-    var el;
+  CTX.copyPath_ = function(el, forurl) {
     if (forurl == null) {
       forurl = false;
     }
-    el = CMF._default();
     if (el.nodeName.toLowerCase() === 'a') {
       el = el.parentNode;
     }
@@ -44,7 +36,28 @@ CMF = (function() {
     }
   };
 
-  CMF.toogleShowHiddenFiles = function($menuitem) {
+  CTX.copyPath = function(key, opt, forurl) {
+    var $trigger, path;
+    if (forurl == null) {
+      forurl = false;
+    }
+    $trigger = opt.$trigger;
+    if ($trigger.nodeName() === 'a') {
+      $trigger = $trigger.parent();
+    }
+    path = new Path(Config.get('localhost'));
+    path.go.apply(path, $trigger.attr('data-href').split('/'));
+    if (forurl) {
+      path = encodeURI(path);
+    }
+    return copy(path);
+  };
+
+  CTX.copyPathForUrl = function(key, opt) {
+    return CTX.copyPath(key, opt, true);
+  };
+
+  CTX.toogleShowHiddenFiles = function($menuitem) {
     if (window.$items.hasClass('hiding-files')) {
       window.$items.removeClass('hiding-files');
       return $menuitem.text('Hide hidden items');
@@ -54,6 +67,46 @@ CMF = (function() {
     }
   };
 
-  return CMF;
+  return CTX;
 
 })();
+
+manageContextMenu = function() {
+  return $.contextMenu({
+    selector: 'li[data-href]',
+    items: {
+      open: {
+        name: "Open in real",
+        accesskey: "r",
+        callback: function(key, opt) {
+          return CTX.openInReal(opt.$trigger[0]);
+        }
+      },
+      copy: {
+        name: "Copy",
+        accesskey: "c",
+        items: {
+          name: {
+            name: "Name",
+            callback: function(key, opt) {
+              return CTX.copyName(opt.$trigger[0]);
+            }
+          },
+          path: {
+            name: "Path",
+            callback: CTX.copyPath
+          },
+          pathForUrl: {
+            name: "Path for url",
+            callback: CTX.copyPathForUrl
+          }
+        }
+      },
+      sep1: "---------",
+      hiddenFiles: {
+        name: 'Toogle view hidden file',
+        type: "checkbox"
+      }
+    }
+  });
+};

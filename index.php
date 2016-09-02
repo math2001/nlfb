@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="./styles/main.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./styles/jquery.contextMenu.min.css"> -->
 	<link rel="icon" type="image/png" href="./img/folder.png">
 	<meta name="viewport" content="width=device-width" />
 	<title>Localhost</title>
@@ -69,7 +70,7 @@
 
 	</div>
 
-	<ul id="item-contextmenu" class="context-menu" style="display: none;">
+<!-- 	<ul id="item-contextmenu" class="context-menu">
 		<li class="context-menu-item-action" onclick="CMF.openFromDataHref();">Open in real</li>
 		<li class="context-menu-item">
 			Copy <span class="arrow">&gt;</span>
@@ -80,14 +81,20 @@
 			</ul>
 		</li>
 		<li class="context-menu-item-action" onclick="CMF.toogleShowHiddenFiles($(this))">Show hidden items</li>
-	</ul>
+	</ul> -->
 
+	<!-- Jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script type="text/javascript" src="./js/highlight.js"></script>
 	<script type="text/javascript" src="./js/functions.js"></script>
+	
+	<script type="text/javascript" src="./js/jquery.outside.js"></script>
+	<script type="text/javascript" src="./js/jquery.ui.position.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.contextMenu.min.js"></script>
+	
+	
+	<script type="text/javascript" src="./js/highlight.js"></script>
 	<script type="text/javascript" src="./js/config.js"></script>
 	<script type="text/javascript" src="./js/context-menu-functions.js"></script>
-	<script type="text/javascript" src="./js/jquery-outside.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 
 </body>

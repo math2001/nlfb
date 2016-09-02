@@ -4,7 +4,7 @@ class Config
 
 		default_config = 
 			totalSlideTime: 500
-			contextMenuTime: 50
+			localhost: 'localhost'
 			iProjects: ['_nlfb']
 			iFolders: ['.git']
 			iFiles: []
@@ -21,4 +21,3 @@ class Config
 			return undefined
 
 
-		"navigation"

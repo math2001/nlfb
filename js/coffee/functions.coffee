@@ -16,16 +16,12 @@ arr   = (el) -> list(el)
 
 say = -> alert(list(arguments).join(' '));
 
-
-
 gi = (arr, index) ->
 	# get index
 	if index >= 0
 		return arr[index]
 	else
 		return arr[len(arr) + index]
-
-
 
 getFileType = (filename, real=true) -> 
 	extension = gi(filename.split('.'), -1)
@@ -35,13 +31,11 @@ getFileType = (filename, real=true) ->
 			return 'git'
 	extension
 
-
 array_diff = (arr1, arr2) ->
 	arr = []
 	for el in arr1
 		arr.push(el) if arr2.indexOf(el) == -1
 	arr
-	
 
 code = (letter) ->
 	return 17 if letter == 'ctrl'
@@ -77,17 +71,6 @@ add = (arr1, arr2) ->
 		arr1.push(el)
 	return arr1
 	
-class Path
-	constructor: (@path, @sep='/') ->
-
-	moveUp = ->
-		@path = @path.split(@sep).slice(0, -1).join(@sep)
-
-	go = (path...) ->
-		say path
-
-	
-
 trim = (str, charToRemove=' ') ->
 	start = 0
 	end = len(str)
@@ -108,7 +91,6 @@ trim = (str, charToRemove=' ') ->
 
 	return str.slice(start, end)
 
-
 moveUp = (path=location.hash) ->
 	path = path.split('/')
 	path.slice(0, -1).join('/')
@@ -123,7 +105,6 @@ getPath = (invalidPath) ->
 	path = '.' if path == ''
 	path.replace(/<\/?[^>]+(>|$)/g, ""); # remove any tag
 
-
 extract = (obj, objToSave=false) ->
 	isValid = (varName) ->
 		return /[a-zA-Z_][a-zA-Z0-9_]+/.test(varName)
@@ -136,8 +117,6 @@ extract = (obj, objToSave=false) ->
 			objToSave[key] = obj[key]
 
 	null
-
-
 
 startWith = (str, word, type='any') ->
 	tested = str.slice(0, len(word))
@@ -156,18 +135,12 @@ startWith = (str, word, type='any') ->
 		else
 			return false
 
-
-		
-
 openInNewTab = (url...) ->
 	if $.isArray(url)
 		url = url.join('/')
 	if not startWith(url, ['http://', 'https', 'file://'])
 		url = 'http://' + url
 	$("<a>").attr("href", url).attr("target", "_blank")[0].click();
-
-
-
 
 copy = (str) ->
 	$input = $('<input type="text" />')
@@ -186,6 +159,24 @@ copy = (str) ->
 	$input.remove()
 	return str
 
+# ------------------------------- #
+# ------------ proto ------------ #
+# ------------------------------- #
+
+String::strip = (char='/') ->
+	trim(this, char)
+
+Array::remove = (el) ->
+	arr = []
+	for e in this
+		if e != el
+			arr.push el
+	for i in [0..this.length]
+		arr.pop()
+	for el in arr
+		arr.push(el)
+	
+
 
 # --------------------------------------- #
 # ------------ Jquery plugin ------------ #
@@ -195,3 +186,46 @@ $.fn.addClasses = ->
 	for arg in arguments
 		this.addClass(arg)
 	return this
+
+$.fn.isEmpty = ->
+	return len(this) == 0
+
+$.fn.nodeName = ->
+	if len(this) > 1
+		return console.error 'nodeName: More than on node to return! Just impossible'
+	if this.isEmpty()
+		return console.error 'nodeName: No elements!'
+
+	return this[0].nodeName.toLowerCase()
+
+$.isString = (el) ->
+	return typeof el == 'string'
+
+# ------------------------------- #
+# ------------ Tools ------------ #
+# ------------------------------- #
+
+pathJoin = (paths...) ->
+	final = []
+	sep = '/'
+	for path in paths
+		if not $.isString(path)
+			return console.error "pathJoin: Can only join string and not #{typeof path}"
+		p = trim(path, '/')
+		final.push p if p != ''
+	final.join(sep) + '/'
+
+class Path
+	constructor: (@path='/') ->
+
+	moveUp: ->
+		@path = @path.strip('/').split('/').slice(0, -1).join('/')
+		@
+
+	go: (path...) ->
+		@path = pathJoin(@path, path...)
+		@
+
+	toString: ->
+		@path
+

@@ -10,7 +10,7 @@ Config = (function() {
     }
     default_config = {
       totalSlideTime: 500,
-      contextMenuTime: 50,
+      localhost: 'localhost',
       iProjects: ['_nlfb'],
       iFolders: ['.git'],
       iFiles: []
@@ -30,7 +30,6 @@ Config = (function() {
       console.error("config: the key " + key + " is unset!");
       return void 0;
     }
-    return "navigation";
   };
 
   return Config;

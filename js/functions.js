@@ -1,4 +1,4 @@
-var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, gi, int, len, list, moveUp, openInNewTab, quote, say, startWith, str, trim,
+var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, gi, int, len, list, moveUp, openInNewTab, pathJoin, quote, say, startWith, str, trim,
   slice = [].slice;
 
 len = function(el) {
@@ -132,28 +132,6 @@ add = function(arr1, arr2) {
   return arr1;
 };
 
-Path = (function() {
-  var go, moveUp;
-
-  function Path(path1, sep) {
-    this.path = path1;
-    this.sep = sep != null ? sep : '/';
-  }
-
-  moveUp = function() {
-    return this.path = this.path.split(this.sep).slice(0, -1).join(this.sep);
-  };
-
-  go = function() {
-    var path;
-    path = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-    return say(path);
-  };
-
-  return Path;
-
-})();
-
 trim = function(str, charToRemove) {
   var char, cont, end, i, j, k, len1, len2, ref, start;
   if (charToRemove == null) {
@@ -283,6 +261,33 @@ copy = function(str) {
   return str;
 };
 
+String.prototype.strip = function(char) {
+  if (char == null) {
+    char = '/';
+  }
+  return trim(this, char);
+};
+
+Array.prototype.remove = function(el) {
+  var e, i, j, k, l, len1, len2, ref, results;
+  arr = [];
+  for (j = 0, len1 = this.length; j < len1; j++) {
+    e = this[j];
+    if (e !== el) {
+      arr.push(el);
+    }
+  }
+  for (i = k = 0, ref = this.length; 0 <= ref ? k <= ref : k >= ref; i = 0 <= ref ? ++k : --k) {
+    arr.pop();
+  }
+  results = [];
+  for (l = 0, len2 = arr.length; l < len2; l++) {
+    el = arr[l];
+    results.push(arr.push(el));
+  }
+  return results;
+};
+
 $.fn.addClasses = function() {
   var arg, j, len1;
   for (j = 0, len1 = arguments.length; j < len1; j++) {
@@ -291,3 +296,64 @@ $.fn.addClasses = function() {
   }
   return this;
 };
+
+$.fn.isEmpty = function() {
+  return len(this) === 0;
+};
+
+$.fn.nodeName = function() {
+  if (len(this) > 1) {
+    return console.error('nodeName: More than on node to return! Just impossible');
+  }
+  if (this.isEmpty()) {
+    return console.error('nodeName: No elements!');
+  }
+  return this[0].nodeName.toLowerCase();
+};
+
+$.isString = function(el) {
+  return typeof el === 'string';
+};
+
+pathJoin = function() {
+  var final, j, len1, p, path, paths, sep;
+  paths = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+  final = [];
+  sep = '/';
+  for (j = 0, len1 = paths.length; j < len1; j++) {
+    path = paths[j];
+    if (!$.isString(path)) {
+      return console.error("pathJoin: Can only join string and not " + (typeof path));
+    }
+    p = trim(path, '/');
+    if (p !== '') {
+      final.push(p);
+    }
+  }
+  return final.join(sep) + '/';
+};
+
+Path = (function() {
+  function Path(path1) {
+    this.path = path1 != null ? path1 : '/';
+  }
+
+  Path.prototype.moveUp = function() {
+    this.path = this.path.strip('/').split('/').slice(0, -1).join('/');
+    return this;
+  };
+
+  Path.prototype.go = function() {
+    var path;
+    path = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+    this.path = pathJoin.apply(null, [this.path].concat(slice.call(path)));
+    return this;
+  };
+
+  Path.prototype.toString = function() {
+    return this.path;
+  };
+
+  return Path;
+
+})();

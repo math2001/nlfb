@@ -1,4 +1,4 @@
-var addItemsTo, advancedResearch, handleExpandFolder, loadDirs, loadProjects, manageContextMenu, manageSearch, manageSideBarResize, shortenPath, update, updateBreadcrumb;
+var addItemsTo, advancedResearch, handleExpandFolder, loadDirs, loadProjects, manageContextMenuShit, manageSearch, manageSideBarResize, shortenPath, update, updateBreadcrumb;
 
 advancedResearch = function(arr, pattern) {
   var el, highlightLetters, indexes, j, len1, match, results;
@@ -254,8 +254,10 @@ manageSideBarResize = function() {
 };
 
 manageSearch = function() {
-  $(document).bind('keydown', function() {
-    return window.$search.focus();
+  $(document).bind('keydown', function(e) {
+    if (e.keyCode === 32) {
+      return window.$search.focus();
+    }
   });
   return window.$search.bind('input', function(e) {
     var dirs, files, val;
@@ -276,19 +278,55 @@ manageSearch = function() {
   });
 };
 
-manageContextMenu = function() {
-  var contextMenuTime, hide;
+manageContextMenuShit = function() {
+  var contextMenuTime, docSize, hide, position;
   window.lastContextMenuFromElement = null;
   window.toRemoveFocus = null;
+  docSize = {
+    height: window.$document.height(),
+    width: window.$document.width()
+  };
+  position = function(x, y, width, height) {
+    pos.y = 'bottom';
+    pos.x = 'right';
+    if (y + height > documentSize.height) {
+      pos.y = 'top';
+    }
+    if (x + width > documentSize.width) {
+      pos.x = 'left';
+    }
+    return pos;
+  };
+  window.$contextmenuWidth = window.$contextmenu.outerWidth();
+  window.$contextmenuHeight = window.$contextmenu.outerHeight();
+  window.$contextmenu.hide();
   contextMenuTime = Config.get('contextMenuTime');
   $(document).on('contextmenu', 'li[data-href]', function(e) {
+    var pos;
     e.preventDefault();
     window.lastContextMenuFromElement = this;
     window.toRemoveFocus = $(this).attr('focused', 'on');
-    return window.$contextmenu.css({
-      top: e.clientY - 16,
-      left: e.clientX
-    }).fadeIn();
+    pos = {
+      top: e.clientY + (e.clientY + window.$contextmenuHeight > docSize.height ? -window.$contextmenuHeight : 0)
+    };
+    if (e.clientX + window.$contextmenuWidth > docSize.width) {
+      pos.left = docSize.width - window.$contextmenuWidth;
+    } else {
+      pos.left = e.clientX;
+    }
+    return window.$contextmenu.css(pos).fadeIn(contextMenuTime);
+  });
+  $('.context-menu-item:has(.context-menu-sub)').bind('mouseenter', function(e) {
+    var $contextMenuSub, $this, height, width;
+    $this = $(this);
+    $contextMenuSub = $this.find('.context-menu-sub');
+    width = $contextMenuSub.outerWidth();
+    height = $contextMenuSub.outerHeight();
+    if ($contextMenuSub.offset().left + width > docSize.width) {
+      return $contextMenuSub.attr('posx', 'left');
+    } else {
+      return $contextMenuSub.attr('posx', 'right');
+    }
   });
   hide = function() {
     window.$contextmenu.fadeOut(contextMenuTime);
@@ -310,6 +348,7 @@ $(window).ready(function() {
   window.$sep = $('#sep');
   window.$search = $('#search');
   window.$contextmenu = $('#item-contextmenu');
+  window.$document = $(document);
   loadDirs();
   loadProjects();
   $('#refresh').click(function() {
