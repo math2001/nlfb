@@ -49,7 +49,7 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
-				<ul class="items hiding-files">
+				<ul class="items" hiding-files=on>
 					Loading...
 				</ul>
 			</article>
@@ -70,18 +70,6 @@
 
 	</div>
 
-<!-- 	<ul id="item-contextmenu" class="context-menu">
-		<li class="context-menu-item-action" onclick="CMF.openFromDataHref();">Open in real</li>
-		<li class="context-menu-item">
-			Copy <span class="arrow">&gt;</span>
-			<ul class="context-menu-sub">
-				<li class="context-menu-item-action" onclick="CMF.copyName();">Name</li>
-				<li class="context-menu-item-action" onclick="CMF.copyPath()">Path</li>
-				<li class="context-menu-item-action" onclick="CMF.copyPath('for url')">Path for URL</li>
-			</ul>
-		</li>
-		<li class="context-menu-item-action" onclick="CMF.toogleShowHiddenFiles($(this))">Show hidden items</li>
-	</ul> -->
 
 	<!-- Jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

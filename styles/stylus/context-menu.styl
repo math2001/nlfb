@@ -3,6 +3,19 @@
 hover-bg-color = #2980b9
 hover-bg-color = lighten(#75b9e7, 50%)
 
+.context-menu-input input[type=checkbox]
+    opacity 0.5
+    
+    &::after
+        content: ""
+        size 10px 10px
+        background-color #fcc
+        display block
+
+
+/* --------------------------------- */
+/* ------------ default ------------ */
+/* --------------------------------- */
 
 .context-menu-icon.context-menu-icon--fa::before,.context-menu-icon::before
     left 0

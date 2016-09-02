@@ -83,7 +83,8 @@ update = (mess, type, jqXHR) ->
 	folderContent = () ->
 		extract mess, window
 		$new = $ '<ul></ul>'
-		$new.attr('class', window.$items.attr('class'))
+		$new.attr('hiding-files', window.$items.attr('hiding-files'))
+		$new.addClass('items')
 		if len(dirs) + len(files) == 0
 			$new.html('<p class="cd-empty">Empty</p>')
 		else
@@ -122,7 +123,6 @@ update = (mess, type, jqXHR) ->
 	window.files = null
 	window.dirs = null
 
-	# totalTime = (if window.config != undefined then window.config.totalTime else false) || 500
 	time = Config.get('totalSlideTime') / 2
 	window.$items.animate({
 		opacity: 0,
@@ -316,8 +316,6 @@ manageContextMenuShit = ->
 	window.$contextmenu.bind('clickoutside', hide)
 	window.$contextmenu.bind('mousedownoutside', hide)
 	window.$contextmenu.find('[class*=action]').bind('click', hide)
-
-
 
 
 $(window).ready( ->

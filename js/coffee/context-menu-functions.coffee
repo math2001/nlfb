@@ -38,13 +38,11 @@ class CTX
 	@copyPathForUrl: (key, opt) ->
 		return CTX.copyPath(key, opt, true)
 
-	@toogleShowHiddenFiles: ($menuitem) ->
-		if window.$items.hasClass('hiding-files')
-			window.$items.removeClass('hiding-files')
-			$menuitem.text('Hide hidden items')
+	@toogleShowHiddenFiles: (key, opt) ->
+		if window.$items.attr('hiding-files') == 'off'
+			window.$items.attr('hiding-files', 'on')
 		else
-			window.$items.addClass('hiding-files')
-			$menuitem.text('Show hidden items')
+			window.$items.attr('hiding-files', 'off')
 		
 manageContextMenu = ->
 	$.contextMenu({
@@ -77,8 +75,11 @@ manageContextMenu = ->
 			},
 			sep1: "---------"
 			hiddenFiles: {
-				name: 'Toogle view hidden file',
-				type: "checkbox"
+				name: 'Toogle hidden file',
+				callback: CTX.toogleShowHiddenFiles
 			}
+		}
+		events: {
+			show: ->
 		}
 	});

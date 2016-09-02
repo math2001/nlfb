@@ -57,13 +57,11 @@ CTX = (function() {
     return CTX.copyPath(key, opt, true);
   };
 
-  CTX.toogleShowHiddenFiles = function($menuitem) {
-    if (window.$items.hasClass('hiding-files')) {
-      window.$items.removeClass('hiding-files');
-      return $menuitem.text('Hide hidden items');
+  CTX.toogleShowHiddenFiles = function(key, opt) {
+    if (window.$items.attr('hiding-files') === 'off') {
+      return window.$items.attr('hiding-files', 'on');
     } else {
-      window.$items.addClass('hiding-files');
-      return $menuitem.text('Show hidden items');
+      return window.$items.attr('hiding-files', 'off');
     }
   };
 
@@ -104,9 +102,12 @@ manageContextMenu = function() {
       },
       sep1: "---------",
       hiddenFiles: {
-        name: 'Toogle view hidden file',
-        type: "checkbox"
+        name: 'Toogle hidden file',
+        callback: CTX.toogleShowHiddenFiles
       }
+    },
+    events: {
+      show: function() {}
     }
   });
 };
