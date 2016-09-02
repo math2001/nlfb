@@ -33,4 +33,4 @@ That's it, open [localhost](http://localhost) and *savourez*.
 - customs alias
 - add icons to context menu
 - add input to type the path
-- set miniature for image corresponding
+- set miniature for image corresponding &#10004;

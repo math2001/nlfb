@@ -1,4 +1,4 @@
-var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, gi, int, len, list, moveUp, openInNewTab, pathJoin, quote, say, startWith, str, trim,
+var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, openInNewTab, pathJoin, quote, say, startWith, str, trim,
   slice = [].slice;
 
 len = function(el) {
@@ -11,7 +11,10 @@ len = function(el) {
 };
 
 die = function(msg) {
-  throw msg || 'die';
+  if (msg == null) {
+    msg = 'die';
+  }
+  throw new Error(msg);
 };
 
 int = function(el) {
@@ -42,30 +45,6 @@ arr = function(el) {
 
 say = function() {
   return alert(list(arguments).join(' '));
-};
-
-gi = function(arr, index) {
-  if (index >= 0) {
-    return arr[index];
-  } else {
-    return arr[len(arr) + index];
-  }
-};
-
-getFileType = function(filename, real) {
-  var extension;
-  if (real == null) {
-    real = true;
-  }
-  extension = gi(filename.split('.'), -1);
-  if (real) {
-    return extension;
-  }
-  switch (extension) {
-    case 'gitignore':
-      return 'git';
-  }
-  return extension;
 };
 
 array_diff = function(arr1, arr2) {
@@ -261,6 +240,24 @@ copy = function(str) {
   return str;
 };
 
+pathJoin = function() {
+  var final, j, len1, p, path, paths, sep;
+  paths = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+  final = [];
+  sep = '/';
+  for (j = 0, len1 = paths.length; j < len1; j++) {
+    path = paths[j];
+    if (!$.isString(path)) {
+      return console.error("pathJoin: Can only join string and not " + (typeof path));
+    }
+    p = trim(path, '/');
+    if (p !== '') {
+      final.push(p);
+    }
+  }
+  return final.join(sep);
+};
+
 String.prototype.strip = function(char) {
   if (char == null) {
     char = '/';
@@ -286,6 +283,13 @@ Array.prototype.remove = function(el) {
     results.push(arr.push(el));
   }
   return results;
+};
+
+Array.prototype.get = function(index) {
+  if (index < 0) {
+    index = len(this) + index;
+  }
+  return this[index];
 };
 
 $.fn.addClasses = function() {
@@ -315,24 +319,6 @@ $.isString = function(el) {
   return typeof el === 'string';
 };
 
-pathJoin = function() {
-  var final, j, len1, p, path, paths, sep;
-  paths = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-  final = [];
-  sep = '/';
-  for (j = 0, len1 = paths.length; j < len1; j++) {
-    path = paths[j];
-    if (!$.isString(path)) {
-      return console.error("pathJoin: Can only join string and not " + (typeof path));
-    }
-    p = trim(path, '/');
-    if (p !== '') {
-      final.push(p);
-    }
-  }
-  return final.join(sep) + '/';
-};
-
 Path = (function() {
   function Path(path1) {
     this.path = path1 != null ? path1 : '/';
@@ -354,6 +340,27 @@ Path = (function() {
     return this.path;
   };
 
+  Path.prototype.abs = function() {
+    return 'http://' + pathJoin(Config.get('localhost'), this.path);
+  };
+
   return Path;
 
 })();
+
+getFileType = function(filename, real) {
+  var extension;
+  if (real == null) {
+    real = true;
+  }
+  extension = filename.split('.').get(-1);
+  if (real) {
+    return extension;
+  }
+  switch (extension) {
+    case 'gitignore':
+    case 'gitattributes':
+      return 'git';
+  }
+  return extension;
+};

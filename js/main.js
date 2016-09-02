@@ -45,13 +45,16 @@ advancedResearch = function(arr, pattern) {
 };
 
 addItemsTo = function($el, dirs, files) {
-  var dir, dirImg, file, hide, j, k, len1, len2;
+  var dir, dirImg, file, hide, iconPath, isImage, j, k, len1, len2;
   if (dirs == null) {
     dirs = [];
   }
   if (files == null) {
     files = [];
   }
+  isImage = function(file) {
+    return $.inArray(getFileType(file), Config.get('imgExt')) > -1;
+  };
   dirImg = '<img src="img/folder.svg" alt="folder">';
   hide = '';
   for (j = 0, len1 = dirs.length; j < len1; j++) {
@@ -62,7 +65,12 @@ addItemsTo = function($el, dirs, files) {
   for (k = 0, len2 = files.length; k < len2; k++) {
     file = files[k];
     hide = $.inArray(dir, Config.get('iFiles')) > -1 ? ' item-hide' : '';
-    $el.append("<li contextmenuc='item-contextmenu' class='item" + hide + "' data-href='" + (getPath(file)) + "'> <img src='img/file_types/" + (getFileType(file)) + ".svg' onerror='this.src=\"img/file_types/default.svg\"'> <a>" + file + "</a> </li>");
+    if (isImage(file)) {
+      iconPath = new Path().go(location.hash.slice(1), file).abs();
+    } else {
+      iconPath = "img/file_types/" + (getFileType(file, false)) + ".svg";
+    }
+    $el.append("<li contextmenuc='item-contextmenu' class='item" + hide + "' data-href='" + (getPath(file)) + "'> <img src='" + iconPath + "' onerror='this.src=\"img/file_types/default.svg\"'> <a>" + file + "</a> </li>");
   }
   return null;
 };

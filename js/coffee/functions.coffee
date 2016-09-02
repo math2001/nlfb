@@ -5,8 +5,8 @@ len = (el) ->
 		console.error "length of \"#{el}\" is undefined!"
 	return 0
 
-die = (msg) ->
-	throw msg || 'die'
+die = (msg='die') ->
+	throw new Error(msg)
 
 int   = (el) -> parseInt(el)
 float = (el) -> parseFloat(el)
@@ -16,20 +16,6 @@ arr   = (el) -> list(el)
 
 say = -> alert(list(arguments).join(' '));
 
-gi = (arr, index) ->
-	# get index
-	if index >= 0
-		return arr[index]
-	else
-		return arr[len(arr) + index]
-
-getFileType = (filename, real=true) -> 
-	extension = gi(filename.split('.'), -1)
-	return extension if real
-	switch extension
-		when 'gitignore'
-			return 'git'
-	extension
 
 array_diff = (arr1, arr2) ->
 	arr = []
@@ -159,6 +145,16 @@ copy = (str) ->
 	$input.remove()
 	return str
 
+pathJoin = (paths...) ->
+	final = []
+	sep = '/'
+	for path in paths
+		if not $.isString(path)
+			return console.error "pathJoin: Can only join string and not #{typeof path}"
+		p = trim(path, '/')
+		final.push p if p != ''
+	final.join(sep)
+
 # ------------------------------- #
 # ------------ proto ------------ #
 # ------------------------------- #
@@ -176,7 +172,10 @@ Array::remove = (el) ->
 	for el in arr
 		arr.push(el)
 	
-
+Array::get = (index) ->
+	if index < 0
+		index = len(this) + index # cause index is negative: - + - = +
+	return this[index]
 
 # --------------------------------------- #
 # ------------ Jquery plugin ------------ #
@@ -205,16 +204,6 @@ $.isString = (el) ->
 # ------------ Tools ------------ #
 # ------------------------------- #
 
-pathJoin = (paths...) ->
-	final = []
-	sep = '/'
-	for path in paths
-		if not $.isString(path)
-			return console.error "pathJoin: Can only join string and not #{typeof path}"
-		p = trim(path, '/')
-		final.push p if p != ''
-	final.join(sep) + '/'
-
 class Path
 	constructor: (@path='/') ->
 
@@ -228,4 +217,15 @@ class Path
 
 	toString: ->
 		@path
+	
+	abs: ->
+		'http://' + pathJoin(Config.get('localhost'), @path)
 
+
+getFileType = (filename, real=true) -> 
+	extension = filename.split('.').get(-1)
+	return extension if real
+	switch extension
+		when 'gitignore', 'gitattributes'
+			return 'git'
+	extension

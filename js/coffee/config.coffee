@@ -5,6 +5,7 @@ class Config
 		default_config = 
 			totalSlideTime: 500
 			localhost: 'localhost'
+			imgExt: ['jpg', 'png', 'bmp', 'jpeg', 'gif', 'ico', 'svg']
 			iProjects: ['_nlfb']
 			iFolders: ['.git']
 			iFiles: []

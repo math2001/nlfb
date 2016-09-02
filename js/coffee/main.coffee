@@ -34,6 +34,10 @@ advancedResearch = (arr, pattern) ->
 	return results
 
 addItemsTo = ($el, dirs=[], files=[]) ->
+
+	isImage = (file) ->
+		$.inArray(getFileType(file), Config.get('imgExt')) > -1
+
 	dirImg = '<img src="img/folder.svg" alt="folder">'
 	hide = ''
 	for dir in dirs
@@ -41,9 +45,14 @@ addItemsTo = ($el, dirs=[], files=[]) ->
 		$el.append("<li contextmenuc='item-contextmenu' class='item#{hide}' data-href='#{getPath(dir)}'>#{dirImg} <a>#{dir}</a></li>")
 	for file in files
 		hide = if $.inArray(dir, Config.get('iFiles')) > -1 then ' item-hide' else ''
+
+		if isImage file
+			iconPath = new Path().go(location.hash.slice(1), file).abs()
+		else
+			iconPath = "img/file_types/#{getFileType(file, false)}.svg"
 		$el.append(
 			"<li contextmenuc='item-contextmenu' class='item#{hide}' data-href='#{getPath(file)}'>
-				<img src='img/file_types/#{getFileType(file)}.svg' onerror='this.src=\"img/file_types/default.svg\"'>
+				<img src='#{iconPath}' onerror='this.src=\"img/file_types/default.svg\"'>
 				<a>#{file}</a>
 			</li>")
 	null
