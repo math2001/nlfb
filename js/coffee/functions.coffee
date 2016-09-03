@@ -156,11 +156,12 @@ pathJoin = (paths...) ->
 	final = []
 	sep = '/'
 	for path in paths
-		if not $.isString(path)
+		if typeof path != 'string'
 			return console.error "pathJoin: Can only join string and not #{typeof path}"
 		p = trim(path, '/')
 		final.push p if p != ''
 	final.join(sep)
+
 
 # ------------------------------- #
 # ------------ proto ------------ #
@@ -178,7 +179,19 @@ Array::remove = (el) ->
 		arr.pop()
 	for el in arr
 		arr.push(el)
-	
+
+Array::removeAll = (el) ->
+	arr = []
+	for e in this
+		if el != e
+			arr.push(e)
+
+	while len(this) > 0
+		this.shift()
+	for el in arr
+		this.push(el)
+	return this
+
 Array::get = (index) ->
 	if index < 0
 		index = len(this) + index # cause index is negative: - + - = +
@@ -189,6 +202,17 @@ String::contains = (str) ->
   	if this.slice(i, i + len(str)) == str
     	return true
 	false
+
+Array::pop = (index=this.length-1) ->
+	arr = []
+	for el, i in this
+		if i != index
+			arr.push(el)
+	while len(this) > 0
+		this.shift()
+	for el in arr
+		this.push(el)
+	return this
 
 # --------------------------------------- #
 # ------------ Jquery plugin ------------ #
@@ -213,12 +237,42 @@ $.fn.nodeName = ->
 $.isString = (el) ->
 	return typeof el == 'string'
 
+
+getFileType = (filename, real=true) -> 
+	extension = filename.split('.').get(-1)
+	return extension if real
+	switch extension
+		when 'gitignore', 'gitattributes'
+			return 'git'
+	if extension.contains('sublime')
+		return 'sublime'
+	
+	extension
+
+
+normPath = (path) ->
+	path = path.split('/')
+	for item, i in path
+		if item == '..'
+			if i > 0 and path[i-1] != '..'
+				path.pop(i).pop(i-1)
+	return path.join('/')
+
+
 # ------------------------------- #
 # ------------ Tools ------------ #
 # ------------------------------- #
 
 class Path
 	constructor: (@path='/') ->
+
+	norm: ->
+		path = @path.split('/')
+		for item, i in path
+			if item == '..'
+				if i > 0 and path[i-1] != '..'
+					path.pop(i).pop(i-1)
+		return path.join('/') 
 
 	moveUp: ->
 		@path = @path.strip('/').split('/').slice(0, -1).join('/')
@@ -231,17 +285,12 @@ class Path
 	toString: ->
 		@path
 	
-	abs: ->
-		'http://' + pathJoin(Config.get('localhost'), @path)
+	@abs: (path) ->
+		'http://' + pathJoin(Config.get('localhost'), path)
 
-
-getFileType = (filename, real=true) -> 
-	extension = filename.split('.').get(-1)
-	return extension if real
-	switch extension
-		when 'gitignore', 'gitattributes'
-			return 'git'
-	if extension.contains('sublime')
-		return 'sublime'
-	
-	extension
+	@valid: (path...) ->
+		path = path.join('/').split('/').removeAll('')
+		path = path.join('/').split('\\').removeAll('')
+		path = path.join('/').split('/').removeAll('').join('/')
+		path = normPath(path)
+		return path

@@ -47,7 +47,7 @@ addItemsTo = ($el, dirs=[], files=[]) ->
 		hide = if $.inArray(dir, Config.get('iFiles')) > -1 then ' item-hide' else ''
 
 		if isImage file
-			iconPath = new Path().go(location.hash.slice(1), removeTags(file)).abs()
+			iconPath = Path.abs Path.valid(location.hash.slice(1), removeTags(file))
 		else
 			iconPath = "img/file_types/#{getFileType(file, false)}.svg"
 		$el.append(
@@ -86,7 +86,6 @@ updateBreadcrumb = ->
 	return true
 
 update = (mess, type, jqXHR) ->
-	console.log 'update'
 	updateBreadcrumb()
 
 	folderContent = () ->
@@ -208,7 +207,6 @@ handleExpandFolder = () ->
 
 
 	loadDirs(path, (dirs, type, $infos) ->
-		console.info 'loadDirs from server'
 		$ul = $('<ul></ul>').hide()
 		forEach(dirs, (dir, has_folder) ->
 			$ul.append(
@@ -293,8 +291,7 @@ class ManageEditPath
 				path = _this.$input.val()
 				unless path[0] == '/'
 					path = pathJoin(location.hash.slice(1), path)
-				else
-					path = path.slice(1)
+				path = Path.valid(path)
 				location.hash = '#' + path
 				_this.hide()
 			if e.keyCode == code('escape')
@@ -378,8 +375,6 @@ $(window).ready( ->
 			e.preventDefault()
 		
 	)
-	console.log 'loaddirs'
-
 	loadDirs()
 	loadProjects()
 

@@ -66,7 +66,7 @@ addItemsTo = function($el, dirs, files) {
     file = files[k];
     hide = $.inArray(dir, Config.get('iFiles')) > -1 ? ' item-hide' : '';
     if (isImage(file)) {
-      iconPath = new Path().go(location.hash.slice(1), removeTags(file)).abs();
+      iconPath = Path.abs(Path.valid(location.hash.slice(1), removeTags(file)));
     } else {
       iconPath = "img/file_types/" + (getFileType(file, false)) + ".svg";
     }
@@ -108,7 +108,6 @@ updateBreadcrumb = function() {
 
 update = function(mess, type, jqXHR) {
   var codeContent, folderContent, func, imageContent, time;
-  console.log('update');
   updateBreadcrumb();
   folderContent = function() {
     var $new;
@@ -233,7 +232,6 @@ handleExpandFolder = function() {
     return $ul.slideDown();
   }
   return loadDirs(path, function(dirs, type, $infos) {
-    console.info('loadDirs from server');
     $ul = $('<ul></ul>').hide();
     forEach(dirs, function(dir, has_folder) {
       return $ul.append($('<li></li>').append(has_folder ? '<span class="spoiler-button"></span>' : '<span class="spoiler-replace"></span>').append($('<a></a>').text(dir).attr('data-href', path + '/' + dir)));
@@ -320,9 +318,8 @@ ManageEditPath = (function() {
         path = _this.$input.val();
         if (path[0] !== '/') {
           path = pathJoin(location.hash.slice(1), path);
-        } else {
-          path = path.slice(1);
         }
+        path = Path.valid(path);
         location.hash = '#' + path;
         _this.hide();
       }
@@ -416,7 +413,6 @@ $(window).ready(function() {
       return e.preventDefault();
     }
   });
-  console.log('loaddirs');
   loadDirs();
   loadProjects();
   $('#refresh').click(function() {

@@ -1,4 +1,4 @@
-var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, openInNewTab, pathJoin, quote, removeTags, say, startWith, str, trim,
+var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, normPath, openInNewTab, pathJoin, quote, removeTags, say, startWith, str, trim,
   slice = [].slice;
 
 len = function(el) {
@@ -257,7 +257,7 @@ pathJoin = function() {
   sep = '/';
   for (j = 0, len1 = paths.length; j < len1; j++) {
     path = paths[j];
-    if (!$.isString(path)) {
+    if (typeof path !== 'string') {
       return console.error("pathJoin: Can only join string and not " + (typeof path));
     }
     p = trim(path, '/');
@@ -295,6 +295,25 @@ Array.prototype.remove = function(el) {
   return results;
 };
 
+Array.prototype.removeAll = function(el) {
+  var e, j, k, len1, len2;
+  arr = [];
+  for (j = 0, len1 = this.length; j < len1; j++) {
+    e = this[j];
+    if (el !== e) {
+      arr.push(e);
+    }
+  }
+  while (len(this) > 0) {
+    this.shift();
+  }
+  for (k = 0, len2 = arr.length; k < len2; k++) {
+    el = arr[k];
+    this.push(el);
+  }
+  return this;
+};
+
 Array.prototype.get = function(index) {
   if (index < 0) {
     index = len(this) + index;
@@ -310,6 +329,28 @@ String.prototype.contains = function(str) {
     }
   }
   return false;
+};
+
+Array.prototype.pop = function(index) {
+  var el, i, j, k, len1, len2;
+  if (index == null) {
+    index = this.length - 1;
+  }
+  arr = [];
+  for (i = j = 0, len1 = this.length; j < len1; i = ++j) {
+    el = this[i];
+    if (i !== index) {
+      arr.push(el);
+    }
+  }
+  while (len(this) > 0) {
+    this.shift();
+  }
+  for (k = 0, len2 = arr.length; k < len2; k++) {
+    el = arr[k];
+    this.push(el);
+  }
+  return this;
 };
 
 $.fn.addClasses = function() {
@@ -339,35 +380,6 @@ $.isString = function(el) {
   return typeof el === 'string';
 };
 
-Path = (function() {
-  function Path(path1) {
-    this.path = path1 != null ? path1 : '/';
-  }
-
-  Path.prototype.moveUp = function() {
-    this.path = this.path.strip('/').split('/').slice(0, -1).join('/');
-    return this;
-  };
-
-  Path.prototype.go = function() {
-    var path;
-    path = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-    this.path = pathJoin.apply(null, [this.path].concat(slice.call(path)));
-    return this;
-  };
-
-  Path.prototype.toString = function() {
-    return this.path;
-  };
-
-  Path.prototype.abs = function() {
-    return 'http://' + pathJoin(Config.get('localhost'), this.path);
-  };
-
-  return Path;
-
-})();
-
 getFileType = function(filename, real) {
   var extension;
   if (real == null) {
@@ -387,3 +399,70 @@ getFileType = function(filename, real) {
   }
   return extension;
 };
+
+normPath = function(path) {
+  var i, item, j, len1;
+  path = path.split('/');
+  for (i = j = 0, len1 = path.length; j < len1; i = ++j) {
+    item = path[i];
+    if (item === '..') {
+      if (i > 0 && path[i - 1] !== '..') {
+        path.pop(i).pop(i - 1);
+      }
+    }
+  }
+  return path.join('/');
+};
+
+Path = (function() {
+  function Path(path1) {
+    this.path = path1 != null ? path1 : '/';
+  }
+
+  Path.prototype.norm = function() {
+    var i, item, j, len1, path;
+    path = this.path.split('/');
+    for (i = j = 0, len1 = path.length; j < len1; i = ++j) {
+      item = path[i];
+      if (item === '..') {
+        if (i > 0 && path[i - 1] !== '..') {
+          path.pop(i).pop(i - 1);
+        }
+      }
+    }
+    return path.join('/');
+  };
+
+  Path.prototype.moveUp = function() {
+    this.path = this.path.strip('/').split('/').slice(0, -1).join('/');
+    return this;
+  };
+
+  Path.prototype.go = function() {
+    var path;
+    path = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+    this.path = pathJoin.apply(null, [this.path].concat(slice.call(path)));
+    return this;
+  };
+
+  Path.prototype.toString = function() {
+    return this.path;
+  };
+
+  Path.abs = function(path) {
+    return 'http://' + pathJoin(Config.get('localhost'), path);
+  };
+
+  Path.valid = function() {
+    var path;
+    path = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+    path = path.join('/').split('/').removeAll('');
+    path = path.join('/').split('\\').removeAll('');
+    path = path.join('/').split('/').removeAll('').join('/');
+    path = normPath(path);
+    return path;
+  };
+
+  return Path;
+
+})();
