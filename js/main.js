@@ -113,7 +113,6 @@ update = function(mess, type, jqXHR) {
     var $new;
     extract(mess, window);
     $new = $('<ul></ul>');
-    $new.attr('hiding-files', window.$items.attr('hiding-files'));
     $new.addClass('items');
     if (len(dirs) + len(files) === 0) {
       $new.html('<p class="cd-empty">Empty</p>');
@@ -153,6 +152,7 @@ update = function(mess, type, jqXHR) {
   }, time, function() {
     var $new;
     $new = func();
+    $new.attr('hiding-files', window.$items.attr('hiding-files'));
     $new.attr('showing', 'on');
     if ($new[0].nodeName.toLowerCase() === 'pre') {
       hljs.highlightBlock($new[0]);
