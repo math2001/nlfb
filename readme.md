@@ -1,6 +1,6 @@
 # Nice Localhost File Browser
 
-Don't like the home page of wamp, and you just **cannot** stand this awful *apache made* "browser".
+Don't like the home page of WAMP, and you just **cannot** stand this awful *apache made* "browser".
 
 Well, in just **2** steps, you can easily have a pretty nice browser.
 
@@ -16,21 +16,21 @@ That's it, open [localhost](http://localhost) and *savourez*.
 - Sidebar
 - Breadcrumbs
 - File can be view and are colored by the great [highlightjs](https://highlightjs.org/)
+- Nice context menu with the the excellent [jQuery.contextMenu](https://swisnl.github.io/jQuery-contextMenu/)
 - If it is an image, it just renders it.
-- Search in current folder based on letters' order (`ctrl` brings up `controller`)
-- alias
+- Search in current folder based on letters' order (`ctrl` brings up `controller` for example)
+- copy name/path/URL path
+- input to type the path
+- open in **real** (new tab)
+- ignored files/folders/projects
 
 ## Features to add (imperative)
 
-- open in **real** &#10004;
-- ignored projects - folders/files &#10004;
+- 404 message
 
 ## Features to add
 
-- copy (name, path, URL path) &#10004;
 - view mode (icon, list)
 - load full sidebar at the beginning (settings)
 - customs alias
 - add icons to context menu
-- add input to type the path
-- set miniature for image corresponding &#10004;
