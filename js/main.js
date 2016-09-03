@@ -1,4 +1,4 @@
-var addItemsTo, advancedResearch, handleExpandFolder, loadDirs, loadProjects, manageEditPath, manageSearch, manageSideBarResize, shortenPath, update, updateBreadcrumb;
+var ManageEditPath, addItemsTo, advancedResearch, handleExpandFolder, loadDirs, loadProjects, manageEditPath, manageSearch, manageSideBarResize, shortenPath, update, updateBreadcrumb;
 
 advancedResearch = function(arr, pattern) {
   var el, highlightLetters, indexes, j, len1, match, results;
@@ -108,6 +108,7 @@ updateBreadcrumb = function() {
 
 update = function(mess, type, jqXHR) {
   var codeContent, folderContent, func, imageContent, time;
+  console.log('update');
   updateBreadcrumb();
   folderContent = function() {
     var $new;
@@ -246,21 +247,21 @@ handleExpandFolder = function() {
 };
 
 manageEditPath = function() {
-  var $input, hideEditPath;
-  $input = $('<input type="text">').attr('placeholder', 'Path...');
+  var hideEditPath;
+  window.$editPathInput = $('<input type="text">').attr('placeholder', 'Path...');
   window.isEditPathHidden = true;
   hideEditPath = function() {
-    $input.unbind();
+    window.$editPathInput.unbind();
     window.$breadcrumb.html(window.prevBreadcrumbHtml);
     if (Config.get('emptyEditPathValueOnHide')) {
-      $input.val('');
+      window.$editPathInput.val('');
     }
     return window.isEditPathHidden = true;
   };
   return window.$editPath.bind('click', function() {
     if (window.isEditPathHidden === true) {
       window.isEditPathHidden = false;
-      $input.bind('keydown', function(e) {
+      window.$editPathInput.bind('keydown', function(e) {
         var path;
         if (e.keyCode === code('enter')) {
           path = $(this).val();
@@ -282,13 +283,72 @@ manageEditPath = function() {
         return hideEditPath();
       });
       window.prevBreadcrumbHtml = window.$breadcrumb.html();
-      window.$breadcrumb.html($input);
-      return $input.focus();
+      window.$breadcrumb.html(window.$editPathInput);
+      return window.$editPathInput.focus();
     } else {
       return hideEditPath();
     }
   });
 };
+
+ManageEditPath = (function() {
+  function ManageEditPath() {
+    var _this;
+    this.$input = $('<input type="text">').attr('placeholder', 'Path...');
+    this.isHide = true;
+    this.prevBreadcrumbHtml = '';
+    _this = this;
+    $('#edit-path').bind('click', function(e) {
+      if (_this.isHide) {
+        return _this.show();
+      } else {
+        return _this.hide();
+      }
+    });
+  }
+
+  ManageEditPath.prototype.show = function() {
+    var _this;
+    this.isHide = false;
+    this.prevBreadcrumbHtml = window.$breadcrumb.html();
+    window.$breadcrumb.html(this.$input);
+    this.$input.focus();
+    _this = this;
+    return this.$input.bind('keydown', function(e) {
+      var path;
+      if (e.keyCode === code('enter')) {
+        path = _this.$input.val();
+        if (path[0] !== '/') {
+          path = pathJoin(location.hash.slice(1), path);
+        } else {
+          path = path.slice(1);
+        }
+        location.hash = '#' + path;
+        _this.hide();
+      }
+      if (e.keyCode === code('escape')) {
+        return _this.$input.trigger('blur');
+      }
+    }).bind('blur', function() {
+      return _this.hide();
+    });
+  };
+
+  ManageEditPath.prototype.hide = function() {
+    this.isHide = true;
+    window.$breadcrumb.html(this.prevBreadcrumbHtml);
+    if (Config.get('emptyEditPathValueOnHide')) {
+      return this.$input.val('');
+    }
+  };
+
+  ManageEditPath.prototype.input = function() {
+    return this.$input;
+  };
+
+  return ManageEditPath;
+
+})();
 
 manageSideBarResize = function() {
   window.resizingSidebar = false;
@@ -309,12 +369,6 @@ manageSideBarResize = function() {
 };
 
 manageSearch = function() {
-  $(document).bind('keydown', function(e) {
-    if (e.keyCode === 32 && !window.$search.is(':focus')) {
-      e.preventDefault();
-      return window.$search.focus();
-    }
-  });
   return window.$search.bind('input', function(e) {
     var dirs, files, val;
     if (window.files === null || window.dirs === null) {
@@ -339,6 +393,7 @@ manageSearch = function() {
 };
 
 $(window).ready(function() {
+  var editPath;
   Config.init();
   window.$editPath = $('#edit-path');
   window.$main = $('#main');
@@ -349,6 +404,19 @@ $(window).ready(function() {
   window.$search = $('#search');
   window.$contextmenu = $('#item-contextmenu');
   window.$document = $(document);
+  editPath = new ManageEditPath();
+  window.$document.bind('keydown', function(e) {
+    var canFocusSomething;
+    canFocusSomething = $(':focus').length === 0;
+    if (e.keyCode === code('f') && canFocusSomething) {
+      e.preventDefault();
+      return window.$search.focus();
+    } else if (e.keyCode === code('e') && canFocusSomething) {
+      editPath.show();
+      return e.preventDefault();
+    }
+  });
+  console.log('loaddirs');
   loadDirs();
   loadProjects();
   $('#refresh').click(function() {
@@ -357,7 +425,6 @@ $(window).ready(function() {
   manageSearch();
   manageSideBarResize();
   manageContextMenu();
-  manageEditPath();
   $(window).bind('hashchange', function() {
     return loadDirs();
   });

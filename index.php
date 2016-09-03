@@ -56,7 +56,9 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
+		 		<div class="items" hiding-files=on view-mode=icon>
 					Loading...
+		 		</div>
 				</ul>
 			</article>
 		</section>

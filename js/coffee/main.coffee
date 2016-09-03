@@ -86,7 +86,7 @@ updateBreadcrumb = ->
 	return true
 
 update = (mess, type, jqXHR) ->
-
+	console.log 'update'
 	updateBreadcrumb()
 
 	folderContent = () ->
@@ -227,22 +227,22 @@ handleExpandFolder = () ->
 	, { forsidebar: 'yes' })
 
 manageEditPath = () ->
-	$input = $('<input type="text">')
+	window.$editPathInput = $('<input type="text">')
 			.attr('placeholder', 'Path...')
 	window.isEditPathHidden = true
 
 	hideEditPath = ->
-		$input.unbind()
+		window.$editPathInput.unbind()
 		window.$breadcrumb.html(window.prevBreadcrumbHtml)
 		if Config.get('emptyEditPathValueOnHide')
-			$input.val('')
+			window.$editPathInput.val('')
 		window.isEditPathHidden = true
 
 		
 	window.$editPath.bind('click', ->
 		if window.isEditPathHidden == true
 			window.isEditPathHidden = false
-			$input.bind('keydown', (e) ->
+			window.$editPathInput.bind('keydown', (e) ->
 				if e.keyCode == code('enter')
 					path = $(this).val()
 					if path == location.hash.slice(1)
@@ -261,11 +261,56 @@ manageEditPath = () ->
 				hideEditPath()
 			)
 			window.prevBreadcrumbHtml = window.$breadcrumb.html()
-			window.$breadcrumb.html($input)
-			$input.focus()
+			window.$breadcrumb.html(window.$editPathInput)
+			window.$editPathInput.focus()
 		else
 			hideEditPath()
 	)
+
+class ManageEditPath
+
+	constructor: ->
+		@$input = $('<input type="text">')
+		.attr('placeholder', 'Path...')
+		@isHide = true
+		@prevBreadcrumbHtml = ''
+		_this = @
+		$('#edit-path').bind('click', (e) ->
+			if _this.isHide
+				_this.show()
+			else
+				_this.hide()
+		)
+
+	show: ->
+		@isHide = false
+		@prevBreadcrumbHtml = window.$breadcrumb.html()
+		window.$breadcrumb.html(@$input)
+		@$input.focus()
+		_this = @
+		@$input.bind('keydown', (e) ->
+			if e.keyCode == code('enter')
+				path = _this.$input.val()
+				unless path[0] == '/'
+					path = pathJoin(location.hash.slice(1), path)
+				else
+					path = path.slice(1)
+				location.hash = '#' + path
+				_this.hide()
+			if e.keyCode == code('escape')
+				_this.$input.trigger('blur')
+		).bind('blur', ->
+			_this.hide()
+		)
+
+	hide: ->
+		@isHide = true
+		window.$breadcrumb.html(@prevBreadcrumbHtml)
+		@$input.val('') if Config.get('emptyEditPathValueOnHide')
+
+	input: ->
+		return @$input
+
 
 manageSideBarResize = () ->
 	window.resizingSidebar = false
@@ -284,13 +329,7 @@ manageSideBarResize = () ->
 	)
 
 manageSearch = ->
-	$(document).bind('keydown', (e) ->
-		if e.keyCode == 32 and not window.$search.is(':focus')
-			e.preventDefault()
-			window.$search.focus()
-
-
-	)
+	
 	window.$search.bind('input', (e) ->
 		if window.files == null or window.dirs == null
 			$(this)
@@ -312,8 +351,6 @@ manageSearch = ->
 			window.$search.blur()
 	)
 
-
-
 $(window).ready( ->
 
 	Config.init()
@@ -329,6 +366,20 @@ $(window).ready( ->
 
 	window.$document = $ document
 
+	editPath = new ManageEditPath()
+
+	window.$document.bind('keydown', (e) ->
+		canFocusSomething = $(':focus').length == 0
+		if e.keyCode == code('f') and canFocusSomething
+			e.preventDefault()
+			window.$search.focus()
+		else if e.keyCode == code('e') and canFocusSomething
+			editPath.show()
+			e.preventDefault()
+		
+	)
+	console.log 'loaddirs'
+
 	loadDirs()
 	loadProjects()
 
@@ -339,7 +390,7 @@ $(window).ready( ->
 	manageSearch()
 	manageSideBarResize()
 	manageContextMenu()
-	manageEditPath()
+
 
 	$(window).bind('hashchange', ->
 		loadDirs()
