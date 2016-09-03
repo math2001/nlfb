@@ -11,13 +11,13 @@ nav-bar-height = 57px
 
 .navbar-btn-wrapper 
 	vertical-align middle
-	margin 13px 5px
+	margin 13px 0px
 	display inline-block
 	width 35px
 	height 35px
 	position relative
 
-.navbar-btn 
+.navbar-btn, svg
 	cursor pointer
 	width 25px
 	height 25px
@@ -28,15 +28,16 @@ nav-bar-height = 57px
 	margin-top -12.5px
 
 
-.navbar-btn path 
-	fill #999
+	path
+		fill #999
 
-.navbar-btn:hover path 
-	fill #333
+	&:hover path 
+		fill #333
 
 
 .navbar-btn-wrapper:first-of-type 
-	transform rotate(90deg)
+	// transform rotate(90deg)
+	// background-color #fccc
 
 
 .breadcrumb 
@@ -46,7 +47,7 @@ nav-bar-height = 57px
 	padding 0
 	list-style none
 	position absolute
-	left 150px
+	left 11 0px
 	margin-top 0
 	line-height nav-bar-height
 	

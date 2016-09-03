@@ -34,9 +34,10 @@
 			<article id="main">
 			 	<div class="navbar">
 			 		<span class="navbar-btn-wrapper">
-			 			<svg viewBox="0 0 20 20" class="navbar-btn" id="move-up">
-			 			  <path fill="#555" d="M9 4l-6 6 6 6 1.4-1.4L6.8 11H16V9H6.8l3.6-3.6z"/>
-			 			</svg>
+			 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="move-up">
+						  <path fill="#ccc" d="M28.796 198.804l127.2-115.2v278.4h40v-278.4l124 115.2 28.8-30-172.8-168.8-176 166.8z"/>
+						</svg>
+
 			 		</span>
 			 		<span class="navbar-btn-wrapper">
 			 			<svg viewBox="0 0 367.136 367.136" class="navbar-btn" id="refresh">
@@ -77,7 +78,10 @@
 	</div>
 	
 	<div class="credit" style="display: none;">
+		<!--  -->
 		<div>Icons made by <a href="http://www.flaticon.com/authors/lucy-g" title="Lucy G">Lucy G</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+		<!-- arrow -->
+		<div>Icons made by <a href="http://www.flaticon.com/authors/vaadin" title="Vaadin">Vaadin</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	</div>
 
 	<!-- Jquery -->
