@@ -6,6 +6,7 @@ class Config
 			totalSlideTime: 500
 			localhost: 'localhost'
 			imgExt: ['jpg', 'png', 'bmp', 'jpeg', 'gif', 'ico', 'svg']
+			changeViewModeTime: 400
 			emptyEditPathValueOnHide: true
 			iProjects: ['_nlfb']
 			iFolders: ['.git']

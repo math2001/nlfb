@@ -302,6 +302,16 @@ Array.prototype.get = function(index) {
   return this[index];
 };
 
+String.prototype.contains = function(str) {
+  var i, j, ref;
+  for (i = j = 0, ref = len(this); 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    if (this.slice(i, i + len(str)) === str) {
+      return true;
+    }
+  }
+  return false;
+};
+
 $.fn.addClasses = function() {
   var arg, j, len1;
   for (j = 0, len1 = arguments.length; j < len1; j++) {
@@ -371,6 +381,9 @@ getFileType = function(filename, real) {
     case 'gitignore':
     case 'gitattributes':
       return 'git';
+  }
+  if (extension.contains('sublime')) {
+    return 'sublime';
   }
   return extension;
 };

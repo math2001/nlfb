@@ -140,6 +140,7 @@ update = (mess, type, jqXHR) ->
 	}, time,  ->
 		$new = func()
 		$new.attr('hiding-files', window.$items.attr('hiding-files'))
+		$new.attr('view-mode', window.$items.attr('view-mode'))
 		$new.attr('showing', 'on')
 		if $new[0].nodeName.toLowerCase() == 'pre'
 			hljs.highlightBlock($new[0])

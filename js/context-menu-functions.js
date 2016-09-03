@@ -65,6 +65,12 @@ CTX = (function() {
     }
   };
 
+  CTX.viewMode = function(key, opt) {
+    return window.$items.fadeOut(Config.get('changeViewModeTime') / 2, function() {
+      return window.$items.attr('view-mode', key).fadeIn(Config.get('changeViewModeTime') / 2);
+    });
+  };
+
   return CTX;
 
 })();
@@ -104,6 +110,19 @@ manageContextMenu = function() {
       hiddenFiles: {
         name: 'Toogle hidden file',
         callback: CTX.toogleShowHiddenFiles
+      },
+      viemMode: {
+        name: 'View mode',
+        items: {
+          icon: {
+            name: "Icons",
+            callback: CTX.viewMode
+          },
+          list: {
+            name: "List",
+            callback: CTX.viewMode
+          }
+        }
       }
     }
   });

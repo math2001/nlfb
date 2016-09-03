@@ -43,40 +43,54 @@ class CTX
 			window.$items.attr('hiding-files', 'on')
 		else
 			window.$items.attr('hiding-files', 'off')
+
+	@viewMode: (key, opt) ->
+
+		window.$items.fadeOut(Config.get('changeViewModeTime') / 2, ->
+			window.$items.attr('view-mode', key)
+			.fadeIn(Config.get('changeViewModeTime') / 2)
+		)
+
 		
 manageContextMenu = ->
-	$.contextMenu({
+	$.contextMenu
 		selector: 'li[data-href]',
-		items: {
-			open: {
+		items:
+			open:
 				name: "Open in real",
 				accesskey: "r"
 				callback: (key, opt) ->
 					CTX.openInReal(opt.$trigger[0])
-			}
-			copy: {
+			copy:
 				name: "Copy",
 				accesskey: "c"
-				items: {
-					name: { 
+				items:
+					name: 
 						name: "Name",
 						callback: (key, opt) ->
 							CTX.copyName(opt.$trigger[0])
-					}
-					path: {
+					
+					path:
 						name: "Path",
 						callback: CTX.copyPath
-					}
-					pathForUrl: {
+					
+					pathForUrl:
 						name: "Path for url",
 						callback: CTX.copyPathForUrl
-					}
-				}
-			},
+					
+				
+			
 			sep1: "---------"
-			hiddenFiles: {
+			hiddenFiles:
 				name: 'Toogle hidden file',
 				callback: CTX.toogleShowHiddenFiles
-			}
-		}
-	});
+			
+			viemMode:
+				name: 'View mode'
+				items:
+					icon:
+						name: "Icons",
+						callback: CTX.viewMode
+					list:
+						name: "List",
+						callback: CTX.viewMode

@@ -78,29 +78,51 @@
 		right -50px
 		opacity 0
 
-.item
-	padding 2px
-	cursor default
-	&:hover, &[focused=on]
-		background-color #e5ebf7
-	
-	&.item-hide
+	&[view-mode=list] .item
+		display block
+		padding 2px
+		cursor default
 		height 25px
-		opacity .7
-		transition all .5s
+		opacity 1
+		&:hover, &[focused=on]
+			background-color #e5ebf7
+		
+		&.item-hide
+			opacity .7
+			transition-property opacity, height
+			transition-duration .3s
 	
-.items[hiding-files=on]
-	.item-hide
-		height 0
-		margin 0
-		overflow hidden
-		opacity 0
+		img
+			max-width 20px
+			max-height 20px
+			vertical-align middle
 	
-.item img
-	width 20px
-	vertical-align middle
+	&[view-mode=icon] .item
+		word-wrap break-word
+		display inline-block
+		width 75px
+		margin 5px
+		vertical-align top
+		text-overflow ellipsis
+		text-align center
+		cursor default
+		img
+			width 50px
+			height 50px
+			display block
+			margin 0 auto
+		&:hover
+			background-color #e5ebf7
+			
 
-
+	&[hiding-files=on]
+		.item-hide
+			height 0
+			width 0
+			margin 0
+			overflow hidden
+			opacity 0
+	
 /* ------------------------------- */
 /* ------------ Empty ------------ */
 /* ------------------------------- */

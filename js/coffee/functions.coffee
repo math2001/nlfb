@@ -184,6 +184,12 @@ Array::get = (index) ->
 		index = len(this) + index # cause index is negative: - + - = +
 	return this[index]
 
+String::contains = (str) ->
+	for i in [0..len(this)]
+  	if this.slice(i, i + len(str)) == str
+    	return true
+	false
+
 # --------------------------------------- #
 # ------------ Jquery plugin ------------ #
 # --------------------------------------- #
@@ -235,4 +241,7 @@ getFileType = (filename, real=true) ->
 	switch extension
 		when 'gitignore', 'gitattributes'
 			return 'git'
+	if extension.contains('sublime')
+		return 'sublime'
+	
 	extension
