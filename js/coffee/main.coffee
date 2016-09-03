@@ -47,7 +47,7 @@ addItemsTo = ($el, dirs=[], files=[]) ->
 		hide = if $.inArray(dir, Config.get('iFiles')) > -1 then ' item-hide' else ''
 
 		if isImage file
-			iconPath = new Path().go(location.hash.slice(1), file).abs()
+			iconPath = new Path().go(location.hash.slice(1), removeTags(file)).abs()
 		else
 			iconPath = "img/file_types/#{getFileType(file, false)}.svg"
 		$el.append(
@@ -284,8 +284,11 @@ manageSideBarResize = () ->
 
 manageSearch = ->
 	$(document).bind('keydown', (e) ->
-		if e.keyCode == 32
+		if e.keyCode == 32 and not window.$search.is(':focus')
+			e.preventDefault()
 			window.$search.focus()
+
+
 	)
 	window.$search.bind('input', (e) ->
 		if window.files == null or window.dirs == null
@@ -303,6 +306,9 @@ manageSearch = ->
 			dirs = advancedResearch(window.dirs, val)
 		window.$items.html('')
 		addItemsTo(window.$items, dirs, files)
+	).bind('keydown', (e) ->
+		if e.keyCode == code('escape')
+			window.$search.blur()
 	)
 
 

@@ -1,4 +1,4 @@
-var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, openInNewTab, pathJoin, quote, say, startWith, str, trim,
+var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, openInNewTab, pathJoin, quote, removeTags, say, startWith, str, trim,
   slice = [].slice;
 
 len = function(el) {
@@ -45,6 +45,10 @@ arr = function(el) {
 
 say = function() {
   return alert(list(arguments).join(' '));
+};
+
+removeTags = function(str) {
+  return $('<div></div>').html(str).text();
 };
 
 array_diff = function(arr1, arr2) {
@@ -167,7 +171,7 @@ getPath = function(invalidPath) {
   if (path === '') {
     path = '.';
   }
-  return path.replace(/<\/?[^>]+(>|$)/g, "");
+  return path = removeTags(path);
 };
 
 extract = function(obj, objToSave) {

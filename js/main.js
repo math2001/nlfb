@@ -66,7 +66,7 @@ addItemsTo = function($el, dirs, files) {
     file = files[k];
     hide = $.inArray(dir, Config.get('iFiles')) > -1 ? ' item-hide' : '';
     if (isImage(file)) {
-      iconPath = new Path().go(location.hash.slice(1), file).abs();
+      iconPath = new Path().go(location.hash.slice(1), removeTags(file)).abs();
     } else {
       iconPath = "img/file_types/" + (getFileType(file, false)) + ".svg";
     }
@@ -309,7 +309,8 @@ manageSideBarResize = function() {
 
 manageSearch = function() {
   $(document).bind('keydown', function(e) {
-    if (e.keyCode === 32) {
+    if (e.keyCode === 32 && !window.$search.is(':focus')) {
+      e.preventDefault();
       return window.$search.focus();
     }
   });
@@ -329,6 +330,10 @@ manageSearch = function() {
     }
     window.$items.html('');
     return addItemsTo(window.$items, dirs, files);
+  }).bind('keydown', function(e) {
+    if (e.keyCode === code('escape')) {
+      return window.$search.blur();
+    }
   });
 };
 

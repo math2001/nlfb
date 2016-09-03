@@ -16,6 +16,8 @@ arr   = (el) -> list(el)
 
 say = -> alert(list(arguments).join(' '));
 
+removeTags = (str) ->
+	$('<div></div>').html(str).text()
 
 array_diff = (arr1, arr2) ->
 	arr = []
@@ -94,7 +96,7 @@ getPath = (invalidPath) ->
 	path = path + '/' + invalidPath if invalidPath != undefined
 
 	path = '.' if path == ''
-	path.replace(/<\/?[^>]+(>|$)/g, ""); # remove any tag
+	path = removeTags(path)
 
 extract = (obj, objToSave=false) ->
 	isValid = (varName) ->
