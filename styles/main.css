@@ -92,6 +92,19 @@ article {
   overflow: hidden;
   padding-left: 10px;
 }
+code {
+  border: 1px solid #aaa;
+  padding: 1px 5px;
+}
+pre {
+  background-color: #383c40;
+  color: #fff;
+  padding: 5px;
+}
+pre code {
+  border: none;
+  padding: 0;
+}
 .navbar {
   border-bottom: 1px solid #aaa;
   height: 57px;
@@ -560,6 +573,97 @@ header .search:focus {
 }
 .context-menu-accesskey {
   text-decoration: underline;
+}
+.mfade {
+  background-color: rgba(0,0,0,0.533);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 495;
+}
+.modal {
+  position: absolute;
+  border-radius: 3px;
+  background-color: #fff;
+  top: 10%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 550px;
+  z-index: 500;
+  overflow: hidden;
+}
+.modal .mheader {
+  text-align: center;
+  border-bottom: 1px solid #aaa;
+  position: relative;
+  height: 35px;
+  line-height: 35px;
+}
+.modal .mheader h3 {
+  margin: 0;
+}
+.modal .mheader h3 .close {
+  position: absolute;
+  right: 10px;
+  font-size: 25px;
+  margin-top: -2px;
+  cursor: pointer;
+  color: #888;
+}
+.modal .mheader h3 .close:hover {
+  color: #000;
+}
+.modal .mbody {
+  padding: 0 10px;
+  overflow: auto;
+}
+.modal .mfooter {
+  height: 45px;
+  line-height: 45px;
+  padding-right: 5px;
+  text-align: right;
+}
+.modal .mfooter button {
+  background-color: transparent;
+  border: 1px solid #555;
+  border-color: #ccc;
+  border-radius: 3px;
+  font-family: "Open Sans";
+  font-size: 100%;
+  min-width: 100px;
+}
+.modal .mfooter button:last-of-type {
+  border-color: #75b9e7;
+  background-color: #75b9e7;
+  color: #fff;
+}
+.modal .mfooter button:last-of-type:hover {
+  background-color: #3a9bdd;
+}
+.modal .mfooter button:hover {
+  background-color: rgba(238,238,238,0.533);
+}
+.modal[data-type=error] .mheader {
+  background-color: #ff6d6d;
+}
+.modal[data-type=error] .mheader h3 {
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.333);
+}
+.modal[data-type=error] .mheader h3 span {
+  text-shadow: none;
+  color: #666;
+}
+.modal[data-type=error] button:last-of-type {
+  border-color: #ff3a3a;
+  background-color: transparent;
+  color: #333;
+}
+.modal[data-type=error] button:last-of-type:hover {
+  background-color: #ff3a3a;
+  color: #fff;
 }
 .hljs-comment,
 .hljs-quote {

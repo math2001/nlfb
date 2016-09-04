@@ -30,10 +30,10 @@ str = function(el) {
 };
 
 list = function(el) {
-  var e, j, len1, results;
+  var e, k, len1, results;
   results = [];
-  for (j = 0, len1 = el.length; j < len1; j++) {
-    e = el[j];
+  for (k = 0, len1 = el.length; k < len1; k++) {
+    e = el[k];
     results.push(e);
   }
   return results;
@@ -52,10 +52,10 @@ removeTags = function(str) {
 };
 
 array_diff = function(arr1, arr2) {
-  var el, j, len1;
+  var el, k, len1;
   arr = [];
-  for (j = 0, len1 = arr1.length; j < len1; j++) {
-    el = arr1[j];
+  for (k = 0, len1 = arr1.length; k < len1; k++) {
+    el = arr1[k];
     if (arr2.indexOf(el) === -1) {
       arr.push(el);
     }
@@ -87,9 +87,9 @@ quote = function(str) {
 };
 
 forEach = function(obj, func) {
-  var i, j, key, keys, len1;
+  var i, k, key, keys, len1;
   keys = Object.keys(obj);
-  for (i = j = 0, len1 = keys.length; j < len1; i = ++j) {
+  for (i = k = 0, len1 = keys.length; k < len1; i = ++k) {
     key = keys[i];
     func(key, obj[key], obj, i);
   }
@@ -97,39 +97,39 @@ forEach = function(obj, func) {
 };
 
 extend = function(obj1, obj2) {
-  var j, k, key, keys1, keys2, len1, len2, obj;
+  var k, key, keys1, keys2, l, len1, len2, obj;
   obj = {};
   keys1 = Object.keys(obj1);
   keys2 = Object.keys(obj2);
-  for (j = 0, len1 = keys1.length; j < len1; j++) {
-    key = keys1[j];
+  for (k = 0, len1 = keys1.length; k < len1; k++) {
+    key = keys1[k];
     obj[key] = obj1[key];
   }
-  for (k = 0, len2 = keys2.length; k < len2; k++) {
-    key = keys2[k];
+  for (l = 0, len2 = keys2.length; l < len2; l++) {
+    key = keys2[l];
     obj[key] = obj2[key];
   }
   return obj;
 };
 
 add = function(arr1, arr2) {
-  var el, j, len1;
-  for (j = 0, len1 = arr2.length; j < len1; j++) {
-    el = arr2[j];
+  var el, k, len1;
+  for (k = 0, len1 = arr2.length; k < len1; k++) {
+    el = arr2[k];
     arr1.push(el);
   }
   return arr1;
 };
 
 trim = function(str, charToRemove) {
-  var char, cont, end, i, j, k, len1, len2, ref, start;
+  var char, cont, end, i, k, l, len1, len2, ref, start;
   if (charToRemove == null) {
     charToRemove = ' ';
   }
   start = 0;
   end = len(str);
   cont = true;
-  for (i = j = 0, len1 = str.length; j < len1; i = ++j) {
+  for (i = k = 0, len1 = str.length; k < len1; i = ++k) {
     char = str[i];
     if (cont === true && char === charToRemove) {
       start++;
@@ -139,7 +139,7 @@ trim = function(str, charToRemove) {
   }
   cont = true;
   ref = list(str).reverse();
-  for (i = k = 0, len2 = ref.length; k < len2; i = ++k) {
+  for (i = l = 0, len2 = ref.length; l < len2; i = ++l) {
     char = ref[i];
     if (cont === true && char === charToRemove) {
       end--;
@@ -175,7 +175,7 @@ getPath = function(invalidPath) {
 };
 
 extract = function(obj, objToSave) {
-  var isValid, j, key, len1, ref;
+  var isValid, k, key, len1, ref;
   if (objToSave == null) {
     objToSave = false;
   }
@@ -183,8 +183,8 @@ extract = function(obj, objToSave) {
     return /[a-zA-Z_][a-zA-Z0-9_]+/.test(varName);
   };
   ref = Object.keys(obj);
-  for (j = 0, len1 = ref.length; j < len1; j++) {
-    key = ref[j];
+  for (k = 0, len1 = ref.length; k < len1; k++) {
+    key = ref[k];
     if (isValid(key)) {
       eval("var " + key + " = obj[key]");
     }
@@ -196,7 +196,7 @@ extract = function(obj, objToSave) {
 };
 
 startWith = function(str, word, type) {
-  var j, len1, tested, w;
+  var k, len1, tested, w;
   if (type == null) {
     type = 'any';
   }
@@ -205,8 +205,8 @@ startWith = function(str, word, type) {
     return tested === word;
   }
   if (typeof word !== typeof ['foo']) {
-    for (j = 0, len1 = word.length; j < len1; j++) {
-      w = word[j];
+    for (k = 0, len1 = word.length; k < len1; k++) {
+      w = word[k];
       if (type === 'all' && tested !== word) {
         return false;
       }
@@ -251,12 +251,12 @@ copy = function(str) {
 };
 
 pathJoin = function() {
-  var final, j, len1, p, path, paths, sep;
+  var final, k, len1, p, path, paths, sep;
   paths = 1 <= arguments.length ? slice.call(arguments, 0) : [];
   final = [];
   sep = '/';
-  for (j = 0, len1 = paths.length; j < len1; j++) {
-    path = paths[j];
+  for (k = 0, len1 = paths.length; k < len1; k++) {
+    path = paths[k];
     if (typeof path !== 'string') {
       return console.error("pathJoin: Can only join string and not " + (typeof path));
     }
@@ -276,30 +276,30 @@ String.prototype.strip = function(char) {
 };
 
 Array.prototype.remove = function(el) {
-  var e, i, j, k, l, len1, len2, ref, results;
+  var e, i, k, l, len1, len2, m, ref, results;
   arr = [];
-  for (j = 0, len1 = this.length; j < len1; j++) {
-    e = this[j];
+  for (k = 0, len1 = this.length; k < len1; k++) {
+    e = this[k];
     if (e !== el) {
       arr.push(el);
     }
   }
-  for (i = k = 0, ref = this.length; 0 <= ref ? k <= ref : k >= ref; i = 0 <= ref ? ++k : --k) {
+  for (i = l = 0, ref = this.length; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
     arr.pop();
   }
   results = [];
-  for (l = 0, len2 = arr.length; l < len2; l++) {
-    el = arr[l];
+  for (m = 0, len2 = arr.length; m < len2; m++) {
+    el = arr[m];
     results.push(arr.push(el));
   }
   return results;
 };
 
 Array.prototype.removeAll = function(el) {
-  var e, j, k, len1, len2;
+  var e, k, l, len1, len2;
   arr = [];
-  for (j = 0, len1 = this.length; j < len1; j++) {
-    e = this[j];
+  for (k = 0, len1 = this.length; k < len1; k++) {
+    e = this[k];
     if (el !== e) {
       arr.push(e);
     }
@@ -307,8 +307,8 @@ Array.prototype.removeAll = function(el) {
   while (len(this) > 0) {
     this.shift();
   }
-  for (k = 0, len2 = arr.length; k < len2; k++) {
-    el = arr[k];
+  for (l = 0, len2 = arr.length; l < len2; l++) {
+    el = arr[l];
     this.push(el);
   }
   return this;
@@ -322,8 +322,8 @@ Array.prototype.get = function(index) {
 };
 
 String.prototype.contains = function(str) {
-  var i, j, ref;
-  for (i = j = 0, ref = len(this); 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+  var i, k, ref;
+  for (i = k = 0, ref = len(this); 0 <= ref ? k <= ref : k >= ref; i = 0 <= ref ? ++k : --k) {
     if (this.slice(i, i + len(str)) === str) {
       return true;
     }
@@ -332,12 +332,12 @@ String.prototype.contains = function(str) {
 };
 
 Array.prototype.pop = function(index) {
-  var el, i, j, k, len1, len2;
+  var el, i, k, l, len1, len2;
   if (index == null) {
     index = this.length - 1;
   }
   arr = [];
-  for (i = j = 0, len1 = this.length; j < len1; i = ++j) {
+  for (i = k = 0, len1 = this.length; k < len1; i = ++k) {
     el = this[i];
     if (i !== index) {
       arr.push(el);
@@ -346,17 +346,17 @@ Array.prototype.pop = function(index) {
   while (len(this) > 0) {
     this.shift();
   }
-  for (k = 0, len2 = arr.length; k < len2; k++) {
-    el = arr[k];
+  for (l = 0, len2 = arr.length; l < len2; l++) {
+    el = arr[l];
     this.push(el);
   }
   return this;
 };
 
 $.fn.addClasses = function() {
-  var arg, j, len1;
-  for (j = 0, len1 = arguments.length; j < len1; j++) {
-    arg = arguments[j];
+  var arg, k, len1;
+  for (k = 0, len1 = arguments.length; k < len1; k++) {
+    arg = arguments[k];
     this.addClass(arg);
   }
   return this;
@@ -374,6 +374,25 @@ $.fn.nodeName = function() {
     return console.error('nodeName: No elements!');
   }
   return this[0].nodeName.toLowerCase();
+};
+
+$.fn.get = function(index, to) {
+  var i, j, jquerys, k, len1;
+  if (to == null) {
+    to = null;
+  }
+  if (to === null) {
+    return $(this[index]);
+  }
+  if (to > this.length) {
+    return console.error("Cannot get all the elements to '" + to + "'");
+  }
+  jquerys = this.slice(index, to);
+  for (i = k = 0, len1 = jquerys.length; k < len1; i = ++k) {
+    j = jquerys[i];
+    jquerys[i] = $(j);
+  }
+  return jquerys;
 };
 
 $.isString = function(el) {
@@ -401,9 +420,9 @@ getFileType = function(filename, real) {
 };
 
 normPath = function(path) {
-  var i, item, j, len1;
+  var i, item, k, len1;
   path = path.split('/');
-  for (i = j = 0, len1 = path.length; j < len1; i = ++j) {
+  for (i = k = 0, len1 = path.length; k < len1; i = ++k) {
     item = path[i];
     if (item === '..') {
       if (i > 0 && path[i - 1] !== '..') {
@@ -420,9 +439,9 @@ Path = (function() {
   }
 
   Path.prototype.norm = function() {
-    var i, item, j, len1, path;
+    var i, item, k, len1, path;
     path = this.path.split('/');
-    for (i = j = 0, len1 = path.length; j < len1; i = ++j) {
+    for (i = k = 0, len1 = path.length; k < len1; i = ++k) {
       item = path[i];
       if (item === '..') {
         if (i > 0 && path[i - 1] !== '..') {

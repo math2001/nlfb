@@ -24,13 +24,9 @@ That's it, open [localhost](http://localhost) and *savourez*.
 - open in **real** (new tab)
 - ignored files/folders/projects
 
-## Features to add (imperative)
-
-- 404 message
-
 ## Features to add
 
-- view mode (icon, list)
 - load full sidebar at the beginning (settings)
 - customs alias
 - add icons to context menu
+- add the use of a screenshot.(jpg|png) for project instead of a folder images

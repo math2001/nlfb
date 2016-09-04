@@ -157,14 +157,18 @@ update = (mess, type, jqXHR) ->
 	)
 
 loadDirs = (path=false, func=false, data=false) ->
+	path = getPath() if path == false
 	$.ajax({
 		url: "./index.server.php",
 		method: "GET", 
 		data: $.extend({
-			path: path || getPath()
+			path: path
 		}, data || {})
 	}).done(func || update).fail((jqXHR, type, obj) ->
-		say('Error: Fail on loading files from server!')
+		window.modals.simple("404!", "
+			<p>An error has occurred while we were loading files at <code>#{path}</code> from server.</p>
+			<pre>#{jqXHR.getAllResponseHeaders()}</pre>
+		", "error")
 		console.info jqXHR.getAllResponseHeaders()
 	)
 
@@ -363,7 +367,8 @@ $(window).ready( ->
 
 	window.$document = $ document
 
-	editPath = new ManageEditPath()
+	window.editPath = new ManageEditPath()
+	window.modals = new ModalsManager()
 
 	window.$document.bind('keydown', (e) ->
 		canFocusSomething = $(':focus').length == 0
@@ -371,7 +376,7 @@ $(window).ready( ->
 			e.preventDefault()
 			window.$search.focus()
 		else if e.keyCode == code('e') and canFocusSomething
-			editPath.show()
+			window.editPath.show()
 			e.preventDefault()
 		
 	)

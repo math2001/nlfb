@@ -91,6 +91,7 @@ function listdir($path) {
 			return htmlspecialchars($text);
 		}
 	} else {
+		header('HTTP/1.0 404 Not Found');
 		return "Error: what the hell?! \"$path\"";
 	}
 }

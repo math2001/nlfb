@@ -234,6 +234,16 @@ $.fn.nodeName = ->
 
 	return this[0].nodeName.toLowerCase()
 
+$.fn.get = (index, to=null) ->
+	if to == null
+		return $(this[index])
+	if to > this.length
+		return console.error "Cannot get all the elements to '#{to}'"
+	jquerys = this.slice(index, to)
+	for j, i in jquerys
+		jquerys[i] = $(j)
+	return jquerys
+
 $.isString = (el) ->
 	return typeof el == 'string'
 

@@ -63,16 +63,16 @@
 			</article>
 		</section>
 
-		<div class="modal" id="settings" style="display: none;">
-			<div class="modal-header">
-				<h3>Settings</h3>
-			</div>
-			<div class="modal-body">
-				
-			</div>
-			<div class="modal-footer">
-				<button type="button">Close</button>
-				<button type="button">Save</button>
+		<div class="mfade" style="display: none;">
+			<div class="modal" id="simple-message">
+				<div class="mheader">
+					<h3></h3>
+				</div>
+				<div class="mbody">
+				</div>
+				<div class="mfooter">
+					<button type="button" class="close">OK</button>
+				</div>
 			</div>
 		</div>
 
@@ -97,6 +97,7 @@
 	<script type="text/javascript" src="./js/highlight.js"></script>
 	<script type="text/javascript" src="./js/config.js"></script>
 	<script type="text/javascript" src="./js/context-menu-functions.js"></script>
+	<script type="text/javascript" src="./js/modals.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 
 </body>

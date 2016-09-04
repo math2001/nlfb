@@ -181,14 +181,17 @@ loadDirs = function(path, func, data) {
   if (data == null) {
     data = false;
   }
+  if (path === false) {
+    path = getPath();
+  }
   return $.ajax({
     url: "./index.server.php",
     method: "GET",
     data: $.extend({
-      path: path || getPath()
+      path: path
     }, data || {})
   }).done(func || update).fail(function(jqXHR, type, obj) {
-    say('Error: Fail on loading files from server!');
+    window.modals.simple("404!", "<p>An error has occurred while we were loading files at <code>" + path + "</code> from server.</p> <pre>" + (jqXHR.getAllResponseHeaders()) + "</pre>", "error");
     return console.info(jqXHR.getAllResponseHeaders());
   });
 };
@@ -390,7 +393,6 @@ manageSearch = function() {
 };
 
 $(window).ready(function() {
-  var editPath;
   Config.init();
   window.$editPath = $('#edit-path');
   window.$main = $('#main');
@@ -401,7 +403,8 @@ $(window).ready(function() {
   window.$search = $('#search');
   window.$contextmenu = $('#item-contextmenu');
   window.$document = $(document);
-  editPath = new ManageEditPath();
+  window.editPath = new ManageEditPath();
+  window.modals = new ModalsManager();
   window.$document.bind('keydown', function(e) {
     var canFocusSomething;
     canFocusSomething = $(':focus').length === 0;
@@ -409,7 +412,7 @@ $(window).ready(function() {
       e.preventDefault();
       return window.$search.focus();
     } else if (e.keyCode === code('e') && canFocusSomething) {
-      editPath.show();
+      window.editPath.show();
       return e.preventDefault();
     }
   });
