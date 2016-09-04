@@ -12,8 +12,10 @@ ModalsManager = (function() {
     };
     this._simple.fader.hide();
     window.$document.on('click', '.modal .close', function() {
-      return $(this).parentsUntil('.mfade').last().parent().fadeOut();
+      $(this).parentsUntil('.mfade').last().parent().fadeOut();
+      return this.hasAModalFocused = false;
     });
+    this.hasAModalFocused = false;
   }
 
   ModalsManager.prototype.simple = function(header, message, type, time) {
@@ -23,10 +25,16 @@ ModalsManager = (function() {
     if (time == null) {
       time = 400;
     }
+    this.hasAModalFocused = true;
     this._simple.modal.attr('data-type', type);
     this._simple.header.text(header).append('<span class="close">&times;</span>');
     this._simple.body.html(message);
     return this._simple.fader.fadeIn(time);
+  };
+
+  ModalsManager.prototype.hideThemAll = function() {
+    this._simple.fader.fadeOut();
+    return console.log(this.name, 'hideThemAll');
   };
 
   return ModalsManager;

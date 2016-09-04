@@ -106,16 +106,24 @@ updateBreadcrumb = function() {
   return true;
 };
 
-update = function(mess, type, jqXHR) {
+update = function(mess, type, jqXHR, isFolderForSure) {
   var codeContent, folderContent, func, imageContent, time;
+  if (isFolderForSure == null) {
+    isFolderForSure = false;
+  }
   updateBreadcrumb();
   folderContent = function() {
-    var $new;
+    var $new, msg;
     extract(mess, window);
     $new = $('<ul></ul>');
     $new.addClass('items');
     if (len(dirs) + len(files) === 0) {
-      $new.html('<p class="cd-empty">Empty</p>');
+      if (type === 'fail') {
+        msg = '...';
+      } else {
+        'Empty';
+      }
+      $new.html("<p class=\"cd-empty\">" + msg + "</p>");
     } else {
       addItemsTo($new, dirs, files);
     }
@@ -134,7 +142,7 @@ update = function(mess, type, jqXHR) {
       "max-height": "100%"
     }));
   };
-  if (jqXHR.getResponseHeader('content-type') === 'application/json') {
+  if (isFolderForSure === true || jqXHR.getResponseHeader('content-type') === 'application/json') {
     func = folderContent;
   } else if (jqXHR.getResponseHeader('content-type') === 'text/html') {
     func = codeContent;
@@ -172,6 +180,7 @@ update = function(mess, type, jqXHR) {
 };
 
 loadDirs = function(path, func, data) {
+  var currentPath;
   if (path == null) {
     path = false;
   }
@@ -181,6 +190,7 @@ loadDirs = function(path, func, data) {
   if (data == null) {
     data = false;
   }
+  currentPath = location.hash;
   if (path === false) {
     path = getPath();
   }
@@ -192,6 +202,11 @@ loadDirs = function(path, func, data) {
     }, data || {})
   }).done(func || update).fail(function(jqXHR, type, obj) {
     window.modals.simple("404!", "<p>An error has occurred while we were loading files at <code>" + path + "</code> from server.</p> <pre>" + (jqXHR.getAllResponseHeaders()) + "</pre>", "error");
+    update({
+      files: [],
+      errors: [],
+      dirs: []
+    }, 'fail', jqXHR, true);
     return console.info(jqXHR.getAllResponseHeaders());
   });
 };
@@ -414,6 +429,9 @@ $(window).ready(function() {
     } else if (e.keyCode === code('e') && canFocusSomething) {
       window.editPath.show();
       return e.preventDefault();
+    } else if (canFocusSomething && window.modals.hasAModalFocused && $.inArray(e.keyCode, [code(' '), code('enter')])) {
+      e.preventDefault();
+      return window.modals.hideThemAll();
     }
   });
   loadDirs();

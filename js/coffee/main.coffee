@@ -85,7 +85,7 @@ updateBreadcrumb = ->
 	shortenPath(0) if window.$breadcrumb.height() > 60
 	return true
 
-update = (mess, type, jqXHR) ->
+update = (mess, type, jqXHR, isFolderForSure=false) ->
 	updateBreadcrumb()
 
 	folderContent = () ->
@@ -93,7 +93,8 @@ update = (mess, type, jqXHR) ->
 		$new = $ '<ul></ul>'
 		$new.addClass('items')
 		if len(dirs) + len(files) == 0
-			$new.html('<p class="cd-empty">Empty</p>')
+			if type == 'fail' then msg = '...' else 'Empty'
+			$new.html("<p class=\"cd-empty\">#{msg}</p>")
 		else
 			addItemsTo($new, dirs, files)
 		
@@ -120,7 +121,7 @@ update = (mess, type, jqXHR) ->
 				})
 			)
 
-	if jqXHR.getResponseHeader('content-type') == 'application/json'
+	if isFolderForSure == true or jqXHR.getResponseHeader('content-type') == 'application/json'
 		func = folderContent
 	else if jqXHR.getResponseHeader('content-type') == 'text/html'
 		func = codeContent
@@ -157,6 +158,7 @@ update = (mess, type, jqXHR) ->
 	)
 
 loadDirs = (path=false, func=false, data=false) ->
+	currentPath = location.hash
 	path = getPath() if path == false
 	$.ajax({
 		url: "./index.server.php",
@@ -169,6 +171,7 @@ loadDirs = (path=false, func=false, data=false) ->
 			<p>An error has occurred while we were loading files at <code>#{path}</code> from server.</p>
 			<pre>#{jqXHR.getAllResponseHeaders()}</pre>
 		", "error")
+		update({files: [], errors: [], dirs: []}, 'fail', jqXHR, true)
 		console.info jqXHR.getAllResponseHeaders()
 	)
 
@@ -378,7 +381,13 @@ $(window).ready( ->
 		else if e.keyCode == code('e') and canFocusSomething
 			window.editPath.show()
 			e.preventDefault()
-		
+		else if (
+			canFocusSomething and window.modals.hasAModalFocused and 
+			$.inArray(e.keyCode, [code(' '), code('enter')])
+		)
+			e.preventDefault()
+			window.modals.hideThemAll()
+
 	)
 	loadDirs()
 	loadProjects()

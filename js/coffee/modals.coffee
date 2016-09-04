@@ -11,14 +11,22 @@ class ModalsManager
 
 		window.$document.on('click', '.modal .close', ->
 			$(this).parentsUntil('.mfade').last().parent().fadeOut()
+			@hasAModalFocused = false
 		)
+
+		@hasAModalFocused = false
 
 
 	simple: (header, message, type=null, time=400) ->
+		@hasAModalFocused = true
 		@_simple.modal.attr('data-type', type)
 		@_simple.header.text(header).append('<span class="close">&times;</span>')
 		@_simple.body.html message
 		@_simple.fader.fadeIn(time)
+
+	hideThemAll: ->
+		@_simple.fader.fadeOut()
+		console.log this.name, 'hideThemAll'
 
 test = ->
 	window.$document = $ document

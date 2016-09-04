@@ -1,4 +1,4 @@
-var Path, add, arr, array_diff, code, copy, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, normPath, openInNewTab, pathJoin, quote, removeTags, say, startWith, str, trim,
+var Path, add, arr, array_diff, code, copy, copyThing, die, extend, extract, float, forEach, getFileType, getPath, int, len, list, moveUp, normPath, openInNewTab, pathJoin, quote, removeTags, say, startWith, str, trim,
   slice = [].slice;
 
 len = function(el) {
@@ -268,6 +268,18 @@ pathJoin = function() {
   return final.join(sep);
 };
 
+copyThing = function(el) {
+  var char, k, len1, newStr;
+  if (typeof el === 'string') {
+    newStr = '';
+    for (k = 0, len1 = el.length; k < len1; k++) {
+      char = el[k];
+      newStr += el;
+    }
+    return newStr;
+  }
+};
+
 String.prototype.strip = function(char) {
   if (char == null) {
     char = '/';
@@ -376,7 +388,7 @@ $.fn.nodeName = function() {
   return this[0].nodeName.toLowerCase();
 };
 
-$.fn.get = function(index, to) {
+$.fn.nb = function(index, to) {
   var i, j, jquerys, k, len1;
   if (to == null) {
     to = null;

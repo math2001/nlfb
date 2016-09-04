@@ -162,6 +162,13 @@ pathJoin = (paths...) ->
 		final.push p if p != ''
 	final.join(sep)
 
+copyThing = (el) ->
+	if typeof el == 'string'
+		newStr = ''
+		for char in el
+			newStr += el
+		return newStr
+
 
 # ------------------------------- #
 # ------------ proto ------------ #
@@ -234,7 +241,7 @@ $.fn.nodeName = ->
 
 	return this[0].nodeName.toLowerCase()
 
-$.fn.get = (index, to=null) ->
+$.fn.nb = (index, to=null) ->
 	if to == null
 		return $(this[index])
 	if to > this.length
