@@ -76,54 +76,63 @@ CTX = (function() {
 })();
 
 manageContextMenu = function() {
-  return $.contextMenu({
-    selector: 'li[data-href]',
-    items: {
-      open: {
-        name: "Open in real",
-        accesskey: "r",
-        callback: function(key, opt) {
-          return CTX.openInReal(opt.$trigger[0]);
-        }
-      },
-      copy: {
-        name: "Copy",
-        accesskey: "c",
-        items: {
-          name: {
-            name: "Name",
-            callback: function(key, opt) {
-              return CTX.copyName(opt.$trigger[0]);
-            }
-          },
-          path: {
-            name: "Path",
-            callback: CTX.copyPath
-          },
-          pathForUrl: {
-            name: "Path for url",
-            callback: CTX.copyPathForUrl
+  var forDataHref, view;
+  forDataHref = {
+    open: {
+      name: "Open in real",
+      accesskey: "r",
+      callback: function(key, opt) {
+        return CTX.openInReal(opt.$trigger[0]);
+      }
+    },
+    copy: {
+      name: "Copy",
+      accesskey: "c",
+      items: {
+        name: {
+          name: "Name",
+          callback: function(key, opt) {
+            return CTX.copyName(opt.$trigger[0]);
           }
-        }
-      },
-      sep1: "---------",
-      hiddenFiles: {
-        name: 'Toogle hidden file',
-        callback: CTX.toogleShowHiddenFiles
-      },
-      viemMode: {
-        name: 'View mode',
-        items: {
-          icon: {
-            name: "Icons",
-            callback: CTX.viewMode
-          },
-          list: {
-            name: "List",
-            callback: CTX.viewMode
-          }
+        },
+        path: {
+          name: "Path",
+          callback: CTX.copyPath
+        },
+        pathForUrl: {
+          name: "Path for url",
+          callback: CTX.copyPathForUrl
         }
       }
     }
+  };
+  view = {
+    hiddenFiles: {
+      name: 'Toogle hidden file',
+      callback: CTX.toogleShowHiddenFiles
+    },
+    viemMode: {
+      name: 'View mode',
+      items: {
+        icon: {
+          name: "Icons",
+          callback: CTX.viewMode
+        },
+        list: {
+          name: "List",
+          callback: CTX.viewMode
+        }
+      }
+    }
+  };
+  $.contextMenu({
+    selector: '.items',
+    items: view
+  });
+  return $.contextMenu({
+    selector: 'li[data-href]',
+    items: $.extend(forDataHref, {
+      sep1: '---'
+    }, view)
   });
 };

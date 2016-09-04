@@ -340,16 +340,10 @@ header .search:focus {
   padding: 2px;
   cursor: default;
   height: 25px;
-  opacity: 1;
 }
 .items[view-mode=list] .item:hover,
 .items[view-mode=list] .item[focused=on] {
   background-color: #e5ebf7;
-}
-.items[view-mode=list] .item.item-hide {
-  opacity: 0.7;
-  transition-property: opacity, height;
-  transition-duration: 0.3s;
 }
 .items[view-mode=list] .item img {
   max-width: 20px;
@@ -367,17 +361,20 @@ header .search:focus {
   cursor: default;
 }
 .items[view-mode=icon] .item img {
-  width: 50px;
-  height: 50px;
+  width: 75%;
+  height: 75%;
   display: block;
   margin: 0 auto;
 }
 .items[view-mode=icon] .item:hover {
   background-color: #e5ebf7;
 }
-.items[hiding-files=on] .item-hide {
-  height: 0;
-  width: 0;
+.items[hiding-files][view-mode] .item-hide {
+  opacity: 0.5;
+}
+.items[hiding-files=on][view-mode] .item-hide {
+  height: 0px;
+  width: 0px;
   margin: 0;
   overflow: hidden;
   opacity: 0;
