@@ -3,13 +3,21 @@ var Path;
 Path = (function() {
   function Path() {}
 
-  Path.path = '/';
-
-  Path.prototype.join = function(to) {
-    return this.path + to.strip('/') + '/';
+  Path.init = function(em) {
+    this.em = em;
+    this.path = '/';
+    return this.bindEvents();
   };
 
-  Path.prototype.go = function() {
+  Path.join = function(to) {
+    var path;
+    path = this.path.split('/');
+    path.remove('');
+    path.push(to.strip('/'));
+    return '/' + path.join('/');
+  };
+
+  Path.go = function() {
     var arg, j, len;
     for (j = 0, len = arguments.length; j < len; j++) {
       arg = arguments[j];
@@ -18,7 +26,7 @@ Path = (function() {
     return this;
   };
 
-  Path.prototype.dirname = function(times) {
+  Path.dirname = function(times) {
     var i, j, ref;
     if (times == null) {
       times = 1;
@@ -33,6 +41,14 @@ Path = (function() {
     }
     this.path = this.path.join('/');
     return this;
+  };
+
+  Path.bindEvents = function() {
+    var editPath;
+    editPath = function(path) {
+      return this.path = path;
+    };
+    return this.em.on('navigate', editPath.bind(this));
   };
 
   return Path;

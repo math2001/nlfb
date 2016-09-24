@@ -1,16 +1,21 @@
 class Path
 
-	@path = '/'
+	@init: (@em) ->
+		@path = '/'
+		@bindEvents()
 
-	join: (to) ->
-		return @path + to.strip('/') + '/'
+	@join: (to) ->
+		path = @path.split('/')
+		path.remove('')
+		path.push(to.strip('/'))
+		'/' + path.join('/')
 
-	go: ->
+	@go: ->
 		for arg in arguments
 			@path = @join(arg)
 		@
 
-	dirname: (times=1) ->
+	@dirname: (times=1) ->
 		@path = @path.split('/')
 		for i in [0..times]
 			if @path.get(-1) != '..'
@@ -19,4 +24,9 @@ class Path
 				@path.push('..')
 		@path = @path.join('/')
 		@
+
+	@bindEvents: ->
+		editPath = (path) ->
+			@path = path
+		@em.on('navigate', editPath.bind(@))
 

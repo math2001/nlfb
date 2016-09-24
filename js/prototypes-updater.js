@@ -1,3 +1,15 @@
+var forEach;
+
+forEach = function(obj, func) {
+  var i, j, key, keys, len;
+  keys = Object.keys(obj);
+  for (i = j = 0, len = keys.length; j < len; i = ++j) {
+    key = keys[i];
+    func(key, obj[key], obj, i);
+  }
+  return obj;
+};
+
 Array.prototype.__update = function(arr) {
   var j, len, val;
   while (this.length > 0) {
@@ -29,16 +41,16 @@ Array.prototype.get = function(index) {
   return this[index];
 };
 
-String.prototype.strip = function(str, charToRemove) {
+String.prototype.strip = function(charToRemove) {
   var char, cont, end, i, j, k, len, len1, ref, start;
   if (charToRemove == null) {
     charToRemove = ' ';
   }
   start = 0;
-  end = str.length;
+  end = this.length;
   cont = true;
-  for (i = j = 0, len = str.length; j < len; i = ++j) {
-    char = str[i];
+  for (i = j = 0, len = this.length; j < len; i = ++j) {
+    char = this[i];
     if (cont === true && char === charToRemove) {
       start++;
     } else {
@@ -46,7 +58,7 @@ String.prototype.strip = function(str, charToRemove) {
     }
   }
   cont = true;
-  ref = str.split('').reverse();
+  ref = this.split('').reverse();
   for (i = k = 0, len1 = ref.length; k < len1; i = ++k) {
     char = ref[i];
     if (cont === true && char === charToRemove) {
@@ -55,5 +67,12 @@ String.prototype.strip = function(str, charToRemove) {
       cont = false;
     }
   }
-  return str.slice(start, end);
+  return this.slice(start, end);
+};
+
+String.prototype.wrap = function(char) {
+  if (char == null) {
+    char = '"';
+  }
+  return char + this + char;
 };

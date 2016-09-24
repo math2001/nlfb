@@ -1,61 +1,92 @@
 var Items;
 
 Items = (function() {
-  function Items(path, em) {
-    this.path = path;
+  function Items(path1, em) {
+    this.path = path1;
     this.em = em;
-    this.files = [];
-    this.folders = [];
+    this.files = {};
+    this.folders = {};
     this.$items = $('.items');
     this.template = $('#items-template').html();
     this.loadItems();
+    this.bindDOM();
+    this.bindEvent();
   }
 
-  Items.prototype.loadItems = function() {
+  Items.prototype.loadItems = function(path) {
+    var done, fail;
+    done = function(mess, textStatus, jqXHR) {
+      if (jqXHR.getResponseHeader('content-type') === 'HTTP/1.0 404 Not Found') {
+        alert('error on load file');
+        console.log(jqXHR.getAllResponseHeader());
+      }
+      this.files = mess.files;
+      this.folders = mess.folders;
+      return this.render();
+    };
+    fail = function() {
+      alert('fail on loading!');
+      return console.log(arguments);
+    };
     return $.ajax({
       url: "getitems.php",
       method: "GET",
       data: {
-        path: Path.path,
+        path: path || this.path.path,
         noticer: 'index'
       }
-    }).done(this.done.bind(this)).fail(this.fail);
+    }).done(done.bind(this)).fail(fail.bind(this));
+  };
+
+  Items.prototype.bindDOM = function() {
+    var fireNavigation;
+    fireNavigation = function(e) {
+      return e.data["this"].em.emit('update-path', $(this).attr('data-href').slice(1));
+    };
+    return $(document.body).on('click', '.item[data-href]', {
+      "this": this
+    }, fireNavigation);
+  };
+
+  Items.prototype.bindEvent = function() {
+    return this.em.on('navigate', this.loadItems.bind(this));
   };
 
   Items.prototype.render = function(files, folders) {
-    var data, file, folder, i, j, len, len1, ref, ref1;
+    var data, filesIter, foldersIter;
     data = {
       files: [],
       folders: []
     };
-    console.log(files || this.files);
-    ref = files || this.files;
-    for (i = 0, len = ref.length; i < len; i++) {
-      file = ref[i];
-      console.log(file);
-      data.files.push({
+    filesIter = function(file, isImage) {
+      var fileData;
+      fileData = {
         name: file,
-        path: Path.join(file),
-        icon: "./img/file_types/default.svg"
-      });
-    }
-    ref1 = folders || this.folders;
-    for (j = 0, len1 = ref1.length; j < len1; j++) {
-      folder = ref1[j];
-      data.folders.push({
+        path: this.path.join(file)
+      };
+      if (isImage) {
+        fileData.icon = fileData.path;
+      } else {
+        fileData.icon = './img/file_types/default.svg';
+      }
+      return data.files.push(fileData);
+    };
+    foldersIter = function(folder, hasIndex) {
+      var folderData;
+      folderData = {
         name: folder,
-        path: Path.join(folder),
-        icon: './img/folder.svg'
-      });
-    }
-    console.log(data);
+        path: this.path.join(folder)
+      };
+      if (hasIndex) {
+        folderData.icon = './img/folder-index.svg';
+      } else {
+        folderData.icon = './img/folder.svg';
+      }
+      return data.folders.push(folderData);
+    };
+    forEach(files || this.files, filesIter.bind(this));
+    forEach(folders || this.folders, foldersIter.bind(this));
     return this.$items.html(Mustache.render(this.template, data));
-  };
-
-  Items.prototype.done = function(mess, textStatus, jqXHR) {
-    this.files = mess.files;
-    this.folders = mess.folders;
-    return this.render();
   };
 
   return Items;

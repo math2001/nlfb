@@ -19,7 +19,16 @@ EM = (function() {
   };
 
   EM.emit = function(eventName, data) {
-    var fn, i, len, ref;
+    var dataToRender, fn, i, len, ref;
+    if (typeof this.listeners[eventName] === "undefined") {
+      return console.error("Unknown event '" + eventName + "'");
+    }
+    if (typeof data === 'string') {
+      dataToRender = data.wrap();
+    } else {
+      dataToRender = data;
+    }
+    console.info('emit', eventName.wrap(), 'with', dataToRender);
     ref = this.listeners[eventName];
     for (i = 0, len = ref.length; i < len; i++) {
       fn = ref[i];

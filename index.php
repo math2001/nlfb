@@ -57,7 +57,7 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
-		 		<div class="items" hiding-files=on view-mode=list>
+		 		<div class="items" hiding-files=on view-mode=icon>
 					Loading...
 		 		</div>
 				</ul>
@@ -88,18 +88,16 @@
 	
 	<!-- Template for mustache -->
 	<script type="text/template" id="items-template">
-		<!-- <ul> -->
-			{{ #folders }}
-				<li class="item" data-href="{{ path }}">
-					<img src="{{icon}}"> <a>{{ name }}</a>
-				</li>
-			{{ /folders }}
-			{{ #files }}
-				<li class="item">
-					<img src="{{ icon }}"> <a data-href="{{ path }}">{{ name }}</a>
-				</li>
-			{{ /files }}
-		<!-- </ul> -->
+		{{ #folders }}
+			<li class="item" data-href="#{{ path }}">
+				<img src="{{icon}}"> <a>{{ name }}</a>
+			</li>
+		{{ /folders }}
+		{{ #files }}
+			<li class="item">
+				<img src="{{ icon }}"> <a data-href="#{{ path }}">{{ name }}</a>
+			</li>
+		{{ /files }}
 	</script>
 
 	<!-- Jquery -->
@@ -114,6 +112,7 @@
 	<script type="text/javascript" src="./js/prototypes-updater.js"></script>
 
 	<script type="text/javascript" src="./js/event-manager.js"></script>
+	<script type="text/javascript" src="./js/hash.js"></script>
 	<script type="text/javascript" src="./js/path.js"></script>
 	<script type="text/javascript" src="./js/items.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
