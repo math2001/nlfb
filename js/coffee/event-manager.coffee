@@ -1,6 +1,7 @@
 class EM
 
 	@listeners = {}
+	@debug = false
 
 	@on: (eventName, fn) ->
 		if typeof @listeners[eventName] == "undefined"
@@ -21,8 +22,11 @@ class EM
 		else
 			dataToRender = data
 
-		console.info 'emit', eventName.wrap(), 'with', dataToRender
+		console.info 'emit', eventName.wrap(), 'with', dataToRender if @debug
 
 		for fn in @listeners[eventName]
 			fn(data)
 		@
+
+	@fire: ->
+		@emit(arguments...)

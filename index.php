@@ -35,7 +35,7 @@
 			<article id="main">
 			 	<div class="navbar">
 			 		<span class="navbar-btn-wrapper">
-			 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="move-up">
+			 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="dirname" id="move-up">
 						  <path fill="#ccc" d="M28.796 198.804l127.2-115.2v278.4h40v-278.4l124 115.2 28.8-30-172.8-168.8-176 166.8z"/>
 						</svg>
 
@@ -113,9 +113,17 @@
 
 	<script type="text/javascript" src="./js/event-manager.js"></script>
 	<script type="text/javascript" src="./js/hash.js"></script>
+	<script type="text/javascript" src="./js/tools.js"></script>
 	<script type="text/javascript" src="./js/path.js"></script>
 	<script type="text/javascript" src="./js/items.js"></script>
-	<script type="text/javascript" src="./js/main.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			Hash.init(EM);
+			Path.init(EM);
+			Tools.init(EM)
+			new Items(Path, EM);
+		})
+	</script>
 
 </body>
 </html>

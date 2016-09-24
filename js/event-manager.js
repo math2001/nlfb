@@ -5,6 +5,8 @@ EM = (function() {
 
   EM.listeners = {};
 
+  EM.debug = false;
+
   EM.on = function(eventName, fn) {
     if (typeof this.listeners[eventName] === "undefined") {
       this.listeners[eventName] = [];
@@ -28,13 +30,19 @@ EM = (function() {
     } else {
       dataToRender = data;
     }
-    console.info('emit', eventName.wrap(), 'with', dataToRender);
+    if (this.debug) {
+      console.info('emit', eventName.wrap(), 'with', dataToRender);
+    }
     ref = this.listeners[eventName];
     for (i = 0, len = ref.length; i < len; i++) {
       fn = ref[i];
       fn(data);
     }
     return this;
+  };
+
+  EM.fire = function() {
+    return this.emit.apply(this, arguments);
   };
 
   return EM;

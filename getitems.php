@@ -11,6 +11,10 @@
 			echo "<pre>".print_r($v, true)."</pre>"; 
 		}
 	}
+	function kill() {
+		call_user_func_array('debug', func_get_args());
+		die('kill');
+	}	
 	function pathjoin() {
 		$path = [];
 		foreach (func_get_args() as $k => $v) {
@@ -50,16 +54,13 @@ $path = $_GET['path'];
 $path = pathjoin($CONF['base_path'], $path);
 
 function is_image($item) {
-	return in_array(
-		strtolower(pathinfo($item)['extension']), 
+	$pathinfo = pathinfo($item);
+	return array_key_exists('extension', $pathinfo) and in_array(
+		strtolower($pathinfo['extension']), 
 		['png', 'gif', 'bmp', 'svg', 'jpg', 'jpeg', 'ico']
 	);
 }
 
-/**
-* List dirs and files
-* @return [...]
-*/
 function listdir($path) {
 	if (!is_dir($path)) {
 		return null;
@@ -103,7 +104,9 @@ function format_items($path) {
 			$fitems['files'][$item] = is_image($item);
 		} else {
 			debug($temp_path);
-			die('error');
+			header('HTTP/1.0 404 Not Found');
+			header('content-type: text/html');
+			die('error, this is not a dir or a file');
 		}
 	}
 

@@ -1,6 +1,5 @@
 class Items
 
-
 	constructor: (@path, @em) ->
 		@files = {}
 		@folders = {}
@@ -20,16 +19,17 @@ class Items
 
 			if jqXHR.getResponseHeader('content-type') == 'HTTP/1.0 404 Not Found'
 				alert('error on load file')
-				console.log jqXHR.getAllResponseHeader()
+				console.log jqXHR.getAllResponseHeaders()
 
 			@files = mess.files
 			@folders = mess.folders
 
 			@render()
 
-		fail = () ->
-			alert('fail on loading!')
-			console.log arguments
+		fail = (jqXHR, textStatus, errorThrown) ->
+			alert('Fail on loading!')
+			console.log jqXHR.getAllResponseHeaders()
+			
 
 		$.ajax
 			url: "getitems.php",

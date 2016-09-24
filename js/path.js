@@ -17,30 +17,22 @@ Path = (function() {
     return '/' + path.join('/');
   };
 
-  Path.go = function() {
-    var arg, j, len;
-    for (j = 0, len = arguments.length; j < len; j++) {
-      arg = arguments[j];
-      this.path = this.join(arg);
-    }
-    return this;
-  };
-
   Path.dirname = function(times) {
-    var i, j, ref;
+    var i, j, path, ref;
     if (times == null) {
       times = 1;
     }
-    this.path = this.path.split('/');
-    for (i = j = 0, ref = times; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      if (this.path.get(-1) !== '..') {
-        this.path = this.path.slice(0, -1);
+    path = this.path.split('/');
+    path.remove('');
+    for (i = j = 0, ref = times; 0 <= ref ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+      if (path.get(-1) !== '..' && path.length > 0) {
+        path = path.slice(0, -1);
       } else {
-        this.path.push('..');
+        path.push('..');
       }
     }
-    this.path = this.path.join('/');
-    return this;
+    path = '/' + path.join('/');
+    return path;
   };
 
   Path.bindEvents = function() {

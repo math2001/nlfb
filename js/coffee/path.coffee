@@ -10,20 +10,16 @@ class Path
 		path.push(to.strip('/'))
 		'/' + path.join('/')
 
-	@go: ->
-		for arg in arguments
-			@path = @join(arg)
-		@
-
 	@dirname: (times=1) ->
-		@path = @path.split('/')
-		for i in [0..times]
-			if @path.get(-1) != '..'
-				@path = @path.slice(0, -1)
+		path = @path.split('/')
+		path.remove('')
+		for i in [0...times]
+			if path.get(-1) != '..' and path.length > 0	
+				path = path.slice(0, -1)
 			else
-				@path.push('..')
-		@path = @path.join('/')
-		@
+				path.push('..')
+		path = '/' + path.join('/')
+		path
 
 	@bindEvents: ->
 		editPath = (path) ->

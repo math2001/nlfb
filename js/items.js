@@ -18,15 +18,15 @@ Items = (function() {
     done = function(mess, textStatus, jqXHR) {
       if (jqXHR.getResponseHeader('content-type') === 'HTTP/1.0 404 Not Found') {
         alert('error on load file');
-        console.log(jqXHR.getAllResponseHeader());
+        console.log(jqXHR.getAllResponseHeaders());
       }
       this.files = mess.files;
       this.folders = mess.folders;
       return this.render();
     };
-    fail = function() {
-      alert('fail on loading!');
-      return console.log(arguments);
+    fail = function(jqXHR, textStatus, errorThrown) {
+      alert('Fail on loading!');
+      return console.log(jqXHR.getAllResponseHeaders());
     };
     return $.ajax({
       url: "getitems.php",

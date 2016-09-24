@@ -16,12 +16,15 @@ Array::__update = (arr) ->
 		this.push(val)
 	this
 
-Array::remove = (valToRemove) ->
-	# remove all `valToRemove` from this
+Array::remove = (valToRemove, times=2) ->
+	# remove <times> times `valToRemove` from this
+	# if <times> == -1 then it removes all of them
 	arr = []
 	for val in this
-		if val != valToRemove
+		if times == 0 or val != valToRemove
 			arr.push(val)
+		else if val == valToRemove
+			times -= 1
 	this.__update(arr)
 
 Array::get = (index) ->
@@ -47,5 +50,11 @@ String::strip = (charToRemove=' ') ->
 			cont = false
 
 	return @slice(start, end)
+
 String::wrap = (char='"') ->
 	return char + this + char
+
+
+
+$.fn.exists = (nice=false) ->
+	return this.length > 0

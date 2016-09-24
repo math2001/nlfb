@@ -22,13 +22,18 @@ Array.prototype.__update = function(arr) {
   return this;
 };
 
-Array.prototype.remove = function(valToRemove) {
+Array.prototype.remove = function(valToRemove, times) {
   var arr, j, len, val;
+  if (times == null) {
+    times = 2;
+  }
   arr = [];
   for (j = 0, len = this.length; j < len; j++) {
     val = this[j];
-    if (val !== valToRemove) {
+    if (times === 0 || val !== valToRemove) {
       arr.push(val);
+    } else if (val === valToRemove) {
+      times -= 1;
     }
   }
   return this.__update(arr);
@@ -75,4 +80,11 @@ String.prototype.wrap = function(char) {
     char = '"';
   }
   return char + this + char;
+};
+
+$.fn.exists = function(nice) {
+  if (nice == null) {
+    nice = false;
+  }
+  return this.length > 0;
 };
