@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  var em;
+  var em, path;
   em = new EM();
-  return new Items(em);
+  path = new Path();
+  return new Items(path, em);
 });

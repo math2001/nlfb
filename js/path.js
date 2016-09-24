@@ -5,11 +5,11 @@ Path = (function() {
 
   Path.path = '/';
 
-  Path.join = function(to) {
+  Path.prototype.join = function(to) {
     return this.path + to.strip('/') + '/';
   };
 
-  Path.go = function() {
+  Path.prototype.go = function() {
     var arg, j, len;
     for (j = 0, len = arguments.length; j < len; j++) {
       arg = arguments[j];
@@ -18,7 +18,7 @@ Path = (function() {
     return this;
   };
 
-  Path.dirname = function(times) {
+  Path.prototype.dirname = function(times) {
     var i, j, ref;
     if (times == null) {
       times = 1;

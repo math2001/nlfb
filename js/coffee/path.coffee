@@ -2,15 +2,15 @@ class Path
 
 	@path = '/'
 
-	@join: (to) ->
+	join: (to) ->
 		return @path + to.strip('/') + '/'
 
-	@go: ->
+	go: ->
 		for arg in arguments
 			@path = @join(arg)
 		@
 
-	@dirname: (times=1) ->
+	dirname: (times=1) ->
 		@path = @path.split('/')
 		for i in [0..times]
 			if @path.get(-1) != '..'

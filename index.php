@@ -16,7 +16,8 @@
 				<ul>
 					<li><a href="/phpmyadmin/">phpmyadmin</a></li>
 					<li class="nav-sep"></li>
-					<li><a href="index.server.php">Server</a></li>
+					<li><a href="index.server.php">Server 1.0</a></li>
+					<li><a href="getitems.php">Server 2.0</a></li>
 				</ul>
 			</nav>
 			<p class="search-wrapper">

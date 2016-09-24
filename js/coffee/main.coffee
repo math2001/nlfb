@@ -1,4 +1,5 @@
 $(document).ready(->
 	em = new EM()
-	new Items(em)
+	path = new Path()
+	new Items(path, em)
 )
