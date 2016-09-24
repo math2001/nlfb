@@ -56,7 +56,7 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
-		 		<div class="items" hiding-files=on view-mode=icon>
+		 		<div class="items" hiding-files=on view-mode=list>
 					Loading...
 		 		</div>
 				</ul>
@@ -84,20 +84,37 @@
 		<!-- arrow -->
 		<div>Icons made by <a href="http://www.flaticon.com/authors/vaadin" title="Vaadin">Vaadin</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	</div>
+	
+	<!-- Template for mustache -->
+	<script type="text/template" id="items-template">
+		<!-- <ul> -->
+			{{ #folders }}
+				<li class="item" data-href="{{ path }}">
+					<img src="{{icon}}"> <a>{{ name }}</a>
+				</li>
+			{{ /folders }}
+			{{ #files }}
+				<li class="item">
+					<img src="{{ icon }}"> <a data-href="{{ path }}">{{ name }}</a>
+				</li>
+			{{ /files }}
+		<!-- </ul> -->
+	</script>
 
 	<!-- Jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script type="text/javascript" src="./js/functions.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
 	
 	<script type="text/javascript" src="./js/jquery.outside.js"></script>
 	<script type="text/javascript" src="./js/jquery.ui.position.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.contextMenu.min.js"></script>
+
 	
-	
-	<script type="text/javascript" src="./js/highlight.js"></script>
-	<script type="text/javascript" src="./js/config.js"></script>
-	<script type="text/javascript" src="./js/context-menu-functions.js"></script>
-	<script type="text/javascript" src="./js/modals.js"></script>
+	<script type="text/javascript" src="./js/prototypes-updater.js"></script>
+
+	<script type="text/javascript" src="./js/event-manager.js"></script>
+	<script type="text/javascript" src="./js/path.js"></script>
+	<script type="text/javascript" src="./js/items.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 
 </body>
