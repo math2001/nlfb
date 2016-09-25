@@ -108,6 +108,9 @@
 	<script type="text/template" id="items-template-code">
 		<pre class="hljs"><code>{{{ code }}}</code></pre>
 	</script>
+	<script type="text/template" id="items-template-image">
+		<img src="{{ path }}" class="atomic-center">
+	</script>
 	<script type="text/template" id="breadcrumbs-template">
 		<!-- <ul> -->
 			{{ #splitedPath }}

@@ -1,4 +1,5 @@
-var Items;
+var Items,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Items = (function() {
   function Items(path1, em) {
@@ -9,9 +10,11 @@ Items = (function() {
     this.$items = $('.items');
     this.templates = {
       'files and folders': $('#items-template-faf').html(),
-      'code': $('#items-template-code').html()
+      'code': $('#items-template-code').html(),
+      'image': $('#items-template-image').html()
     };
     this.bindEvent();
+    this.supportedIcons = ["ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", "htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", "py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt"];
   }
 
   Items.prototype.loadItems = function(path) {
@@ -42,6 +45,11 @@ Items = (function() {
         return this.render({
           content: mess,
           type: 'code'
+        });
+      } else if (jqXHR.getResponseHeader('content-type') === 'image/png') {
+        return this.render({
+          path: this.path.path,
+          type: 'image'
         });
       } else {
 
@@ -87,7 +95,7 @@ Items = (function() {
   };
 
   Items.prototype.render = function(kwargs) {
-    var code, filesIter, foldersIter, templateData;
+    var code, filesIter, foldersIter, obj, templateData;
     if (kwargs == null) {
       kwargs = {};
     }
@@ -117,7 +125,7 @@ Items = (function() {
         if (isImage) {
           fileData.icon = fileData.path;
         } else {
-          fileData.icon = './img/file_types/default.svg';
+          fileData.icon = this.getIconForFile(this.path.extension(fileData.path));
         }
         return templateData.files.push(fileData);
       };
@@ -150,14 +158,41 @@ Items = (function() {
         console.log('empty!');
       }
     } else if (kwargs.type === 'code') {
-      code = hljs.highlightAuto(kwargs.content).value.replace(/\t/g, '    ');
+      if (this.path.extension() !== 'txt') {
+        obj = hljs.highlightAuto(kwargs.content);
+        code = obj.value.replace(/\t/g, '    ');
+      } else {
+        code = kwargs.content;
+      }
       templateData = {
         code: code
+      };
+    } else if (kwargs.type === 'image') {
+      if (kwargs.path === void 0) {
+        return console.error('No path for image!');
+      }
+      templateData = {
+        path: kwargs.path
       };
     } else {
       console.error("Unknown type '" + kwargs.type + "'! Impossible to render.");
     }
     return this.$items.html(Mustache.render(this.templates[kwargs.type], templateData));
+  };
+
+  Items.prototype.getIconForFile = function(extension) {
+    var ext;
+    ext = 'default';
+    if (indexOf.call(this.supportedIcons, extension) >= 0) {
+      ext = extension;
+    } else if (extension.indexOf('git') >= 0) {
+      ext = 'git';
+    } else if (extension.indexOf('sublime') >= 0) {
+      ext = 'sublime';
+    } else if (extension === 'scss') {
+      ext = 'sass';
+    }
+    return './img/file_types/' + ext + '.svg';
   };
 
   return Items;

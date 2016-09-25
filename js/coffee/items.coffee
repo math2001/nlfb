@@ -7,11 +7,17 @@ class Items
 		@templates = 
 			'files and folders': $('#items-template-faf').html()
 			'code': $('#items-template-code').html()
+			'image': $('#items-template-image').html()
 
 		@bindEvent()
 
-	loadItems: (path) ->
+		@supportedIcons = [
+			"ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", 
+			"htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", 
+			"py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt"
+		]
 
+	loadItems: (path) ->
 		done = (mess, textStatus, jqXHR) ->
 			if jqXHR.getResponseHeader('content-type') == 'application/json'
 
@@ -42,10 +48,9 @@ class Items
 
 			else if jqXHR.getResponseHeader('content-type') == 'text/plain'
 				# view code
-				@render(
-					content: mess
-					type: 'code'
-				)
+				@render({ content: mess, type: 'code' })
+			else if jqXHR.getResponseHeader('content-type') == 'image/png'
+				@render({ path: @path.path, type: 'image' })
 			else
 				# coffeescript apparently cannot handle a finninshing else if
 
@@ -72,7 +77,6 @@ class Items
 		@em.on('navigate', @loadItems.bind(@))
 
 		renderSearch = (mess) ->
-			# @render(mess.files, mess.folders, 'search')
 			@render(
 				type: 'files and folders'
 				files: mess.files,
@@ -116,7 +120,7 @@ class Items
 				if isImage # it is an image
 					fileData.icon = fileData.path
 				else
-					fileData.icon = './img/file_types/default.svg'
+					fileData.icon = @getIconForFile(@path.extension(fileData.path))
 				templateData.files.push(fileData)
 		
 			foldersIter = (folder, val) ->
@@ -141,12 +145,30 @@ class Items
 				console.log 'empty!'
 
 		else if kwargs.type == 'code'
-			code = hljs.highlightAuto(kwargs.content).value.replace(/\t/g, '    ')
+			if @path.extension() isnt 'txt'
+				obj = hljs.highlightAuto(kwargs.content)
+				code = obj.value.replace(/\t/g, '    ')
+			else
+				code = kwargs.content
 			templateData = { code: code }
+		else if kwargs.type == 'image'
+			return console.error 'No path for image!' if kwargs.path is undefined
+			templateData = { path: kwargs.path }
 		
 		else
 			console.error "Unknown type '#{kwargs.type}'! Impossible to render."
 
 		@$items.html(Mustache.render(@templates[kwargs.type], templateData))
 		
-	
+	getIconForFile: (extension) ->
+		ext = 'default'
+		if extension in @supportedIcons
+			ext = extension
+		else if extension.indexOf('git') >= 0
+			ext = 'git'
+		else if extension.indexOf('sublime') >= 0
+			ext = 'sublime'
+		else if extension == 'scss'
+			ext = 'sass'
+		
+		'./img/file_types/' + ext + '.svg'

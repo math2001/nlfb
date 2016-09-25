@@ -36,7 +36,7 @@ Path = (function() {
   };
 
   Path.extension = function(path) {
-    return (path || this.path).split('.').get(-1);
+    return (path || this.path).split('/').get(-1).split('.').get(-1);
   };
 
   Path.bindEvents = function() {

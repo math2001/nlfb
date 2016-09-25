@@ -22,7 +22,7 @@ class Path
 		path
 
 	@extension: (path) ->
-		(path or @path).split('.').get(-1)
+		(path or @path).split('/').get(-1).split('.').get(-1)
 
 	@bindEvents: ->
 		editPath = (path) ->
