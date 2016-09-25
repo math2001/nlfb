@@ -5,7 +5,7 @@ Path = (function() {
 
   Path.init = function(em) {
     this.em = em;
-    this.path = '/';
+    this.path = location.hash.slice(1) || '/';
     return this.bindEvents();
   };
 

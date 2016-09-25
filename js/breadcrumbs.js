@@ -8,6 +8,7 @@ Breadcrumbs = (function() {
     this.path = path1;
     this.$el = $('#breadcrumbs');
     this.template = $('#breadcrumbs-template').html();
+    this.render();
     return this.bindEvents();
   };
 
@@ -20,7 +21,7 @@ Breadcrumbs = (function() {
     data = {
       splitedPath: [
         {
-          name: 'localhost',
+          name: 'Localhost',
           path: '/'
         }
       ]

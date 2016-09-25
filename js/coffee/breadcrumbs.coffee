@@ -4,7 +4,7 @@ class Breadcrumbs
 	@init: (@em, @path) ->
 		@$el = $('#breadcrumbs')
 		@template = $('#breadcrumbs-template').html()
-		# @render()
+		@render()
 		@bindEvents()
 
 	@render: (path=@path.path) ->
@@ -12,7 +12,7 @@ class Breadcrumbs
 		path = path.split('/').remove('')
 		data = {
 			splitedPath: [
-				{ name: 'localhost', path: '/' }
+				{ name: 'Localhost', path: '/' }
 			]
 		}
 		for bit, i in path

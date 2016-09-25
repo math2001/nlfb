@@ -168,6 +168,7 @@ navbar-btn svg:hover path {
 .breadcrumb a {
   color: #86a1ea;
   text-decoration: none;
+  cursor: pointer;
 }
 .breadcrumb a:hover {
   color: #1c42a7;

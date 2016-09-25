@@ -13,7 +13,6 @@ class Items
 
 
 	loadItems: (path) ->
-
 		done = (mess, textStatus, jqXHR) ->
 
 			if jqXHR.getResponseHeader('content-type') == 'HTTP/1.0 404 Not Found'
@@ -29,17 +28,16 @@ class Items
 			alert('Fail on loading!')
 			console.log jqXHR.getAllResponseHeaders()
 			
-
+		path = path or @path.path
 		$.ajax
 			url: "getitems.php",
 			method: "GET",
 			data: 
-				path: path or @path.path
+				path: path
 				noticer: 'index'
 		.done done.bind(@)
 		.fail fail.bind(@)
 
-	
 	bindEvent: ->
 		# listen to the event manager to reload items.
 		@em.on('navigate', @loadItems.bind(@))

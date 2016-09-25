@@ -1,7 +1,7 @@
 class Path
 
 	@init: (@em) ->
-		@path = '/'
+		@path = location.hash.slice(1) or '/'
 		@bindEvents()
 
 	@join: (to) ->

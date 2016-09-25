@@ -27,11 +27,12 @@ Items = (function() {
       alert('Fail on loading!');
       return console.log(jqXHR.getAllResponseHeaders());
     };
+    path = path || this.path.path;
     return $.ajax({
       url: "getitems.php",
       method: "GET",
       data: {
-        path: path || this.path.path,
+        path: path,
         noticer: 'index'
       }
     }).done(done.bind(this)).fail(fail.bind(this));
