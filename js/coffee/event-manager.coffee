@@ -22,7 +22,7 @@ class EM
 		else
 			dataToRender = data
 
-		console.info 'emit', eventName.wrap(), 'with', dataToRender if @debug
+		console.info 'fire', eventName.wrap(), 'with', dataToRender if @debug
 
 		for fn in @listeners[eventName]
 			fn(data)

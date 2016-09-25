@@ -14,21 +14,28 @@ class Items
 
 		done = (mess, textStatus, jqXHR) ->
 			if jqXHR.getResponseHeader('content-type') == 'application/json'
-				@files = mess.files
-				@folders = mess.folders
-				dataForEvent = {}
-				if Object.keys(@files).length > 0
-					dataForEvent.files = $.extend({}, @files)
-				else
-					dataForEvent.files = null
 
-				if Object.keys(@folders).length > 0
-					dataForEvent.folders = $.extend({}, @folders)
+				# mess.files and mess.folders are OBJECT, not ARRAY
+
+				dataForEvent = {}
+
+				if Object.keys(mess.files).length > 0
+					@files =  mess.files
+					dataForEvent.files = copyObject(@files)
 				else
-					dataForEvent.folders = null
-				@em.fire('got-items', dataForEvent)
+					@files = dataForEvent.files = null
+
+				if Object.keys(mess.folders).length > 0
+					@folders =  mess.folders
+					dataForEvent.folders = copyObject(@folders)
+				else
+					@folders = dataForEvent.folders = null
+
+
+				@em.fire('got-items', dataForEvent) # share files and folders
 	
 				@render(@files, @folders)
+
 			else if jqXHR.getResponseHeader('content-type') == 'text/plain'
 				# do super stuff
 			else
@@ -39,8 +46,8 @@ class Items
 		fail = (jqXHR, textStatus, errorThrown) ->
 			alert('Fail on loading!')
 			console.error 'Fail on loading:', textStatus
-			console.log jqXHR.getAllResponseHeaders()
-			console.log jqXHR.responseText
+			console.warn jqXHR.getAllResponseHeaders()
+			console.warn jqXHR.responseText
 			
 		path = path or @path.path
 		$.ajax
@@ -68,6 +75,8 @@ class Items
 
 
 	render: (files, folders, type=null) ->
+	# render: (kwargs={}) ->
+
 		data = {
 			files: [],
 			folders: [],
@@ -100,8 +109,12 @@ class Items
 				folderData.icon = './img/folder.svg'
 			data.folders.push(folderData)
 
-		forEach(files, filesIter.bind(@))
-		forEach(folders, foldersIter.bind(@))
+		if files isnt null
+			forEach(files, filesIter.bind(@))
+		if folders isnt null
+			forEach(folders, foldersIter.bind(@))
+		if files is null and folders is null
+			console.log 'empty!'
 
 
 		@$items.html(Mustache.render(@template, data))

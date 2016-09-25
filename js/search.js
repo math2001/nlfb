@@ -56,8 +56,7 @@ Search = (function() {
     var getItems;
     getItems = function(mess) {
       this.files = mess.files;
-      this.folders = mess.folders;
-      return console.log('(bindEvents) get items', this.files, this.folders);
+      return this.folders = mess.folders;
     };
     return this.em.on('got-items', getItems.bind(this));
   };

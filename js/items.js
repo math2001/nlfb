@@ -16,18 +16,18 @@ Items = (function() {
     done = function(mess, textStatus, jqXHR) {
       var dataForEvent;
       if (jqXHR.getResponseHeader('content-type') === 'application/json') {
-        this.files = mess.files;
-        this.folders = mess.folders;
         dataForEvent = {};
-        if (Object.keys(this.files).length > 0) {
-          dataForEvent.files = $.extend({}, this.files);
+        if (Object.keys(mess.files).length > 0) {
+          this.files = mess.files;
+          dataForEvent.files = copyObject(this.files);
         } else {
-          dataForEvent.files = null;
+          this.files = dataForEvent.files = null;
         }
-        if (Object.keys(this.folders).length > 0) {
-          dataForEvent.folders = $.extend({}, this.folders);
+        if (Object.keys(mess.folders).length > 0) {
+          this.folders = mess.folders;
+          dataForEvent.folders = copyObject(this.folders);
         } else {
-          dataForEvent.folders = null;
+          this.folders = dataForEvent.folders = null;
         }
         this.em.fire('got-items', dataForEvent);
         return this.render(this.files, this.folders);
@@ -40,8 +40,8 @@ Items = (function() {
     fail = function(jqXHR, textStatus, errorThrown) {
       alert('Fail on loading!');
       console.error('Fail on loading:', textStatus);
-      console.log(jqXHR.getAllResponseHeaders());
-      return console.log(jqXHR.responseText);
+      console.warn(jqXHR.getAllResponseHeaders());
+      return console.warn(jqXHR.responseText);
     };
     path = path || this.path.path;
     return $.ajax({
@@ -114,8 +114,15 @@ Items = (function() {
       }
       return data.folders.push(folderData);
     };
-    forEach(files, filesIter.bind(this));
-    forEach(folders, foldersIter.bind(this));
+    if (files !== null) {
+      forEach(files, filesIter.bind(this));
+    }
+    if (folders !== null) {
+      forEach(folders, foldersIter.bind(this));
+    }
+    if (files === null && folders === null) {
+      console.log('empty!');
+    }
     return this.$items.html(Mustache.render(this.template, data));
   };
 

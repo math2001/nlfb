@@ -1,11 +1,16 @@
 forEach = (obj, func) ->
 	# function (key, value, obj, nb_key) { /* do stuff */ }
+	if typeof obj != 'object'
+		console.error "forEach(...) needs an OBJECT (not a '#{typeof obj}' and a function"
+		
 	keys = Object.keys(obj);
 
 	for key, i in keys
 		func(key, obj[key], obj, i)
 		
 	return obj
+
+copyObject = (obj) -> $.extend({}, obj)
 
 Array::__update = (arr) ->
 	# this = arr

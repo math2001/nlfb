@@ -1,13 +1,20 @@
-var forEach;
+var copyObject, forEach;
 
 forEach = function(obj, func) {
   var i, j, key, keys, len;
+  if (typeof obj !== 'object') {
+    console.error("forEach(...) needs an OBJECT (not a '" + (typeof obj) + "' and a function");
+  }
   keys = Object.keys(obj);
   for (i = j = 0, len = keys.length; j < len; i = ++j) {
     key = keys[i];
     func(key, obj[key], obj, i);
   }
   return obj;
+};
+
+copyObject = function(obj) {
+  return $.extend({}, obj);
 };
 
 Array.prototype.__update = function(arr) {

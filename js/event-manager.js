@@ -31,7 +31,7 @@ EM = (function() {
       dataToRender = data;
     }
     if (this.debug) {
-      console.info('emit', eventName.wrap(), 'with', dataToRender);
+      console.info('fire', eventName.wrap(), 'with', dataToRender);
     }
     ref = this.listeners[eventName];
     for (i = 0, len = ref.length; i < len; i++) {

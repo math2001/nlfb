@@ -49,7 +49,6 @@ class Search
 			@files = mess.files
 			@folders = mess.folders
 
-			console.log '(bindEvents) get items', @files, @folders
 		@em.on('got-items', getItems.bind(@))
 
 	@bindDOM: ->

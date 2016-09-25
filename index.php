@@ -132,8 +132,8 @@
 	<script type="text/javascript" src="./js/items.js"></script>
 	<script type="text/javascript" src="./js/search.js"></script>
 	<script type="text/javascript">
-		console.log = function tracer() { console.trace() }
-		$(document).ready(function () {
+		$(document).ready(function main () {
+
 			Hash.init(EM);
 			Path.init(EM);
 			Tools.init(EM)
