@@ -4,7 +4,9 @@ class Items
 		@files = {}
 		@folders = {}
 		@$items = $('.items')
-		@template = $('#items-template').html()
+		@templates = 
+			'files and folders': $('#items-template-faf').html()
+			'code': $('#items-template-code').html()
 
 		@bindEvent()
 
@@ -39,7 +41,11 @@ class Items
 				})
 
 			else if jqXHR.getResponseHeader('content-type') == 'text/plain'
-				# do super stuff
+				# view code
+				@render(
+					content: mess
+					type: 'code'
+				)
 			else
 				# coffeescript apparently cannot handle a finninshing else if
 
@@ -85,15 +91,12 @@ class Items
 
 		@em.on('empty-search', normalRender.bind(@))
 
-
-	# render: (files, folders, type=null) ->
 	render: (kwargs={}) ->
 
 		if kwargs.type == undefined
 			return console.error "Don't know the type, impossible to render!"
 
 		if kwargs.type == 'files and folders'
-
 			if kwargs.files == undefined or kwargs.folders == undefined
 				return console.error 'Files or folders are undefined. UNACCEPTABLE!'
 
@@ -136,9 +139,14 @@ class Items
 
 			if kwargs.files is null and kwargs.folders is null
 				console.log 'empty!'
+
+		else if kwargs.type == 'code'
+			code = hljs.highlightAuto(kwargs.content).value.replace(/\t/g, '    ')
+			templateData = { code: code }
+		
 		else
 			console.error "Unknown type '#{kwargs.type}'! Impossible to render."
 
-		@$items.html(Mustache.render(@template, templateData))
+		@$items.html(Mustache.render(@templates[kwargs.type], templateData))
 		
 	

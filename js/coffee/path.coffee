@@ -21,6 +21,9 @@ class Path
 		path = '/' + path.join('/')
 		path
 
+	@extension: (path) ->
+		(path or @path).split('.').get(-1)
+
 	@bindEvents: ->
 		editPath = (path) ->
 			@path = path

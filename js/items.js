@@ -7,7 +7,10 @@ Items = (function() {
     this.files = {};
     this.folders = {};
     this.$items = $('.items');
-    this.template = $('#items-template').html();
+    this.templates = {
+      'files and folders': $('#items-template-faf').html(),
+      'code': $('#items-template-code').html()
+    };
     this.bindEvent();
   }
 
@@ -36,7 +39,10 @@ Items = (function() {
           type: 'files and folders'
         });
       } else if (jqXHR.getResponseHeader('content-type') === 'text/plain') {
-
+        return this.render({
+          content: mess,
+          type: 'code'
+        });
       } else {
 
       }
@@ -81,7 +87,7 @@ Items = (function() {
   };
 
   Items.prototype.render = function(kwargs) {
-    var filesIter, foldersIter, templateData;
+    var code, filesIter, foldersIter, templateData;
     if (kwargs == null) {
       kwargs = {};
     }
@@ -143,10 +149,15 @@ Items = (function() {
       if (kwargs.files === null && kwargs.folders === null) {
         console.log('empty!');
       }
+    } else if (kwargs.type === 'code') {
+      code = hljs.highlightAuto(kwargs.content).value.replace(/\t/g, '    ');
+      templateData = {
+        code: code
+      };
     } else {
       console.error("Unknown type '" + kwargs.type + "'! Impossible to render.");
     }
-    return this.$items.html(Mustache.render(this.template, templateData));
+    return this.$items.html(Mustache.render(this.templates[kwargs.type], templateData));
   };
 
   return Items;

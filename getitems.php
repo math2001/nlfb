@@ -39,12 +39,12 @@
 	}
 
 ?>
-
 <?php
 
 $CONF = [
 	"base_path" => "C:/wamp/www/"
 ];
+
 
 if (!isset($_GET['path'])) {
 	die('no path specified, impossible');

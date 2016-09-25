@@ -35,6 +35,10 @@ Path = (function() {
     return path;
   };
 
+  Path.extension = function(path) {
+    return (path || this.path).split('.').get(-1);
+  };
+
   Path.bindEvents = function() {
     var editPath;
     editPath = function(path) {

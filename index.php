@@ -93,7 +93,7 @@
 	</div>
 	
 	<!-- Template for mustache -->
-	<script type="text/template" id="items-template">
+	<script type="text/template" id="items-template-faf">
 		{{ #folders }}
 			<li class="item" data-href="{{ path }}">
 				<img src="{{ icon }}"> <a>{{{ name }}}</a>
@@ -104,6 +104,9 @@
 				<img src="{{ icon }}"> <a>{{{ name }}}</a>
 			</li>
 		{{ /files }}
+	</script>
+	<script type="text/template" id="items-template-code">
+		<pre class="hljs"><code>{{{ code }}}</code></pre>
 	</script>
 	<script type="text/template" id="breadcrumbs-template">
 		<!-- <ul> -->
@@ -120,6 +123,7 @@
 	<script type="text/javascript" src="./js/jquery.outside.js"></script>
 	<script type="text/javascript" src="./js/jquery.ui.position.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.contextMenu.min.js"></script>
+	<script type="text/javascript" src="./js/highlight.js"></script>
 
 	
 	<script type="text/javascript" src="./js/prototypes-updater.js"></script>
@@ -152,10 +156,6 @@
 			$(document.body).on('click', '[data-href]', {"em": EM}, fireNavigation)
 
 			EM.fire('navigate', location.hash.slice(1) || '/')
-
-			// debug
-
-			ar = function (p, a) { return Search.advancedResearch(p, a) }
 
 		})
 	</script>
