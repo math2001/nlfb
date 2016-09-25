@@ -8,7 +8,6 @@ class Items
 
 		@loadItems()
 
-		@bindDOM()
 		@bindEvent()
 
 
@@ -41,14 +40,6 @@ class Items
 		.fail fail.bind(@)
 
 	
-	bindDOM: ->
-		fireNavigation = (e) ->
-			e.data.this.em.emit('update-path',
-				$(this).attr('data-href').slice(1)
-			)
-
-		$(document.body).on('click', '.item[data-href]', {"this": @}, fireNavigation)
-
 	bindEvent: ->
 		# listen to the event manager to reload items.
 		@em.on('navigate', @loadItems.bind(@))

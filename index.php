@@ -9,6 +9,7 @@
 	<title>Localhost</title>
 </head>
 <body>
+
 	<div class="wrapper">
 		<header>
 			<a href="/" class="brand">Localhost</a>
@@ -22,6 +23,9 @@
 			</nav>
 			<p class="search-wrapper">
 				<input type="text" id="search" class="search" placeholder="Search in this directory..." autocomplete="off">
+				<svg viewbox="0 0 1024 1024" height="1024" width="1024" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+					<path d="M512 0C229.25 0 0 229.25 0 512c0 226.25 146.688 418.125 350.156 485.812 25.594 4.688 34.938-11.125 34.938-24.625 0-12.188-.47-52.562-.72-95.312C242 908.812 211.907 817.5 211.907 817.5c-23.312-59.125-56.844-74.875-56.844-74.875-46.53-31.75 3.53-31.125 3.53-31.125 51.406 3.562 78.47 52.75 78.47 52.75 45.688 78.25 119.875 55.625 149 42.5 4.654-33 17.904-55.625 32.5-68.375-113.656-12.937-233.218-56.875-233.218-253.063 0-55.938 19.97-101.562 52.656-137.406-5.22-13-22.843-65.094 5.063-135.562 0 0 42.938-13.75 140.812 52.5 40.812-11.406 84.594-17.03 128.125-17.22 43.5.19 87.31 5.876 128.187 17.282 97.688-66.312 140.688-52.5 140.688-52.5 28 70.53 10.375 122.562 5.125 135.5 32.812 35.844 52.625 81.47 52.625 137.406 0 196.688-119.75 240-233.812 252.688 18.438 15.875 34.75 47 34.75 94.75 0 68.438-.688 123.625-.688 140.5 0 13.625 9.312 29.562 35.25 24.562C877.438 930 1024 738.125 1024 512 1024 229.25 794.75 0 512 0z"/>
+				</svg>
 			</p>
 		</header>
 		<section class="main">
@@ -33,12 +37,12 @@
 			</aside>
 			<div class="sep" id="sep"></div>
 			<article id="main">
+
 			 	<div class="navbar">
 			 		<span class="navbar-btn-wrapper">
-			 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="dirname" id="move-up">
-						  <path fill="#ccc" d="M28.796 198.804l127.2-115.2v278.4h40v-278.4l124 115.2 28.8-30-172.8-168.8-176 166.8z"/>
-						</svg>
-
+			 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="dirname" id="move-up">
+			 				<path fill="#ccc" d="M28.796 198.804l127.2-115.2v278.4h40v-278.4l124 115.2 28.8-30-172.8-168.8-176 166.8z"/>
+			 			</svg>
 			 		</span>
 			 		<span class="navbar-btn-wrapper">
 			 			<svg viewBox="0 0 367.136 367.136" class="navbar-btn" id="refresh">
@@ -53,7 +57,7 @@
 			 				</g>
 			 			</svg>
 			 		</span>
-					<ul class="breadcrumb">
+					<ul class="breadcrumb" id="breadcrumbs">
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
@@ -89,15 +93,22 @@
 	<!-- Template for mustache -->
 	<script type="text/template" id="items-template">
 		{{ #folders }}
-			<li class="item" data-href="#{{ path }}">
+			<li class="item" data-href="{{ path }}">
 				<img src="{{icon}}"> <a>{{ name }}</a>
 			</li>
 		{{ /folders }}
 		{{ #files }}
 			<li class="item">
-				<img src="{{ icon }}"> <a data-href="#{{ path }}">{{ name }}</a>
+				<img src="{{ icon }}"> <a data-href="{{ path }}">{{ name }}</a>
 			</li>
 		{{ /files }}
+	</script>
+	<script type="text/template" id="breadcrumbs-template">
+		<!-- <ul> -->
+			{{ #splitedPath }}
+				<li><a data-href="{{ path }}">{{ name }}</a></li>
+			{{ /splitedPath }}
+		<!-- </ul> -->
 	</script>
 
 	<!-- Jquery -->
@@ -113,6 +124,7 @@
 
 	<script type="text/javascript" src="./js/event-manager.js"></script>
 	<script type="text/javascript" src="./js/hash.js"></script>
+	<script type="text/javascript" src="./js/breadcrumbs.js"></script>
 	<script type="text/javascript" src="./js/tools.js"></script>
 	<script type="text/javascript" src="./js/path.js"></script>
 	<script type="text/javascript" src="./js/items.js"></script>
@@ -121,7 +133,19 @@
 			Hash.init(EM);
 			Path.init(EM);
 			Tools.init(EM)
+			Breadcrumbs.init(EM, Path)
 			new Items(Path, EM);
+
+			// to avoid repetion and mutilple listeners
+
+			fireNavigation = function (e) {
+				e.data.em.fire('update-path',
+					$(this).attr('data-href')
+				)
+			}
+
+			$(document.body).on('click', '[data-href]', {"em": EM}, fireNavigation)
+
 		})
 	</script>
 

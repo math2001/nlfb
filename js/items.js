@@ -9,7 +9,6 @@ Items = (function() {
     this.$items = $('.items');
     this.template = $('#items-template').html();
     this.loadItems();
-    this.bindDOM();
     this.bindEvent();
   }
 
@@ -36,16 +35,6 @@ Items = (function() {
         noticer: 'index'
       }
     }).done(done.bind(this)).fail(fail.bind(this));
-  };
-
-  Items.prototype.bindDOM = function() {
-    var fireNavigation;
-    fireNavigation = function(e) {
-      return e.data["this"].em.emit('update-path', $(this).attr('data-href').slice(1));
-    };
-    return $(document.body).on('click', '.item[data-href]', {
-      "this": this
-    }, fireNavigation);
   };
 
   Items.prototype.bindEvent = function() {
