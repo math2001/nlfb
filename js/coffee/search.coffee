@@ -11,8 +11,6 @@ class Search
 
 		# <pattern> to search in <arr>
 
-		# return arr if pattern == '.'
-
 		match = (text, pattern) ->
 			lastIndex = -1
 			indexes = []
@@ -49,7 +47,12 @@ class Search
 			@files = mess.files
 			@folders = mess.folders
 
+		clearSearchInput = ->
+			@$el.val('')
+
 		@em.on('got-items', getItems.bind(@))
+
+		@em.on('navigate', clearSearchInput.bind(@))
 
 	@bindDOM: ->
 
@@ -86,14 +89,8 @@ class Search
 				selectedFolders = {}
 
 			###
-				selectedFiles = {
-					name: [isImage, htmlName],
-					name: [isImage, htmlName],
-				}
-				selectedFolders = {
-					name: [hasIndex, htmlName],
-					name: [hasIndex, htmlName],
-				}
+				selectedFiles   = { name: [isImage, htmlName] }
+				selectedFolders = { name: [hasIndex, htmlName] }
 			###
 			e.data.this.em.fire('search', { files: selectedFiles, folders: selectedFolders })
 

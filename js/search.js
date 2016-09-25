@@ -53,12 +53,16 @@ Search = (function() {
   };
 
   Search.bindEvents = function() {
-    var getItems;
+    var clearSearchInput, getItems;
     getItems = function(mess) {
       this.files = mess.files;
       return this.folders = mess.folders;
     };
-    return this.em.on('got-items', getItems.bind(this));
+    clearSearchInput = function() {
+      return this.$el.val('');
+    };
+    this.em.on('got-items', getItems.bind(this));
+    return this.em.on('navigate', clearSearchInput.bind(this));
   };
 
   Search.bindDOM = function() {
@@ -97,14 +101,8 @@ Search = (function() {
       }
 
       /*
-      				selectedFiles = {
-      					name: [isImage, htmlName],
-      					name: [isImage, htmlName],
-      				}
-      				selectedFolders = {
-      					name: [hasIndex, htmlName],
-      					name: [hasIndex, htmlName],
-      				}
+      				selectedFiles   = { name: [isImage, htmlName] }
+      				selectedFolders = { name: [hasIndex, htmlName] }
        */
       return e.data["this"].em.fire('search', {
         files: selectedFiles,
