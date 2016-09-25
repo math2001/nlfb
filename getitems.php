@@ -13,7 +13,8 @@
 	}
 	function kill() {
 		call_user_func_array('debug', func_get_args());
-		die('kill');
+		echo '<p style="color: white; background-color: red">kill</p>';
+		die();
 	}	
 	function pathjoin() {
 		$path = [];
@@ -113,8 +114,17 @@ function format_items($path) {
 	return $fitems;
 
 }
-header("content-type: application/json");
-echo json_encode(format_items($path));
+if (is_dir($path)) {
+	header("content-type: application/json");
+	echo json_encode(format_items($path));
+} elseif (is_file($path)) {
+	if (is_image($path)) {
+		header('content-type: image/png'); // png/jpg/whatever does not matter,
+	} else {
+		header('content-type: text/plain');
+	}
+	echo file_get_contents($path);
+}
 
 
 ?>

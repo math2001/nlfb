@@ -30,7 +30,7 @@ Breadcrumbs = (function() {
       bit = path[i];
       data.splitedPath.push({
         name: bit,
-        path: path.slice(0, i + 1).join('/')
+        path: '/' + path.slice(0, i + 1).join('/')
       });
     }
     return this.$el.html(Mustache.render(this.template, data));

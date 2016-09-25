@@ -18,7 +18,7 @@ class Breadcrumbs
 		for bit, i in path
 			data.splitedPath.push({
 				name: bit,
-				path: path.slice(0, i + 1).join('/')
+				path: '/' + path.slice(0, i + 1).join('/')
 			})
 
 		@$el.html(Mustache.render(@template, data))

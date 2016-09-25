@@ -8,24 +8,40 @@ Items = (function() {
     this.folders = {};
     this.$items = $('.items');
     this.template = $('#items-template').html();
-    this.loadItems();
     this.bindEvent();
   }
 
   Items.prototype.loadItems = function(path) {
     var done, fail;
     done = function(mess, textStatus, jqXHR) {
-      if (jqXHR.getResponseHeader('content-type') === 'HTTP/1.0 404 Not Found') {
-        alert('error on load file');
-        console.log(jqXHR.getAllResponseHeaders());
+      var dataForEvent;
+      if (jqXHR.getResponseHeader('content-type') === 'application/json') {
+        this.files = mess.files;
+        this.folders = mess.folders;
+        dataForEvent = {};
+        if (Object.keys(this.files).length > 0) {
+          dataForEvent.files = $.extend({}, this.files);
+        } else {
+          dataForEvent.files = null;
+        }
+        if (Object.keys(this.folders).length > 0) {
+          dataForEvent.folders = $.extend({}, this.folders);
+        } else {
+          dataForEvent.folders = null;
+        }
+        this.em.fire('got-items', dataForEvent);
+        return this.render(this.files, this.folders);
+      } else if (jqXHR.getResponseHeader('content-type') === 'text/plain') {
+
+      } else {
+
       }
-      this.files = mess.files;
-      this.folders = mess.folders;
-      return this.render();
     };
     fail = function(jqXHR, textStatus, errorThrown) {
       alert('Fail on loading!');
-      return console.log(jqXHR.getAllResponseHeaders());
+      console.error('Fail on loading:', textStatus);
+      console.log(jqXHR.getAllResponseHeaders());
+      return console.log(jqXHR.responseText);
     };
     path = path || this.path.path;
     return $.ajax({
@@ -39,21 +55,39 @@ Items = (function() {
   };
 
   Items.prototype.bindEvent = function() {
-    return this.em.on('navigate', this.loadItems.bind(this));
+    var normalRender, renderSearch;
+    this.em.on('navigate', this.loadItems.bind(this));
+    renderSearch = function(mess) {
+      return this.render(mess.files, mess.folders, 'search');
+    };
+    this.em.on('search', renderSearch.bind(this));
+    normalRender = function() {
+      return this.render(this.files, this.folders);
+    };
+    return this.em.on('empty-search', normalRender.bind(this));
   };
 
-  Items.prototype.render = function(files, folders) {
+  Items.prototype.render = function(files, folders, type) {
     var data, filesIter, foldersIter;
+    if (type == null) {
+      type = null;
+    }
     data = {
       files: [],
       folders: []
     };
-    filesIter = function(file, isImage) {
-      var fileData;
+    filesIter = function(file, val) {
+      var fileData, htmlName, isImage;
       fileData = {
         name: file,
         path: this.path.join(file)
       };
+      if (type === 'search') {
+        isImage = val[0], htmlName = val[1];
+        fileData.name = htmlName;
+      } else {
+        isImage = val;
+      }
       if (isImage) {
         fileData.icon = fileData.path;
       } else {
@@ -61,12 +95,18 @@ Items = (function() {
       }
       return data.files.push(fileData);
     };
-    foldersIter = function(folder, hasIndex) {
-      var folderData;
+    foldersIter = function(folder, val) {
+      var folderData, hasIndex, htmlName;
       folderData = {
         name: folder,
         path: this.path.join(folder)
       };
+      if (type === 'search') {
+        hasIndex = val[0], htmlName = val[1];
+        folderData.name = htmlName;
+      } else {
+        hasIndex = val;
+      }
       if (hasIndex) {
         folderData.icon = './img/folder-index.svg';
       } else {
@@ -74,8 +114,8 @@ Items = (function() {
       }
       return data.folders.push(folderData);
     };
-    forEach(files || this.files, filesIter.bind(this));
-    forEach(folders || this.folders, foldersIter.bind(this));
+    forEach(files, filesIter.bind(this));
+    forEach(folders, foldersIter.bind(this));
     return this.$items.html(Mustache.render(this.template, data));
   };
 

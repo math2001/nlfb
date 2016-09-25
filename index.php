@@ -96,12 +96,12 @@
 	<script type="text/template" id="items-template">
 		{{ #folders }}
 			<li class="item" data-href="{{ path }}">
-				<img src="{{icon}}"> <a>{{ name }}</a>
+				<img src="{{ icon }}"> <a>{{{ name }}}</a>
 			</li>
 		{{ /folders }}
 		{{ #files }}
-			<li class="item">
-				<img src="{{ icon }}"> <a data-href="{{ path }}">{{ name }}</a>
+			<li class="item" data-href="{{ path }}">
+				<img src="{{ icon }}"> <a>{{{ name }}}</a>
 			</li>
 		{{ /files }}
 	</script>
@@ -130,13 +130,16 @@
 	<script type="text/javascript" src="./js/tools.js"></script>
 	<script type="text/javascript" src="./js/path.js"></script>
 	<script type="text/javascript" src="./js/items.js"></script>
+	<script type="text/javascript" src="./js/search.js"></script>
 	<script type="text/javascript">
+		console.log = function tracer() { console.trace() }
 		$(document).ready(function () {
 			Hash.init(EM);
 			Path.init(EM);
 			Tools.init(EM)
 			Breadcrumbs.init(EM, Path)
-			new Items(Path, EM);
+			Search.init(EM, Path)
+			window.items = new Items(Path, EM); // for debug
 
 			// to avoid repetion and mutilple listeners
 
@@ -147,6 +150,12 @@
 			}
 
 			$(document.body).on('click', '[data-href]', {"em": EM}, fireNavigation)
+
+			EM.fire('navigate', location.hash.slice(1) || '/')
+
+			// debug
+
+			ar = function (p, a) { return Search.advancedResearch(p, a) }
 
 		})
 	</script>
