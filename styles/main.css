@@ -120,7 +120,7 @@ pre code {
   position: relative;
 }
 .navbar-btn,
-svg {
+navbar-btn svg {
   cursor: pointer;
   width: 25px;
   height: 25px;
@@ -131,11 +131,11 @@ svg {
   margin-top: -12.5px;
 }
 .navbar-btn path,
-svg path {
+navbar-btn svg path {
   fill: #999;
 }
 .navbar-btn:hover path,
-svg:hover path {
+navbar-btn svg:hover path {
   fill: #333;
 }
 .breadcrumb {
@@ -230,14 +230,28 @@ header .nav-sep {
   width: 1px;
   vertical-align: middle;
 }
-header .search-wrapper {
+header .pull-right {
   display: inline-block;
   float: right;
   margin: 0;
-  margin-right: 10px;
-/* background-color #fcc */
+  margin-right: 5px;
   height: 100%;
   line-height: 45px;
+}
+header .pull-right a {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  fill: #777;
+}
+header .pull-right a .githubicon {
+  margin-top: 5px;
+  position: static;
+  height: 25px;
+  vertical-align: middle;
+}
+header .pull-right a:hover {
+  fill: #444;
 }
 header .search {
   border: none;
