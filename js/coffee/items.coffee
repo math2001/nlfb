@@ -161,9 +161,11 @@ class Items
 			if @path.extension() isnt 'txt'
 				obj = hljs.highlightAuto(kwargs.content)
 				code = obj.value.replace(/\t/g, '    ')
+				language = obj.language || 'plain'
 			else
 				code = kwargs.content
-			templateData = { code: code }
+				language = 'plain'
+			templateData = { code: code, language: language }
 		else if kwargs.type == 'image'
 			return console.error 'No path for image!' if kwargs.path is undefined
 			templateData = { path: kwargs.path }

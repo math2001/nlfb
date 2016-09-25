@@ -110,7 +110,7 @@ Items = (function() {
   };
 
   Items.prototype.render = function(kwargs) {
-    var $newItems, _this, code, filesIter, foldersIter, obj, showNewItems, templateData, totalAnimationTime;
+    var $newItems, _this, code, filesIter, foldersIter, language, obj, showNewItems, templateData, totalAnimationTime;
     if (kwargs == null) {
       kwargs = {};
     }
@@ -176,11 +176,14 @@ Items = (function() {
       if (this.path.extension() !== 'txt') {
         obj = hljs.highlightAuto(kwargs.content);
         code = obj.value.replace(/\t/g, '    ');
+        language = obj.language || 'plain';
       } else {
         code = kwargs.content;
+        language = 'plain';
       }
       templateData = {
-        code: code
+        code: code,
+        language: language
       };
     } else if (kwargs.type === 'image') {
       if (kwargs.path === void 0) {

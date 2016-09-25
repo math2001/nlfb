@@ -106,7 +106,7 @@
 		{{ /files }}
 	</script>
 	<script type="text/template" id="items-template-code">
-		<pre class="hljs"><code>{{{ code }}}</code></pre>
+		<pre class="hljs"><code>{{{ code }}}</code><div class="language">{{ language }}</div></pre>
 	</script>
 	<script type="text/template" id="items-template-image">
 		<img src="{{ path }}" class="atomic-center">
