@@ -17,6 +17,19 @@ class Items
 			"py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt"
 		]
 
+	getIconForFile: (extension) ->
+		ext = 'default'
+		if extension in @supportedIcons
+			ext = extension
+		else if extension.indexOf('git') >= 0
+			ext = 'git'
+		else if extension.indexOf('sublime') >= 0
+			ext = 'sublime'
+		else if extension == 'scss'
+			ext = 'sass'
+		
+		'./img/file_types/' + ext + '.svg'
+	
 	loadItems: (path) ->
 		done = (mess, textStatus, jqXHR) ->
 			if jqXHR.getResponseHeader('content-type') == 'application/json'
@@ -158,17 +171,38 @@ class Items
 		else
 			console.error "Unknown type '#{kwargs.type}'! Impossible to render."
 
-		@$items.html(Mustache.render(@templates[kwargs.type], templateData))
+
+		totalAnimationTime = 500
+
+		$newItems = @$items.clone()
 		
-	getIconForFile: (extension) ->
-		ext = 'default'
-		if extension in @supportedIcons
-			ext = extension
-		else if extension.indexOf('git') >= 0
-			ext = 'git'
-		else if extension.indexOf('sublime') >= 0
-			ext = 'sublime'
-		else if extension == 'scss'
-			ext = 'sass'
+		$newItems.html(Mustache.render(@templates[kwargs.type], templateData))
+
+		showNewItems = (_this, $newItems) ->
+			$newItems.animate(
+				opacity: 1
+				left: 10
+				right: 0
+			, totalAnimationTime / 2, ->
+				_this.$items = $newItems
+			)
+
+		$newItems.css(
+			opacity: 0
+			left: 50
+			right: -50
+		)
+		_this = @
+
+		@$items.after($newItems).animate(
+			opacity: 0
+			left: -50
+			right: 50
+		totalAnimationTime / 2, ->
+			$(@).remove()
+			showNewItems(_this, $newItems)
+		)
 		
-		'./img/file_types/' + ext + '.svg'
+
+
+		

@@ -17,6 +17,21 @@ Items = (function() {
     this.supportedIcons = ["ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", "htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", "py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt"];
   }
 
+  Items.prototype.getIconForFile = function(extension) {
+    var ext;
+    ext = 'default';
+    if (indexOf.call(this.supportedIcons, extension) >= 0) {
+      ext = extension;
+    } else if (extension.indexOf('git') >= 0) {
+      ext = 'git';
+    } else if (extension.indexOf('sublime') >= 0) {
+      ext = 'sublime';
+    } else if (extension === 'scss') {
+      ext = 'sass';
+    }
+    return './img/file_types/' + ext + '.svg';
+  };
+
   Items.prototype.loadItems = function(path) {
     var done, fail;
     done = function(mess, textStatus, jqXHR) {
@@ -95,7 +110,7 @@ Items = (function() {
   };
 
   Items.prototype.render = function(kwargs) {
-    var code, filesIter, foldersIter, obj, templateData;
+    var $newItems, _this, code, filesIter, foldersIter, obj, showNewItems, templateData, totalAnimationTime;
     if (kwargs == null) {
       kwargs = {};
     }
@@ -177,22 +192,32 @@ Items = (function() {
     } else {
       console.error("Unknown type '" + kwargs.type + "'! Impossible to render.");
     }
-    return this.$items.html(Mustache.render(this.templates[kwargs.type], templateData));
-  };
-
-  Items.prototype.getIconForFile = function(extension) {
-    var ext;
-    ext = 'default';
-    if (indexOf.call(this.supportedIcons, extension) >= 0) {
-      ext = extension;
-    } else if (extension.indexOf('git') >= 0) {
-      ext = 'git';
-    } else if (extension.indexOf('sublime') >= 0) {
-      ext = 'sublime';
-    } else if (extension === 'scss') {
-      ext = 'sass';
-    }
-    return './img/file_types/' + ext + '.svg';
+    totalAnimationTime = 500;
+    $newItems = this.$items.clone();
+    $newItems.html(Mustache.render(this.templates[kwargs.type], templateData));
+    showNewItems = function(_this, $newItems) {
+      return $newItems.animate({
+        opacity: 1,
+        left: 10,
+        right: 0
+      }, totalAnimationTime / 2, function() {
+        return _this.$items = $newItems;
+      });
+    };
+    $newItems.css({
+      opacity: 0,
+      left: 50,
+      right: -50
+    });
+    _this = this;
+    return this.$items.after($newItems).animate({
+      opacity: 0,
+      left: -50,
+      right: 50
+    }, totalAnimationTime / 2, function() {
+      $(this).remove();
+      return showNewItems(_this, $newItems);
+    });
   };
 
   return Items;
