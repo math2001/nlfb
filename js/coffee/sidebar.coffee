@@ -85,5 +85,5 @@ class Sidebar
 				kwargs.$target.append($toDeploy)
 			$toDeploy.slideDown()
 		else
-		console.log kwargs.$target.find('ul').first().slideUp()
+			kwargs.$target.find('ul').first().slideUp()
 

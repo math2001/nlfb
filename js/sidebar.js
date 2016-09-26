@@ -112,11 +112,10 @@ Sidebar = (function() {
         $toDeploy = $(Mustache.render(this.template, dataForTemplate)).slideUp(0);
         kwargs.$target.append($toDeploy);
       }
-      $toDeploy.slideDown();
+      return $toDeploy.slideDown();
     } else {
-
+      return kwargs.$target.find('ul').first().slideUp();
     }
-    return console.log(kwargs.$target.find('ul').first().slideUp());
   };
 
   return Sidebar;
