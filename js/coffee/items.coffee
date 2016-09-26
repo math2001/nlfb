@@ -70,10 +70,10 @@ class Items
 
 
 		fail = (jqXHR, textStatus, errorThrown) ->
-			alert('Fail on loading!')
-			console.error 'Fail on loading:', textStatus
-			console.warn jqXHR.getAllResponseHeaders()
-			console.warn jqXHR.responseText
+			alert('Fail on loading items!\n\n' + jqXHR.responseText)
+			console.error 'Fail on loading items:', textStatus.wrap()
+			console.info jqXHR.getAllResponseHeaders()
+			console.info jqXHR.responseText
 			
 		path = path or @path.path
 		$.ajax
@@ -182,7 +182,7 @@ class Items
 		html = Mustache.render(@templates[kwargs.type], templateData)
 
 		if kwargs.animate == true
-			totalAnimationTime = 500
+			totalAnimationTime = CONFIG.browsing_animation_total_time
 
 			$newItems = @$items.clone()
 			
@@ -195,6 +195,7 @@ class Items
 					right: 0
 				, totalAnimationTime / 2, ->
 					_this.$items = $newItems
+					_this.em.fire('items-var-changed', _this.$items)
 				)
 
 			$newItems.css(

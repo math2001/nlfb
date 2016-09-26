@@ -1,4 +1,4 @@
-# Nice Localhost File Browser
+# Nice Localhost File Browser - **module pattern**
 
 Don't like the home page of WAMP, and you just **cannot** stand this awful *apache made* "browser".
 
@@ -6,26 +6,31 @@ Well, in just **2** steps, you can easily have a pretty nice browser.
 
 ## Installation
 
-1. Simply download the zip, and extract it in your `www` folder (or just *gitclone* it into `www`).
-2. open the `index.php` file and add this line at the beginning: `header('location: _nlfb/');`
+1. Run `cd C:/wamp/www & git clone https://github.com/math2001/nlfb.git "_nlfb"`
+2. Open the `index.php` file in your `www` directory and add this line at the beginning: `<?php header('location: _nlfb/'); ?>`
 
 That's it, open [localhost](http://localhost) and *savourez*.
 
+## About this branch
+
+I'm recoding the whole JS based on the **module pattern** system, replacing this ugly and messy *spaghetti* code.
+
 ## Current features
 
-- Sidebar
 - Breadcrumbs
-- File can be view and are colored by the great [highlightjs](https://highlightjs.org/)
-- Nice context menu with the the excellent [jQuery.contextMenu](https://swisnl.github.io/jQuery-contextMenu/)
+- File can be view and are colored by [highlightjs](https://highlightjs.org/)
 - If it is an image, it just renders it.
+- Nice icons for files
 - Search in current folder based on letters' order (`ctrl` brings up `controller` for example)
+- input to type the path (edit path)
+- context menu [jQuery.contextMenu](https://swisnl.github.io/jQuery-contextMenu/)
 - copy name/path/URL path
-- input to type the path
 - open in **real** (new tab)
-- ignored files/folders/projects
 
 ## Features to add
 
+- ignored files/folders/projects
+- Sidebar
 - load full sidebar at the beginning (settings)
 - customs alias
 - add icons to context menu

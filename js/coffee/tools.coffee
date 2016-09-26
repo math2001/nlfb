@@ -14,6 +14,13 @@ class Tools
 		@$editpathInput = @$editpathPanel.find('input')
 
 		@bindDOM()
+		@bindEvents()
+
+	@bindEvents: () ->
+		saveItems = ($items) ->
+			@$items = $items
+
+		@em.on('items-var-changed', saveItems.bind(@))
 
 
 	@bindDOM: () ->
@@ -52,3 +59,68 @@ class Tools
 		@$refresh.bind('click', refresh.bind(@))
 		@$editpath.bind('click', showEditPathPanel.bind(@))
 
+		specificToItems = 
+			open:
+				name: "Open in real",
+				accesskey: "r"
+				callback: @openInReal
+			copy:
+				name: "Copy",
+				accesskey: "c"
+				items:
+					name: 
+						name: "Name",
+						callback: @copyName
+					
+					path:
+						name: "Path",
+						callback: @copyPath
+					
+					pathForUrl:
+						name: "Path for url",
+						callback: @copyPath
+
+		view =
+			hiddenFiles:
+				name: 'Toogle hidden items'
+				callback: @toggleHiddenFiles.bind(@)
+
+			viewMode:
+				name: 'View mode'
+				items:
+					icon:
+						name: "Icons"
+						callback: @changeViewMode.bind(@)
+					list:
+						name: "List"
+						callback: @changeViewMode.bind(@)
+
+		$.contextMenu(
+			selector: '.items'
+			items: view
+		)
+
+		$.contextMenu(
+			selector: '.item',
+			items: $.extend specificToItems, view
+		)
+
+
+	@copyName: (key, opt) ->
+		copyText(opt.$trigger.find('a').text())
+
+	@copyPath: (key, opt) ->
+		# console.log opt
+		if key == 'pathForUrl'
+			return copyText encodeURI opt.$trigger.attr 'data-href'
+		else
+			return copyText(opt.$trigger.attr('data-href'))
+
+	@openInReal: (key, opt) ->
+		openInNewTab('http://localhost/' + opt.$trigger.attr('data-href').slice(1))
+
+	@toggleHiddenFiles: (key, opt) ->
+		@$items.attr('hiding-files', if @$items.attr('hiding-files') == 'on' then 'off' else 'on')
+
+	@changeViewMode: (key, opt) ->
+		@$items.fadeOut(400, -> $(this).attr('view-mode', key).fadeIn(400))

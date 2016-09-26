@@ -124,6 +124,14 @@ if (is_dir($path)) {
 		header('content-type: text/plain');
 	}
 	echo file_get_contents($path);
+} else {
+	header('HTTP/1.0 404 Not Found');
+	if (is_ajax()) {
+		echo "The path '$path' does not exists";
+	} else {
+		echo("The path <code>$path</code> does not exists!");
+	}
+	die();
 }
 
 

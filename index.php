@@ -142,7 +142,8 @@
 	<script type="text/javascript" src="./js/items.js"></script>
 	<script type="text/javascript" src="./js/search.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function main () {
+		function main () {
+
 			Hash.init(EM);
 			Path.init(EM);
 			Tools.init(EM, Path)
@@ -162,7 +163,18 @@
 
 			EM.fire('navigate', location.hash.slice(1) || '/')
 
+		}
+		$(document).ready(function runner () {
+			$.getJSON('config.json', function getConfig(config) {
+				CONFIG = $.extend({ // makes it global
+					browsing_animation_total_time: 500,
+					exclude_projects: ['_nlfb']
+				}, config) 
+				main()
+
+			})
 		})
+
 	</script>
 
 </body>

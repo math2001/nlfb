@@ -1,4 +1,4 @@
-var code, copyObject, forEach;
+var code, copyObject, copyText, forEach, openInNewTab;
 
 forEach = function(obj, func) {
   var i, j, key, keys, len;
@@ -15,6 +15,23 @@ forEach = function(obj, func) {
 
 copyObject = function(obj) {
   return $.extend({}, obj);
+};
+
+copyText = function(text) {
+  var $el;
+  $el = $('<input type="text">').val(text).css({
+    position: 'absolute',
+    left: '-100%',
+    top: '-100%',
+    opacity: 0
+  }).appendTo(document.body);
+  $el[0].select();
+  if (!document.execCommand('copy')) {
+    console.warn('Unable to copy.');
+    return false;
+  }
+  $el.remove();
+  return text;
 };
 
 code = function(letter) {
@@ -34,6 +51,23 @@ code = function(letter) {
     return console.error("code: unknow abrv '" + letter + "'");
   }
   return letter.charCodeAt(0) - 32;
+};
+
+openInNewTab = function(url) {
+  var $el;
+  $el = $('<a>a link</a>').attr({
+    target: '_blank',
+    href: url
+  }).css({
+    position: 'absolute',
+    left: '-100%',
+    top: '-100%',
+    width: 0,
+    height: 0,
+    opacity: 0
+  }).appendTo(document.body);
+  $el[0].click();
+  return $el.remove();
 };
 
 Array.prototype.__update = function(arr) {

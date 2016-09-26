@@ -411,7 +411,7 @@ header .search:focus {
   overflow: hidden;
   opacity: 0;
 }
-.cd-empty {
+.message-replacing-content {
   font-size: 75px;
   text-align: center;
   font-weight: bold;

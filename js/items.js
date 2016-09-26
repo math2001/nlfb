@@ -71,10 +71,10 @@ Items = (function() {
       }
     };
     fail = function(jqXHR, textStatus, errorThrown) {
-      alert('Fail on loading!');
-      console.error('Fail on loading:', textStatus);
-      console.warn(jqXHR.getAllResponseHeaders());
-      return console.warn(jqXHR.responseText);
+      alert('Fail on loading items!\n\n' + jqXHR.responseText);
+      console.error('Fail on loading items:', textStatus.wrap());
+      console.info(jqXHR.getAllResponseHeaders());
+      return console.info(jqXHR.responseText);
     };
     path = path || this.path.path;
     return $.ajax({
@@ -202,7 +202,7 @@ Items = (function() {
     }
     html = Mustache.render(this.templates[kwargs.type], templateData);
     if (kwargs.animate === true) {
-      totalAnimationTime = 500;
+      totalAnimationTime = CONFIG.browsing_animation_total_time;
       $newItems = this.$items.clone();
       $newItems.html(html);
       showNewItems = function(_this, $newItems) {
@@ -211,7 +211,8 @@ Items = (function() {
           left: 10,
           right: 0
         }, totalAnimationTime / 2, function() {
-          return _this.$items = $newItems;
+          _this.$items = $newItems;
+          return _this.em.fire('items-var-changed', _this.$items);
         });
       };
       $newItems.css({

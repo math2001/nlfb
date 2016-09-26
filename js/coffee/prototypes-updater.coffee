@@ -12,6 +12,23 @@ forEach = (obj, func) ->
 
 copyObject = (obj) -> $.extend({}, obj)
 
+copyText = (text) ->
+	$el = $('<input type="text">')
+	.val(text)
+	.css({
+		position: 'absolute'
+		left: '-100%'
+		top: '-100%'
+		opacity: 0
+	})
+	.appendTo(document.body)
+	$el[0].select()
+	if not document.execCommand('copy')
+		console.warn 'Unable to copy.'
+		return false
+	$el.remove()
+	text
+
 code = (letter) ->
 	return 17 if letter == 'ctrl'
 	return 18 if letter == 'alt'
@@ -23,6 +40,21 @@ code = (letter) ->
 
 	return letter.charCodeAt(0) - 32
 
+openInNewTab = (url) ->
+	$el = $('<a>a link</a>').attr(
+		target: '_blank'
+		href: url
+	).css(
+		position: 'absolute'
+		left: '-100%'
+		top: '-100%'
+		width: 0
+		height: 0
+		opacity: 0
+	)
+		.appendTo(document.body)
+	$el[0].click()
+	$el.remove()
 
 Array::__update = (arr) ->
 	# this = arr
