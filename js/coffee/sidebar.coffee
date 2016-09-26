@@ -1,11 +1,16 @@
 class Sidebar
 
 	@init: ->
-		@$sidebar = $('#sidebar').find('.projects')
+		@$sidebar = $('#sidebar')
+		@$projects = @$sidebar.find('.projects')
+		@$sidebarResizer = $('#sep')
 		@template = $('#sidebar-template').html()
 		
-		@loadItems({ path: '/', $target: @$sidebar, init: true })
+		@loadItems({ path: '/', $target: @$projects, init: true })
 		@bindDOM()
+		@bindEvents()
+
+		@resizingSidebar = false
 
 	@loadItems: (kwargs) ->
 		return console.error('Need path to load items.') if kwargs.path == undefined
@@ -43,6 +48,11 @@ class Sidebar
 		.done done.bind(@)
 		.fail fail
 
+	@bindEvents: ->
+		updateItemsVar = ($items) ->
+			@$items = $items
+		EM.on('items-var-changed', updateItemsVar.bind(@))
+
 	@bindDOM: ->
 		showDeeper = (e) ->
 			$this = $(this)
@@ -57,6 +67,29 @@ class Sidebar
 				paramsToLoadFunction.deploy = false
 				$this.attr('deployed', 'off')
 			e.data.this.loadItems(paramsToLoadFunction)
+
+		startResizeSidebar = ->
+			@resizingSidebar = true
+			$(document.body).css('cursor', 'col-resize')
+
+		stopResizeSidebar = ->
+			@resizingSidebar = false
+			$(document.body).css('cursor', '')
+
+		resizeSidebar = (e) ->
+			if not @resizingSidebar
+				return
+			e.preventDefault()
+			x = (e.clientX / document.body.clientWidth) * 100
+			@$sidebar.css('width', x + '%')
+			@$sidebarResizer.css('left', x + '%')
+			@$items.parent().css('width', (100 - x) + '%')
+			return x
+
+		@$sidebarResizer.bind('mousedown', startResizeSidebar.bind(@))
+		$(document.body)
+			.bind('mouseup', stopResizeSidebar.bind(@))
+			.bind('mousemove', resizeSidebar.bind(@))
 
 		@$sidebar.on('click', '.spoiler-button', { this: @ }, showDeeper)
 

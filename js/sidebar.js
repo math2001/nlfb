@@ -4,14 +4,18 @@ Sidebar = (function() {
   function Sidebar() {}
 
   Sidebar.init = function() {
-    this.$sidebar = $('#sidebar').find('.projects');
+    this.$sidebar = $('#sidebar');
+    this.$projects = this.$sidebar.find('.projects');
+    this.$sidebarResizer = $('#sep');
     this.template = $('#sidebar-template').html();
     this.loadItems({
       path: '/',
-      $target: this.$sidebar,
+      $target: this.$projects,
       init: true
     });
-    return this.bindDOM();
+    this.bindDOM();
+    this.bindEvents();
+    return this.resizingSidebar = false;
   };
 
   Sidebar.loadItems = function(kwargs) {
@@ -58,8 +62,16 @@ Sidebar = (function() {
     }).done(done.bind(this)).fail(fail);
   };
 
+  Sidebar.bindEvents = function() {
+    var updateItemsVar;
+    updateItemsVar = function($items) {
+      return this.$items = $items;
+    };
+    return EM.on('items-var-changed', updateItemsVar.bind(this));
+  };
+
   Sidebar.bindDOM = function() {
-    var showDeeper;
+    var resizeSidebar, showDeeper, startResizeSidebar, stopResizeSidebar;
     showDeeper = function(e) {
       var $this, paramsToLoadFunction;
       $this = $(this);
@@ -76,6 +88,28 @@ Sidebar = (function() {
       }
       return e.data["this"].loadItems(paramsToLoadFunction);
     };
+    startResizeSidebar = function() {
+      this.resizingSidebar = true;
+      return $(document.body).css('cursor', 'col-resize');
+    };
+    stopResizeSidebar = function() {
+      this.resizingSidebar = false;
+      return $(document.body).css('cursor', '');
+    };
+    resizeSidebar = function(e) {
+      var x;
+      if (!this.resizingSidebar) {
+        return;
+      }
+      e.preventDefault();
+      x = (e.clientX / document.body.clientWidth) * 100;
+      this.$sidebar.css('width', x + '%');
+      this.$sidebarResizer.css('left', x + '%');
+      this.$items.parent().css('width', (100 - x) + '%');
+      return x;
+    };
+    this.$sidebarResizer.bind('mousedown', startResizeSidebar.bind(this));
+    $(document.body).bind('mouseup', stopResizeSidebar.bind(this)).bind('mousemove', resizeSidebar.bind(this));
     return this.$sidebar.on('click', '.spoiler-button', {
       "this": this
     }, showDeeper);
