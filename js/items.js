@@ -95,7 +95,8 @@ Items = (function() {
         type: 'files and folders',
         files: mess.files,
         folders: mess.folders,
-        isSearch: true
+        isSearch: true,
+        animate: false
       });
     };
     this.em.on('search', renderSearch.bind(this));
@@ -103,16 +104,20 @@ Items = (function() {
       return this.render({
         type: 'files and folders',
         files: this.files,
-        folders: this.folders
+        folders: this.folders,
+        animate: false
       });
     };
     return this.em.on('empty-search', normalRender.bind(this));
   };
 
   Items.prototype.render = function(kwargs) {
-    var $newItems, _this, code, filesIter, foldersIter, language, obj, showNewItems, templateData, totalAnimationTime;
+    var $newItems, _this, code, filesIter, foldersIter, html, language, obj, showNewItems, templateData, totalAnimationTime;
     if (kwargs == null) {
       kwargs = {};
+    }
+    if (kwargs.animate === void 0) {
+      kwargs.animate = true;
     }
     if (kwargs.type === void 0) {
       return console.error("Don't know the type, impossible to render!");
@@ -195,32 +200,37 @@ Items = (function() {
     } else {
       console.error("Unknown type '" + kwargs.type + "'! Impossible to render.");
     }
-    totalAnimationTime = 500;
-    $newItems = this.$items.clone();
-    $newItems.html(Mustache.render(this.templates[kwargs.type], templateData));
-    showNewItems = function(_this, $newItems) {
-      return $newItems.animate({
-        opacity: 1,
-        left: 10,
-        right: 0
-      }, totalAnimationTime / 2, function() {
-        return _this.$items = $newItems;
+    html = Mustache.render(this.templates[kwargs.type], templateData);
+    if (kwargs.animate === true) {
+      totalAnimationTime = 500;
+      $newItems = this.$items.clone();
+      $newItems.html(html);
+      showNewItems = function(_this, $newItems) {
+        return $newItems.animate({
+          opacity: 1,
+          left: 10,
+          right: 0
+        }, totalAnimationTime / 2, function() {
+          return _this.$items = $newItems;
+        });
+      };
+      $newItems.css({
+        opacity: 0,
+        left: 50,
+        right: -50
       });
-    };
-    $newItems.css({
-      opacity: 0,
-      left: 50,
-      right: -50
-    });
-    _this = this;
-    return this.$items.after($newItems).animate({
-      opacity: 0,
-      left: -50,
-      right: 50
-    }, totalAnimationTime / 2, function() {
-      $(this).remove();
-      return showNewItems(_this, $newItems);
-    });
+      _this = this;
+      return this.$items.after($newItems).animate({
+        opacity: 0,
+        left: -50,
+        right: 50
+      }, totalAnimationTime / 2, function() {
+        $(this).remove();
+        return showNewItems(_this, $newItems);
+      });
+    } else {
+      return this.$items.html(html);
+    }
   };
 
   return Items;

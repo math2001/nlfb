@@ -95,6 +95,7 @@ class Items
 				files: mess.files,
 				folders: mess.folders
 				isSearch: true
+				animate: false
 			)
 
 		@em.on('search', renderSearch.bind(@))
@@ -104,11 +105,15 @@ class Items
 				type: 'files and folders'
 				files: @files,
 				folders: @folders
+				animate: false
 			)
 
 		@em.on('empty-search', normalRender.bind(@))
 
 	render: (kwargs={}) ->
+
+		kwargs.animate = true if kwargs.animate == undefined
+
 
 		if kwargs.type == undefined
 			return console.error "Don't know the type, impossible to render!"
@@ -174,36 +179,41 @@ class Items
 			console.error "Unknown type '#{kwargs.type}'! Impossible to render."
 
 
-		totalAnimationTime = 500
+		html = Mustache.render(@templates[kwargs.type], templateData)
 
-		$newItems = @$items.clone()
-		
-		$newItems.html(Mustache.render(@templates[kwargs.type], templateData))
+		if kwargs.animate == true
+			totalAnimationTime = 500
 
-		showNewItems = (_this, $newItems) ->
-			$newItems.animate(
-				opacity: 1
-				left: 10
-				right: 0
-			, totalAnimationTime / 2, ->
-				_this.$items = $newItems
+			$newItems = @$items.clone()
+			
+			$newItems.html(html)
+
+			showNewItems = (_this, $newItems) ->
+				$newItems.animate(
+					opacity: 1
+					left: 10
+					right: 0
+				, totalAnimationTime / 2, ->
+					_this.$items = $newItems
+				)
+
+			$newItems.css(
+				opacity: 0
+				left: 50
+				right: -50
 			)
+			_this = @
 
-		$newItems.css(
-			opacity: 0
-			left: 50
-			right: -50
-		)
-		_this = @
-
-		@$items.after($newItems).animate(
-			opacity: 0
-			left: -50
-			right: 50
-		totalAnimationTime / 2, ->
-			$(@).remove()
-			showNewItems(_this, $newItems)
-		)
+			@$items.after($newItems).animate(
+				opacity: 0
+				left: -50
+				right: 50
+			totalAnimationTime / 2, ->
+				$(@).remove()
+				showNewItems(_this, $newItems)
+			)
+		else
+			@$items.html(html)
 		
 
 
