@@ -118,10 +118,10 @@ function format_items($path) {
 		} elseif (is_file($temp_path)) {
 			$fitems['files'][$item] = is_image($item);
 		} else {
-			debug($temp_path);
-			header('HTTP/1.0 404 Not Found');
-			header('content-type: text/html');
-			die('error, this is not a dir or a file');
+			// debug($temp_path);
+			// header('HTTP/1.0 404 Not Found');
+			// header('content-type: text/html');
+			// die('error, this is not a dir or a file');
 		}
 	}
 	if (isset($_GET['filter']) AND $_GET['filter'] == 'folders') {
