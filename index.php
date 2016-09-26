@@ -4,6 +4,8 @@
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="./styles/main.css">
 	<!-- <link rel="stylesheet" type="text/css" href="./styles/jquery.contextMenu.min.css"> -->
+	<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link rel="icon" type="image/png" href="./img/folder.png">
 	<meta name="viewport" content="width=device-width" />
 	<title>Localhost</title>
@@ -39,7 +41,9 @@
 			</aside>
 			<div class="sep" id="sep"></div>
 			<article id="main">
-
+				<div class="path-edit-panel" id="path-edit-panel" style="display: none;">
+					<input type="text">
+				</div>
 			 	<div class="navbar">
 			 		<span class="navbar-btn-wrapper">
 			 			<svg class="navbar-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="dirname" id="move-up">
@@ -64,7 +68,7 @@
 					</ul>
 			 	</div>
 		 		<div class="items" hiding-files=on view-mode=icon>
-					Loading...
+					
 		 		</div>
 				</ul>
 			</article>
@@ -112,12 +116,11 @@
 		<img src="{{ path }}" class="atomic-center">
 	</script>
 	<script type="text/template" id="breadcrumbs-template">
-		<!-- <ul> -->
-			{{ #splitedPath }}
-				<li><a data-href="{{ path }}">{{ name }}</a></li>
-			{{ /splitedPath }}
-		<!-- </ul> -->
+		{{ #splitedPath }}
+			<li><a data-href="{{ path }}">{{ name }}</a></li>
+		{{ /splitedPath }}
 	</script>
+
 
 	<!-- Jquery -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
@@ -140,15 +143,13 @@
 	<script type="text/javascript" src="./js/search.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function main () {
-
 			Hash.init(EM);
 			Path.init(EM);
-			Tools.init(EM)
+			Tools.init(EM, Path)
 			Breadcrumbs.init(EM, Path)
 			Search.init(EM, Path)
 			window.items = new Items(Path, EM); // for debug
 
-			// to avoid repetion and mutilple listeners
 
 			fireNavigation = function (e) {
 				e.data.em.fire('update-path',
@@ -156,6 +157,7 @@
 				)
 			}
 
+			// to avoid repetion and mutilple listeners
 			$(document.body).on('click', '[data-href]', {"em": EM}, fireNavigation)
 
 			EM.fire('navigate', location.hash.slice(1) || '/')

@@ -12,6 +12,18 @@ forEach = (obj, func) ->
 
 copyObject = (obj) -> $.extend({}, obj)
 
+code = (letter) ->
+	return 17 if letter == 'ctrl'
+	return 18 if letter == 'alt'
+	return 27 if letter == 'escape'
+	return 13 if letter in ['enter', 'return']
+
+	if letter.length != 1
+		return console.error "code: unknow abrv '#{letter}'"
+
+	return letter.charCodeAt(0) - 32
+
+
 Array::__update = (arr) ->
 	# this = arr
 	while this.length > 0

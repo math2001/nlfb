@@ -37,13 +37,21 @@ gulp.task('atomic-reload', function () {
 })
 
 
-gulp.task('watch', function () {
+gulp.task('heavy-watcher', function () {
+	// reload a lot
 	livereload.listen()
 	gulp.watch('js/coffee/*.coffee', ['coffee'])
 	gulp.watch('styles/stylus/*.styl', ['stylus'])
 	gulp.watch(['**/*.php']).on('change', function (e) {
 		livereload.changed(e.path)
 	})
+})
+
+gulp.task('light-watcher', function () {
+	// reload only on STYLE change
+	livereload.listen()
+	gulp.watch('js/coffee/*.coffee', ['coffee-compile'])
+	gulp.watch('styles/stylus/*.styl', ['stylus']) // reload
 })
 
 gulp.task('dist', function () {

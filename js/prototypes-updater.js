@@ -1,4 +1,4 @@
-var copyObject, forEach;
+var code, copyObject, forEach;
 
 forEach = function(obj, func) {
   var i, j, key, keys, len;
@@ -15,6 +15,25 @@ forEach = function(obj, func) {
 
 copyObject = function(obj) {
   return $.extend({}, obj);
+};
+
+code = function(letter) {
+  if (letter === 'ctrl') {
+    return 17;
+  }
+  if (letter === 'alt') {
+    return 18;
+  }
+  if (letter === 'escape') {
+    return 27;
+  }
+  if (letter === 'enter' || letter === 'return') {
+    return 13;
+  }
+  if (letter.length !== 1) {
+    return console.error("code: unknow abrv '" + letter + "'");
+  }
+  return letter.charCodeAt(0) - 32;
 };
 
 Array.prototype.__update = function(arr) {
