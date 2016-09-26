@@ -405,11 +405,7 @@ header .search:focus {
   opacity: 0.5;
 }
 .items[hiding-files=on][view-mode] .item-hide {
-  height: 0px;
-  width: 0px;
-  margin: 0;
-  overflow: hidden;
-  opacity: 0;
+  display: none;
 }
 .message-replacing-content {
   font-size: 75px;

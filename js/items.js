@@ -147,6 +147,11 @@ Items = (function() {
         } else {
           fileData.icon = this.getIconForFile(this.path.extension(fileData.path));
         }
+        if (~CONFIG.hidden_files.indexOf(file)) {
+          fileData.isHidden = true;
+        } else {
+          fileData.isHidden = false;
+        }
         return templateData.files.push(fileData);
       };
       foldersIter = function(folder, val) {
@@ -165,6 +170,11 @@ Items = (function() {
           folderData.icon = './img/folder-index.svg';
         } else {
           folderData.icon = './img/folder.svg';
+        }
+        if (~CONFIG.hidden_folders.indexOf(folder)) {
+          folderData.isHidden = true;
+        } else {
+          folderData.isHidden = false;
         }
         return templateData.folders.push(folderData);
       };

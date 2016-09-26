@@ -139,6 +139,12 @@ class Items
 					fileData.icon = fileData.path
 				else
 					fileData.icon = @getIconForFile(@path.extension(fileData.path))
+
+				if ~CONFIG.hidden_files.indexOf(file)
+					fileData.isHidden = true
+				else
+					fileData.isHidden = false
+
 				templateData.files.push(fileData)
 		
 			foldersIter = (folder, val) ->
@@ -152,6 +158,12 @@ class Items
 					folderData.icon = './img/folder-index.svg'
 				else
 					folderData.icon = './img/folder.svg'
+
+				if ~CONFIG.hidden_folders.indexOf(folder)
+					folderData.isHidden = true
+				else
+					folderData.isHidden = false
+
 				templateData.folders.push(folderData)
 
 			if kwargs.files isnt null

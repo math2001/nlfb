@@ -26,11 +26,11 @@ I'm recoding the whole JS based on the **module pattern** system, replacing this
 - context menu [jQuery.contextMenu](https://swisnl.github.io/jQuery-contextMenu/)
 - copy name/path/URL path
 - open in **real** (new tab)
+- Sidebar
+- ignored files/folders/projects
 
 ## Features to add
 
-- ignored files/folders/projects
-- Sidebar
 - load full sidebar at the beginning (settings)
 - customs alias
 - add icons to context menu

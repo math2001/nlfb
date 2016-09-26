@@ -99,12 +99,12 @@
 	<!-- Template for mustache -->
 	<script type="text/template" id="items-template-faf">
 		{{ #folders }}
-			<li class="item" data-href="{{ path }}">
+			<li class="item {{ #isHidden }}item-hide{{ /isHidden }}" data-href="{{ path }}">
 				<img src="{{ icon }}"> <a>{{{ name }}}</a>
 			</li>
 		{{ /folders }}
 		{{ #files }}
-			<li class="item" data-href="{{ path }}">
+			<li class="item {{ #isHidden }}item-hide{{ /isHidden }}" data-href="{{ path }}">
 				<img src="{{ icon }}"> <a>{{{ name }}}</a>
 			</li>
 		{{ /files }}
