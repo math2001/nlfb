@@ -9,9 +9,11 @@ Path = (function() {
     return this.bindEvents();
   };
 
-  Path.join = function(to) {
-    var path;
-    path = this.path.split('/');
+  Path.join = function(to, path) {
+    if (path == null) {
+      path = null;
+    }
+    path = (path || this.path).split('/');
     path.remove('');
     path.push(to.strip('/'));
     return '/' + path.join('/');

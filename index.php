@@ -121,6 +121,22 @@
 		{{ /splitedPath }}
 	</script>
 
+	<script type="text/template" id="sidebar-template">
+		<ul>
+			{{ #folders }}
+				<li>
+					{{ #hasFolder }}
+					<span class="spoiler-button" deployed="off"></span>
+					{{ /hasFolder }}
+					{{ ^hasFolder }}
+					<span class="spoiler-replace"></span>
+					{{ /hasFolder }}
+					<a data-href="{{ path }}">{{ name }}</a>
+				</li>
+			{{ /folders }}
+		</ul>
+	</script>
+
 
 	<!-- Jquery -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
@@ -141,6 +157,7 @@
 	<script type="text/javascript" src="./js/path.js"></script>
 	<script type="text/javascript" src="./js/items.js"></script>
 	<script type="text/javascript" src="./js/search.js"></script>
+	<script type="text/javascript" src="./js/sidebar.js"></script>
 	<script type="text/javascript">
 		function main () {
 
@@ -149,6 +166,7 @@
 			Tools.init(EM, Path)
 			Breadcrumbs.init(EM, Path)
 			Search.init(EM, Path)
+			Sidebar.init()
 			window.items = new Items(Path, EM); // for debug
 
 

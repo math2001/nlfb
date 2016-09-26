@@ -4,8 +4,8 @@ class Path
 		@path = location.hash.slice(1) or '/'
 		@bindEvents()
 
-	@join: (to) ->
-		path = @path.split('/')
+	@join: (to, path=null) ->
+		path = (path or @path).split('/')
 		path.remove('')
 		path.push(to.strip('/'))
 		'/' + path.join('/')

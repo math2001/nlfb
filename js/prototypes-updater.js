@@ -148,3 +148,15 @@ $.fn.exists = function(nice) {
   }
   return this.length > 0;
 };
+
+$.arrayDiff = function(arr1, arr2) {
+  var arr, i, j, len, val;
+  arr = [];
+  for (i = j = 0, len = arr1.length; j < len; i = ++j) {
+    val = arr1[i];
+    if (arr2.indexOf(val) === -1) {
+      arr.push(val);
+    }
+  }
+  return arr;
+};

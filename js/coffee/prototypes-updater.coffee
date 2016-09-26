@@ -107,3 +107,10 @@ String::wrap = (char='"') ->
 
 $.fn.exists = (nice=false) ->
 	return this.length > 0
+
+$.arrayDiff = (arr1, arr2) ->
+	arr = []
+	for val, i in arr1
+		arr.push val if arr2.indexOf(val) == -1
+	return arr
+

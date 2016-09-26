@@ -79,6 +79,16 @@ function listdir($path) {
 	return $items;
 }
 
+function hasFolder($path) {
+	$items = listdir($path);
+	foreach ($items as $k => $v) {
+		if (is_dir(pathjoin($path, $v))) {
+			return true;
+		}
+	}
+	return false;
+}
+
 function format_items($path) {
 
 	$fitems = [
@@ -98,6 +108,10 @@ function format_items($path) {
 				if ($_GET['noticer'] == 'index') {
 					$fitems['folders'][$item] = has_any('index.php', 'index.html',
 					listdir($temp_path));
+				} elseif ($_GET['noticer'] == 'hasFolder') {
+					$fitems['folders'][$item] = hasFolder($temp_path);
+				} else {
+					$fitems['folders'][$item] = null;
 				}
 			}
 
@@ -110,13 +124,15 @@ function format_items($path) {
 			die('error, this is not a dir or a file');
 		}
 	}
-
+	if (isset($_GET['filter']) AND $_GET['filter'] == 'folders') {
+		unset($fitems['files']);
+	}
 	return $fitems;
 
 }
 if (is_dir($path)) {
 	header("content-type: application/json");
-	echo json_encode(format_items($path));
+	echo json_encode(format_items($path), (is_ajax() ? 0 : JSON_PRETTY_PRINT));
 } elseif (is_file($path)) {
 	if (is_image($path)) {
 		header('content-type: image/png'); // png/jpg/whatever does not matter,
