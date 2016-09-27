@@ -11,46 +11,72 @@
 	<title>NLFB</title>
 </head>
 <body>
-	<div class="section" data-nb=1>
+	<section data-nb=1>
 		<div class="main-panel">
 			<div class="main-panel-text">
 				<h1>NLFB - Nice Localhost File Browser</h1>
 				<p><button class="reverse" id="show-me-what-this-is">Show me what this is!</button></p>
 			</div>
 		</div>
-	</div>
-	<div class="section" data-nb=2 state=right>
+	</section>
+	<section data-nb=2 state=center>
 		<div class="inner">
 			<h1>NLFB - Nice Localhost File Browser</h1>
-			<p>NLFB is a simple one-page "app" that replace this <i>just all right</i> localhost homepage but also this disgusting <i>Apache made</i> browser.</p>
-			<p>This browser comes with different useful features, such as</p>
-			<ul>
-				<li><a scrollTo="#sidebar">A side bar, listing all your projects listed</a></li>
-				<li><a scrollTo="#searchbar">A special search bar</a></li>
-				<li><a scrollTo="#breadcrumbs">Breadcrumbs and type path "feature"</a></li>
-				<li><a scrollTo="#code">A colored code previewer</a></li>
-			</ul>
+			<article>
+				<p>NLFB is a simple one-page web "app" that gives you a pretty nice interface to browse you projects</p>
+				<p>This browser comes with different useful features, such as</p>
+				<ul>
+					<li><a scrollTo="#sidebar">A side bar, listing all your projects listed</a></li>
+					<li><a scrollTo="#searchbar">A special search bar</a></li>
+					<li><a scrollTo="#breadcrumbs">Breadcrumbs and type path "feature"</a></li>
+					<li><a scrollTo="#code">A colored code previewer</a></li>
+				</ul>
+			</article>
 
-			<h3 id="sidebar">The side bar</h3>
-			<img src="img/sidebar.gif">
-			<p class="mute">Note: the deployment of the folders are fluids, it's just the gif that didn't recodered properly</p>
+			<article>
+				<h3 id="sidebar">The side bar</h3>
+				<img src="img/sidebar.gif">
+				<p class="mute">Note: the deployment of the folders are fluids, it's just the gif that didn't recodered properly</p>
+			</article>
 
-			<h3 id="searchbar">The special search bar</h3>
-			<p>It search for folders and files through the current directory. The special point is that it is based on the order of the letters, so says you type <code>ctrl</code>, it would bring up <code>controller</code> (if there's any of course)</p>
-			<img src="img/search.gif">
+			<article>
+				<h3 id="searchbar">The special search bar</h3>
+				<p>It search for folders and files through the current directory. The special point is that it is based on the order of the letters, so says you type <code>ctrl</code>, it would bring up <code>controller</code> (if there's any of course)</p>
+				<img src="img/search.gif">
+			</article>
 
-			<h3 id="breadcrumbs">Breadcrumbs and type path "feature"</h3>
-	
-			<img src="img/breadcrumbs.gif">
+			<article>
+				<h3 id="breadcrumbs">Breadcrumbs and type path "feature"</h3>
+				<img src="img/breadcrumbs.gif">
+			</article>
 
-			<h3 id="code">Highlighting code previewer</h3>
-			<p>A GitHub-like color scheme, using <a href="http://highlightjs.org">highlightjs</a></p>
-			<img src="img/code-view.png" style="width: 100%;">
+			<article>
+				<h3 id="code">Highlighting code previewer</h3>
+				<p>A GitHub-like color scheme, using <a href="http://highlightjs.org">highlightjs</a></p>
+				<img src="img/code-view.png" style="width: 100%;">
+			</article>
 
-			
+			<article>
+				<h3 id="others">Other things...</h3>
+				<p>There's a custom context menu with few options</p>
+				<img src="img/contextmenu.gif">
+			</article>
+
+			<article>
+				<p class="text-center">
+					<a href="http://github.com/math2001/nlfb/" class="btn" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="25" height="25">
+						  <path fill-rule="evenodd" clip-rule="evenodd" fill="#191717" d="M18 1.4C9 1.4 1.7 8.7 1.7 17.7c0 7.2 4.7 13.3 11.1 15.5.8.1 1.1-.4 1.1-.8v-2.8c-4.5 1-5.5-2.2-5.5-2.2-.7-1.9-1.8-2.4-1.8-2.4-1.5-1 .1-1 .1-1 1.6.1 2.5 1.7 2.5 1.7 1.5 2.5 3.8 1.8 4.7 1.4.1-1.1.6-1.8 1-2.2-3.6-.4-7.4-1.8-7.4-8.1 0-1.8.6-3.2 1.7-4.4-.2-.4-.7-2.1.2-4.3 0 0 1.4-.4 4.5 1.7 1.3-.4 2.7-.5 4.1-.5 1.4 0 2.8.2 4.1.5 3.1-2.1 4.5-1.7 4.5-1.7.9 2.2.3 3.9.2 4.3 1 1.1 1.7 2.6 1.7 4.4 0 6.3-3.8 7.6-7.4 8 .6.5 1.1 1.5 1.1 3v4.5c0 .4.3.9 1.1.8 6.5-2.2 11.1-8.3 11.1-15.5C34.3 8.7 27 1.4 18 1.4z"/>
+						</svg>
+						See on GitHub
+					</a>
+				</p>
+				
+				<p class="text-center" style="margin-top: 50px;">Made with &hearts; by math2001</p>
+			</article>
 	
 		</div>
-	</div>
+	</section>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>

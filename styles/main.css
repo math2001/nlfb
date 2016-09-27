@@ -12,21 +12,43 @@ code {
   border-radius: 3px;
   padding: 2px 5px;
 }
-button {
+button,
+.btn {
+  text-decoration: none;
+  color: #333;
   background-color: transparent;
-  border: 1px solid #000;
+  border: 1px solid #aaa;
   padding: 10px;
-  font-size: 100%;
+  font-size: 80%;
   border-radius: 5px;
   font-family: "Open Sans";
   cursor: pointer;
 }
-button:hover {
-  background-color: rgba(255,255,255,0.2);
+button img,
+.btn img,
+button svg,
+.btn svg {
+  vertical-align: middle;
+  margin-top: -5px;
 }
-button.reverse {
+button img path,
+.btn img path,
+button svg path,
+.btn svg path {
+  fill: #333;
+}
+button:hover,
+.btn:hover {
+  background-color: rgba(0,0,0,0.067);
+}
+button.reverse,
+.btn.reverse {
   border-color: #fff;
   color: #fff;
+}
+button.reverse:hover,
+.btn.reverse:hover {
+  background-color: rgba(255,255,255,0.2);
 }
 a {
   color: #666;
@@ -36,12 +58,15 @@ a {
 a:hover {
   color: inherit;
 }
+.text-center {
+  text-align: center;
+}
 * {
   outline: none;
 }
 html,
 body,
-.section {
+section {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -52,7 +77,7 @@ body {
   background: url("../img/global.png") no-repeat 0 0;
   background-size: 100% 100%;
 }
-.section {
+section {
   height: 100%;
   width: 100%;
   position: absolute;
@@ -65,20 +90,23 @@ body {
   font-family: 'Ubuntu', sans-serif;
   overflow: auto;
 }
-.section[state=right] {
+section[state=right] {
   left: 100%;
   right: -100%;
 }
-.section[state=left] {
+section[state=left] {
   right: 100%;
   left: -100%;
 }
-.section[data-nb="1"] {
+section[data-nb="1"] {
   color: #eee;
   text-align: center;
 }
-.section[data-nb="2"] {
+section[data-nb="2"] {
   background-color: #fff;
+}
+section article {
+  margin: 50px 0;
 }
 .main-panel {
   height: 100%;

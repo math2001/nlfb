@@ -12,21 +12,30 @@ code
 	border-radius 3px
 	padding 2px 5px
 
-button
+button, .btn
+	text-decoration none
+	color #333
 	background-color transparent
-	border 1px solid black
+	border 1px solid #aaa
 	padding 10px
-	font-size 100%
+	font-size 80%
 	border-radius 5px
 	font-family "Open Sans"
 	cursor pointer
-	
-	&:hover
-		background-color #fff3
+	img, svg
+		vertical-align middle
+		margin-top -5px
+		path
+			fill #333
 		
+	&:hover
+		background-color #0001
+
 	&.reverse
 		border-color white
 		color white
+		&:hover
+			background-color #fff3
 	
 a
 	color #666
@@ -35,3 +44,6 @@ a
 	
 	cursor pointer
 	text-decoration underline
+
+.text-center
+	text-align center
