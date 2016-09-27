@@ -8,14 +8,14 @@
 	<!-- <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"> -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> -->
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<title>NLFB</title>
+	<title>NLFB - Nice Localhost File Browser</title>
 </head>
 <body>
 	<section data-nb=1>
 		<div class="main-panel">
 			<div class="main-panel-text">
 				<h1>NLFB - Nice Localhost File Browser</h1>
-				<p><button class="reverse" id="show-me-what-this-is">Show me what this is!</button></p>
+				<p><button class="reverse go-forward">Show me what this is!</button></p>
 			</div>
 		</div>
 	</section>
@@ -37,6 +37,7 @@
 			<article>
 				<h3 id="sidebar">The side bar</h3>
 				<img src="img/sidebar.gif">
+				<p>The sidebar is resizable</p>
 				<p class="mute">Note: the deployment of the folders are fluids, it's just the gif that didn't recodered properly</p>
 			</article>
 
@@ -71,11 +72,45 @@
 						</svg>
 						See on GitHub
 					</a>
+					<button class="button go-forward">Find out more!</button>
+
 				</p>
 				
 				<p class="text-center" style="margin-top: 50px;">Made with &hearts; by math2001</p>
 			</article>
-	
+		</div>
+	</section>
+	<section state="center" data-nb=3>
+		<div class="inner">
+			<h1>NLFB - Nice Localhost File Browser</h1>
+			<article>
+				<h3 id="shortcuts">Shorcuts - <i>not implemented yet</i></h3>
+				<ul>
+					<li><kbd>f</kbd>: find, focus the search bar</li>
+					<li><kbd>r</kbd>: refresh</li>
+					<li><kbd>d</kbd>: dirname</li>
+					<li><kbd>e</kbd>: edit path</li>
+				</ul>
+			</article>
+			<article>
+				<h3 id="ignoring-items">Ignoring items</h3>
+				<p>You can ignore different items:</p>
+				<ul>
+					<li><b>projects</b>: affect the side bar, cannot be show</li>
+					<li><b>folders</b>: affect the main panel. You can show them by right clicking and choosing <code>Toggle Hidden Items</code></li>
+					<li><b>files</b>: same as the folders</li>
+				</ul>
+				<p>You can add/remove ignored items in the <code>config.json</code> file at the root of the project. It should look something like this:</p>
+				<pre class="json"><code>{
+	"exclude_projects": [
+		"_nlfb"
+	],
+	"exclude_files": [
+		".git"
+	],
+	"exclude_folders": []
+}</code></pre>
+			</article>
 		</div>
 	</section>
 
