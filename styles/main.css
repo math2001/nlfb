@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 .atomic-center {
   position: absolute;
   top: 50%;
@@ -44,7 +47,7 @@ button img path,
 .btn img path,
 button svg path,
 .btn svg path {
-  fill: #333;
+  fill: currentColor;
 }
 button:hover,
 .btn:hover {
@@ -58,6 +61,11 @@ button.reverse,
 button.reverse:hover,
 .btn.reverse:hover {
   background-color: rgba(255,255,255,0.2);
+}
+button.big,
+.btn.big {
+  padding: 20px;
+  font-size: 120%;
 }
 a {
   color: #666;
@@ -118,7 +126,8 @@ section[state=left] {
   left: -100%;
   overflow: hidden;
 }
-section[data-nb="1"] {
+section[data-nb="1"],
+section[data-nb="5"] {
   color: #eee;
   text-align: center;
   background: none;

@@ -2,7 +2,7 @@ var main;
 
 $(document).ready(main = function() {
   var $section, scrollTo;
-  $section = $('section[data-nb="1"]');
+  $section = $('section[state="center"]').last();
   $('.go-forward').bind('click', function() {
     $section.attr('state', 'left');
     return $section = $("section[data-nb='" + (parseInt($section.attr('data-nb')) + 1) + "']").attr('state', 'center');

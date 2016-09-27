@@ -1,6 +1,6 @@
 $(document).ready( main = ->
 
-	$section = $ 'section[data-nb="1"]'
+	$section = $('section[state="center"]').last()
 
 	$('.go-forward').bind('click', ->
 		$section.attr('state', 'left')
