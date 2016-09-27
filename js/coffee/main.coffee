@@ -7,4 +7,17 @@ $(document).ready( main = ->
 		$section = $(".section[data-nb='#{parseInt($section.attr('data-nb')) + 1}']").attr('state', 'center')
 	)
 
+	$('[scrollTo]').bind('click', scrollTo = () ->
+		top = $($(this).attr('scrollTo')).offset().top
+		console.log 'click', top
+		$section.animate({
+			scrollTop: top
+		}, 1000, ->
+			console.log 'done'
+		);
+		return false
+	)
+
+
+
 )
