@@ -176,9 +176,16 @@ class Items
 
 		else if kwargs.type == 'code'
 			if @path.extension() isnt 'txt'
-				obj = hljs.highlightAuto(kwargs.content)
-				code = obj.value.replace(/\t/g, '    ')
-				language = obj.language || 'plain'
+				ext = @path.extension()
+				if ext.indexOf('php') >= 0
+					ext = 'html'
+				if hljs.getLanguage(ext)
+					obj = hljs.highlight(ext, kwargs.content)
+					code = obj.value.replace(/\t/g, '    ')
+					language = obj.language
+				else
+					code = kwargs.content
+					language = 'unknown'
 			else
 				code = kwargs.content
 				language = 'plain'

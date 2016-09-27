@@ -116,8 +116,6 @@ pre div.language {
   bottom: 7px;
   color: #ddd;
   font-family: "Monaco";
-  font-size: 15px;
-  line-height: 15px;
   background-color: rgba(0,0,0,0.533);
   padding: 5px 5px;
   border-radius: 2px 0 0 2px;
@@ -719,29 +717,49 @@ header .search:focus {
   background-color: #ff3a3a;
   color: #fff;
 }
+/*
+The MIT License (MIT)
+Copyright (c) 2016 GitHub, Inc.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 .hljs {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
   color: #383a42;
+  font-size: 13px;
+  line-height: 16px;
   background: #fafafa;
 }
 .hljs-comment,
-.hljs-quote {
-  color: #a0a1a7;
-  font-style: italic;
+.hljs-quote,
+.hljs-meta {
+  color: #969896;
 }
 .hljs-doctag,
 .hljs-keyword,
 .hljs-formula {
-  color: #a626a4;
+  color: #a71d5d;
 }
-.hljs-section,
 .hljs-name,
 .hljs-selector-tag,
 .hljs-deletion,
 .hljs-subst {
-  color: #e45649;
+  color: #63a35c;
 }
 .hljs-literal {
   color: #0184bb;
@@ -751,11 +769,12 @@ header .search:focus {
 .hljs-addition,
 .hljs-attribute,
 .hljs-meta-string {
-  color: #50a14f;
+  color: #183691;
 }
+.hljs-number,
 .hljs-built_in,
 .hljs-class .hljs-title {
-  color: #c18401;
+  color: #0086b3;
 }
 .hljs-attr,
 .hljs-variable,
@@ -763,16 +782,15 @@ header .search:focus {
 .hljs-type,
 .hljs-selector-class,
 .hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-number {
-  color: #986801;
+.hljs-section,
+.hljs-title,
+.hljs-selector-pseudo {
+  color: #795da3;
 }
 .hljs-symbol,
 .hljs-bullet,
 .hljs-link,
-.hljs-meta,
-.hljs-selector-id,
-.hljs-title {
+.hljs-selector-id {
   color: #4078f2;
 }
 .hljs-emphasis {

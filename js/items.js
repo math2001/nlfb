@@ -112,7 +112,7 @@ Items = (function() {
   };
 
   Items.prototype.render = function(kwargs) {
-    var $newItems, _this, code, filesIter, foldersIter, html, language, obj, showNewItems, templateData, totalAnimationTime;
+    var $newItems, _this, code, ext, filesIter, foldersIter, html, language, obj, showNewItems, templateData, totalAnimationTime;
     if (kwargs == null) {
       kwargs = {};
     }
@@ -189,9 +189,18 @@ Items = (function() {
       }
     } else if (kwargs.type === 'code') {
       if (this.path.extension() !== 'txt') {
-        obj = hljs.highlightAuto(kwargs.content);
-        code = obj.value.replace(/\t/g, '    ');
-        language = obj.language || 'plain';
+        ext = this.path.extension();
+        if (ext.indexOf('php') >= 0) {
+          ext = 'html';
+        }
+        if (hljs.getLanguage(ext)) {
+          obj = hljs.highlight(ext, kwargs.content);
+          code = obj.value.replace(/\t/g, '    ');
+          language = obj.language;
+        } else {
+          code = kwargs.content;
+          language = 'unknown';
+        }
       } else {
         code = kwargs.content;
         language = 'plain';

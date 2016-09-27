@@ -142,7 +142,10 @@
 	<script type="text/javascript" src="./js/jquery.outside.js"></script>
 	<script type="text/javascript" src="./js/jquery.ui.position.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.contextMenu.min.js"></script>
+	
+	<!-- highlightjs -->
 	<script type="text/javascript" src="./js/highlight.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/stylus.min.js"></script>
 
 	
 	<script type="text/javascript" src="./js/prototypes-updater.js"></script>

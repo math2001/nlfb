@@ -1,7 +1,7 @@
 {
-  "name": "nice_index", 
+  "name": "nice_localhost_file_browser", 
   "version": "1.0.0", 
-  "description": "A nice indexer", 
+  "description": "Nice localhost file browser", 
   "main": "null", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +15,7 @@
   }, 
   "repository": {
     "type": "git", 
-    "url": "local"
+    "url": "https://github.com/math2001/nlfb"
   }, 
   "keywords": [
     "localhost", 
