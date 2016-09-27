@@ -32,9 +32,11 @@ section
 	&[state=right]
 		left 100%
 		right -100%
+		overflow hidden
 	&[state=left]
 		right 100%
 		left -100%
+		overflow hidden
 		
 
 	&[data-nb="1"]
@@ -67,8 +69,35 @@ section
 	width 750px
 	margin auto
 	height 100%
+	padding-top 20px
+	h1
+		text-align center
+		margin-top 0
 	img
 		width 80%
 		margin auto
 		display block
 	
+.hint
+	padding 10px
+	background-color lighten(#fad096, 40%)
+	border 1px solid darken(@background-color, 50%)
+	border-radius 5px
+	&::before
+		content: ""
+		display inline-block
+		width 40px
+		height @width
+		line-height @width - 3
+		font-size 20px
+		color @background-color
+		font-weight bold
+		background-image url(../img/idea-2.svg)
+		background-size 100% 100%
+		background-position center center
+		background-repeat no-repeat
+		border-radius 50px
+		text-align center
+		vertical-align middle
+		margin-right 5px
+		margin-bottom 10px

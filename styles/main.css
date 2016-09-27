@@ -75,6 +75,8 @@ kbd {
   min-width: 20px;
   display: inline-block;
   text-align: center;
+  background-color: #fff;
+  padding: 0 3px;
 }
 * {
   outline: none;
@@ -109,10 +111,12 @@ section {
 section[state=right] {
   left: 100%;
   right: -100%;
+  overflow: hidden;
 }
 section[state=left] {
   right: 100%;
   left: -100%;
+  overflow: hidden;
 }
 section[data-nb="1"] {
   color: #eee;
@@ -145,9 +149,39 @@ section article {
   width: 750px;
   margin: auto;
   height: 100%;
+  padding-top: 20px;
+}
+.inner h1 {
+  text-align: center;
+  margin-top: 0;
 }
 .inner img {
   width: 80%;
   margin: auto;
   display: block;
+}
+.hint {
+  padding: 10px;
+  background-color: #fce3c0;
+  border: 1px solid #d4800a;
+  border-radius: 5px;
+}
+.hint::before {
+  content: "";
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 37px;
+  font-size: 20px;
+  color: #fce3c0;
+  font-weight: bold;
+  background-image: url("../img/idea-2.svg");
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 50px;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
