@@ -1,0 +1,51 @@
+@import 'global.styl'
+
+*
+	outline none
+
+html, body, .wrapper
+	height 100%
+	width 100%
+	margin 0
+
+.wrapper
+	background url('../img/global.png') no-repeat
+	background-size 100% 100%
+
+.main-panel
+	height 100%
+	width 100%
+	background-color #0009
+	display table
+	.main-panel-text
+		display table-cell
+		font-family 'Lato', sans-serif
+		font-weight 900
+		vertical-align middle
+		text-align center
+		color white
+		
+		h1
+			vertical-align middle
+			font-size 6vw
+			margin 0
+		p
+			margin 50px
+		
+button
+	background-color transparent
+	border 1px solid black
+	padding 10px
+	font-size 100%
+	border-radius 5px
+	font-family "Open Sans"
+	cursor pointer
+	
+	&:hover
+		background-color #fff3
+		
+	&.reverse
+		border-color white
+		color white
+	
+	

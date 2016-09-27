@@ -1,0 +1,58 @@
+.atomic-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+* {
+  outline: none;
+}
+html,
+body,
+.wrapper {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+.wrapper {
+  background: url("../img/global.png") no-repeat;
+  background-size: 100% 100%;
+}
+.main-panel {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: table;
+}
+.main-panel .main-panel-text {
+  display: table-cell;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  vertical-align: middle;
+  text-align: center;
+  color: #fff;
+}
+.main-panel .main-panel-text h1 {
+  vertical-align: middle;
+  font-size: 6vw;
+  margin: 0;
+}
+.main-panel .main-panel-text p {
+  margin: 50px;
+}
+button {
+  background-color: transparent;
+  border: 1px solid #000;
+  padding: 10px;
+  font-size: 100%;
+  border-radius: 5px;
+  font-family: "Open Sans";
+  cursor: pointer;
+}
+button:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+button.reverse {
+  border-color: #fff;
+  color: #fff;
+}
