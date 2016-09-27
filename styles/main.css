@@ -9,28 +9,55 @@
 }
 html,
 body,
-.wrapper {
+.section {
   height: 100%;
   width: 100%;
   margin: 0;
 }
-.wrapper {
-  background: url("../img/global.png") no-repeat;
+body {
+  overflow-x: hidden;
+  font-size: 18px;
+  background: url("../img/global.png") no-repeat 0 0;
   background-size: 100% 100%;
+}
+.section {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition-property: left, right;
+  transition-duration: 2s;
+  color: #333;
+  font-family: 'Ubuntu', sans-serif;
+  overflow: auto;
+}
+.section[state=right] {
+  left: 100%;
+  right: -100%;
+}
+.section[state=left] {
+  right: 100%;
+  left: -100%;
+}
+.section[data-nb="1"] {
+  color: #eee;
+  text-align: center;
+}
+.section[data-nb="2"] {
+  background-color: #fff;
 }
 .main-panel {
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.6);
   display: table;
+  background-color: rgba(0,0,0,0.6);
 }
 .main-panel .main-panel-text {
   display: table-cell;
-  font-family: 'Lato', sans-serif;
   font-weight: 900;
   vertical-align: middle;
-  text-align: center;
-  color: #fff;
 }
 .main-panel .main-panel-text h1 {
   vertical-align: middle;
@@ -39,6 +66,16 @@ body,
 }
 .main-panel .main-panel-text p {
   margin: 50px;
+}
+.inner {
+  width: 750px;
+  margin: auto;
+  height: 100%;
+}
+.inner img {
+  width: 80%;
+  margin: auto;
+  display: block;
 }
 button {
   background-color: transparent;

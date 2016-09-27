@@ -5,18 +5,53 @@
 	<link rel="stylesheet" href="styles/main.css"/>
 	<link rel="icon" type="image/png" href="img/favicon.png"/>
 	<meta name="viewport" content="width=device-width" />
-	<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"> -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	<title>NLFB</title>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="section" data-nb=1>
 		<div class="main-panel">
 			<div class="main-panel-text">
 				<h1>NLFB - Nice Localhost File Browser</h1>
-				<p><button class="reverse">I want this too!</button></p>
+				<p><button class="reverse" id="show-me-what-this-is">Show me what this is!</button></p>
 			</div>
 		</div>
 	</div>
+	<div class="section" data-nb=2 state=right>
+		<div class="inner">
+			<h1>NLFB - Nice Localhost File Browser</h1>
+			<p>NLFB is a simple one-page "app" that replace this <i>just all right</i> localhost homepage but also this disgusting <i>Apache made</i> browser.</p>
+			<p>This browser comes with different useful features, such as</p>
+			<ul>
+				<li>A side bar, listing all your projects listed</li>
+				<li>A special search bar</li>
+				<li>Breadcrumbs</li>
+				<li>A colored code previewer</li>
+			</ul>
+
+			<h3>The side bar</h3>
+			<img src="img/sidebar.gif">
+
+			<h3>The special search bar</h3>
+			<p>It search for folders and files through the current directory. The special point is that it is based on the order of the letters, so says you type <code>ctrl</code>, it would bring up <code>controller</code> (if there's any of course)</p>
+			<img src="img/search.gif">
+
+			<h3>Breadcrumbs</h3>
+	
+			<img src="img/breadcrumbs">
+
+			<h3>Highlighting code previewer</h3>
+			<p>A GitHub-like color scheme, using <a href="http://highlightjs.org">highlightjs</a></p>
+			<img src="img/code-view.png" style="width: 100%;">
+
+
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+
 </body>
 </html>
