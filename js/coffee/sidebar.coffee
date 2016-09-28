@@ -116,7 +116,7 @@ class Sidebar
 			if $toDeploy.length == 0
 				$toDeploy = $(Mustache.render(@template, dataForTemplate)).slideUp(0)
 				kwargs.$target.append($toDeploy)
-			$toDeploy.slideDown()
+			$toDeploy.slideDown(CONFIG.deployment_transition_time)
 		else
-			kwargs.$target.find('ul').first().slideUp()
+			kwargs.$target.find('ul').first().slideUp(CONFIG.deployment_transition_time)
 

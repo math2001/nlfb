@@ -1,6 +1,6 @@
-# Nice Localhost File Browser - **module pattern**
+# Nice Localhost File Browser
 
-Don't like the home page of WAMP, and you just **cannot** stand this awful *apache made* "browser".
+Don't like the WAMP homepage, and you just **cannot** stand this *apache made* "browser".
 
 Well, in just **2** steps, you can easily have a pretty nice browser.
 
@@ -10,10 +10,6 @@ Well, in just **2** steps, you can easily have a pretty nice browser.
 2. Open the `index.php` file in your `www` directory and add this line at the beginning: `<?php header('location: _nlfb/'); ?>`
 
 That's it, open [localhost](http://localhost) and *savourez*.
-
-## About this branch
-
-I'm recoding the whole JS based on the **module pattern** system, replacing this ugly and messy *spaghetti* code.
 
 ## Current features
 

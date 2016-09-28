@@ -114,6 +114,18 @@ Search = (function() {
     }, search);
   };
 
+  Search.isFocus = function() {
+    return this.$el.is(':focus');
+  };
+
+  Search.run = function() {
+    if (this.isFocus()) {
+      return false;
+    }
+    this.$el.focus();
+    return true;
+  };
+
   return Search;
 
 })();

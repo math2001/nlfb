@@ -146,9 +146,9 @@ Sidebar = (function() {
         $toDeploy = $(Mustache.render(this.template, dataForTemplate)).slideUp(0);
         kwargs.$target.append($toDeploy);
       }
-      return $toDeploy.slideDown();
+      return $toDeploy.slideDown(CONFIG.deployment_transition_time);
     } else {
-      return kwargs.$target.find('ul').first().slideUp();
+      return kwargs.$target.find('ul').first().slideUp(CONFIG.deployment_transition_time);
     }
   };
 

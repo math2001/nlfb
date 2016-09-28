@@ -3,7 +3,6 @@
 <head>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="./styles/main.css">
-	<!-- <link rel="stylesheet" type="text/css" href="./styles/jquery.contextMenu.min.css"> -->
 	<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link rel="icon" type="image/png" href="./img/folder.png">
@@ -158,6 +157,9 @@
 	<script type="text/javascript" src="./js/items.js"></script>
 	<script type="text/javascript" src="./js/search.js"></script>
 	<script type="text/javascript" src="./js/sidebar.js"></script>
+	<script type="text/javascript" src="./js/shorcuts.js"></script>
+
+
 	<script type="text/javascript">
 		function main () {
 
@@ -167,6 +169,7 @@
 			Breadcrumbs.init(EM, Path)
 			Search.init(EM, Path)
 			Sidebar.init()
+			Shorcuts.init()
 			window.items = new Items(Path, EM); // for debug
 
 
@@ -186,8 +189,11 @@
 			$.getJSON('config.json', function getConfig(config) {
 				CONFIG = $.extend({ // makes it global
 					browsing_animation_total_time: 500,
-					exclude_projects: ['_nlfb']
-				}, config) 
+					deployment_transition_time: 250,
+					exclude_projects: ['_nlfb'],
+					hidden_files: [],
+					hidden_folders: [".git"]
+				}, config)
 				main()
 
 			})

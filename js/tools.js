@@ -23,18 +23,25 @@ Tools = (function() {
     return this.em.on('items-var-changed', saveItems.bind(this));
   };
 
+  Tools.dirname = function() {
+    return this.em.fire('update-path', Path.dirname());
+  };
+
+  Tools.refresh = function() {
+    return this.em.fire('navigate', location.hash.slice(1));
+  };
+
+  Tools.isFocus = function() {
+    return this.$editpathInput.is(':focus');
+  };
+
+  Tools.showEditPathPanel = function() {
+    this.$editpathPanel.fadeIn(400);
+    return this.$editpathInput.focus();
+  };
+
   Tools.bindDOM = function() {
-    var dirname, refresh, searchCommand, showEditPathPanel, specificToItems, view;
-    dirname = function() {
-      return this.em.fire('update-path', Path.dirname());
-    };
-    refresh = function() {
-      return this.em.fire('navigate', location.hash.slice(1));
-    };
-    showEditPathPanel = function() {
-      this.$editpathPanel.fadeIn(400);
-      return this.$editpathInput.focus();
-    };
+    var searchCommand, specificToItems, view;
     searchCommand = function(e) {
       var $this, path;
       $this = $(this);
@@ -57,9 +64,9 @@ Tools = (function() {
     this.$editpathInput.bind('keydown', {
       "this": this
     }, searchCommand);
-    this.$dirname.bind('click', dirname.bind(this));
-    this.$refresh.bind('click', refresh.bind(this));
-    this.$editpath.bind('click', showEditPathPanel.bind(this));
+    this.$dirname.bind('click', this.dirname.bind(this));
+    this.$refresh.bind('click', this.refresh.bind(this));
+    this.$editpath.bind('click', this.showEditPathPanel.bind(this));
     specificToItems = {
       open: {
         name: "Open in real",

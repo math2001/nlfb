@@ -95,3 +95,12 @@ class Search
 			e.data.this.em.fire('search', { files: selectedFiles, folders: selectedFolders })
 
 		@$el.bind('input', { "this": @ }, search)
+
+	@isFocus: ->
+		@$el.is(':focus')
+
+	@run: ->
+		if @isFocus()
+			return false
+		@$el.focus()
+		return true

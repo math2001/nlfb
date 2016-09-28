@@ -22,17 +22,21 @@ class Tools
 
 		@em.on('items-var-changed', saveItems.bind(@))
 
-
-	@bindDOM: () ->
-		dirname = ->
+	@dirname = ->
 			@em.fire('update-path', Path.dirname())
 
-		refresh = ->
-			@em.fire('navigate', location.hash.slice(1))
+	@refresh = ->
+		@em.fire('navigate', location.hash.slice(1))
 
-		showEditPathPanel = ->
-			@$editpathPanel.fadeIn(400)
-			@$editpathInput.focus()
+	@isFocus: ->
+		@$editpathInput.is(':focus')
+
+	@showEditPathPanel = ->
+		@$editpathPanel.fadeIn(400)
+		@$editpathInput.focus()
+
+	@bindDOM: () ->
+		
 
 		searchCommand = (e) ->
 			$this = $(this)
@@ -55,9 +59,9 @@ class Tools
 
 		@$editpathInput.bind('keydown', { this: @ }, searchCommand)
 
-		@$dirname.bind('click', dirname.bind(@))
-		@$refresh.bind('click', refresh.bind(@))
-		@$editpath.bind('click', showEditPathPanel.bind(@))
+		@$dirname.bind('click', @dirname.bind(@))
+		@$refresh.bind('click', @refresh.bind(@))
+		@$editpath.bind('click', @showEditPathPanel.bind(@))
 
 		specificToItems = 
 			open:
