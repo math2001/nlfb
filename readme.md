@@ -1,33 +1,26 @@
-# Nice Localhost File Browser
+# NLFB - Nice Localhost File Browser
 
-Don't like the WAMP homepage, and you just **cannot** stand this *apache made* "browser".
+We have to admit, the homepage of WAMP is not super great, and the apache browser is quite ugly. **So, this repository is here to solve the problem!** Have a look!
 
-Well, in just **2** steps, you can easily have a pretty nice browser.
+![NLFB interface](img/screenshots/nlfb.png)
+![NLFB context-menu](img/screenshots/context-menu.png)
+![NLFB edit path feature](img/screenshots/edit-path.png)
+![NLFB search feature](img/screenshots/search.png)
+![NLFB code previewer](img/screenshots/github-like-color-scheme.png)
 
-## Installation
+Well, have you made your choice?
 
-1. Run `cd C:/wamp/www & git clone https://github.com/math2001/nlfb.git "_nlfb"`
-2. Open the `index.php` file in your `www` directory and add this line at the beginning: `<?php header('location: _nlfb/'); ?>`
+### Installation
 
-That's it, open [localhost](http://localhost) and *savourez*.
+This is really simple.
 
-## Current features
+1. Open a terminal and go in the `www` directory. (for the lazy ones: `cd C:/wamp/www` :smile:)
+2. Run `git clone "https://github.com/math2001/nlfb.git" "_nlfb"`
+3. Open the `index.php` file in your favorite editor and paste this line at the very beginning: `<?php header('location: /_nlfb/'); ?>`
 
-- Breadcrumbs
-- File can be view and are colored by [highlightjs](https://highlightjs.org/)
-- If it is an image, it just renders it.
-- Nice icons for files
-- Search in current folder based on letters' order (`ctrl` brings up `controller` for example)
-- input to type the path (edit path)
-- context menu [jQuery.contextMenu](https://swisnl.github.io/jQuery-contextMenu/)
-- copy name/path/URL path
-- open in **real** (new tab)
-- Sidebar
-- ignored files/folders/projects
-- use a screenshot.(whatever) for project instead of a folder images (better if it's a square)
+Done! Open [localhost](http://localhost) and [*savourez*](http://lmgtfy.com?q=what does mean savourez)!
 
-## Features to add
+### Usage
 
-- load full sidebar at the beginning (settings)
-- customs alias
-- add icons to context menu
+Go have a look [here](http://math2001.github.io/nlfb)
+

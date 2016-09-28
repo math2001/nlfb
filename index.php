@@ -63,7 +63,7 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
-		 		<div class="items" hiding-files=on view-mode=icon data-zoom="6" data-zoom-min=0 data-zoom-max=6>
+		 		<div class="items" hiding-files=on view-mode=icon data-zoom="3" data-zoom-min=0 data-zoom-max=6>
 					
 		 		</div>
 				</ul>
@@ -226,8 +226,10 @@
 						"styl"     : "styl",
 						"*.sublime": "sublime",
 						"txt"      : "txt",
-						"pyc"      : "pyc"
-					}
+						"pyc"      : "pyc",
+						"xml"      : "xml"
+					},
+					"localhost": "localhost"
 				}, config)
 				main()
 
