@@ -42,17 +42,17 @@
 				</div>
 			 	<div class="navbar">
 			 		<span class="navbar-btn-wrapper">
-			 			<svg class="navbar-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="dirname" id="move-up">
+			 			<svg class="navbar-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348.8 362" id="dirname" data-toggle="tooltip" data-placement="bottom" title="Dirname">
 			 				<path fill="#ccc" d="M28.796 198.804l127.2-115.2v278.4h40v-278.4l124 115.2 28.8-30-172.8-168.8-176 166.8z"/>
 			 			</svg>
 			 		</span>
 			 		<span class="navbar-btn-wrapper">
-			 			<svg viewBox="0 0 367.136 367.136" class="navbar-btn" id="refresh">
+			 			<svg viewBox="0 0 367.136 367.136" class="navbar-btn" id="refresh"  data-toggle="tooltip" data-placement="bottom" title="Refresh">
 			 				<path d="M336.554,86.871c-11.975-18.584-27.145-34.707-44.706-47.731L330.801,0H217.436v113.91L270.4,60.691  c40.142,28.131,65.042,74.724,65.042,124.571c0,83.744-68.13,151.874-151.874,151.874S31.694,269.005,31.694,185.262  c0-58.641,32.781-111.009,85.551-136.669l-13.119-26.979C73.885,36.318,48.315,59.1,30.182,87.494  c-18.637,29.184-28.488,62.991-28.488,97.768c0,100.286,81.588,181.874,181.874,181.874s181.874-81.588,181.874-181.874  C365.442,150.223,355.453,116.201,336.554,86.871z"/>
 			 			</svg>
 			 		</span>
 			 		<span class="navbar-btn-wrapper">
-			 			<svg viewBox="0 0 129 129" class="navbar-btn" id="edit-path">
+			 			<svg viewBox="0 0 129 129" class="navbar-btn" id="edit-path" data-toggle="tooltip" data-placement="bottom" title="Edit path">
 			 				<g>
 			 					<path d="m119.2,114.3h-109.4c-2.3,0-4.1,1.9-4.1,4.1s1.9,4.1 4.1,4.1h109.5c2.3,0 4.1-1.9 4.1-4.1s-1.9-4.1-4.2-4.1z"/>
 			 					<path d="m5.7,78l-.1,19.5c0,1.1 0.4,2.2 1.2,3 0.8,0.8 1.8,1.2 2.9,1.2l19.4-.1c1.1,0 2.1-0.4 2.9-1.2l67-67c1.6-1.6 1.6-4.2 0-5.9l-19.2-19.4c-1.6-1.6-4.2-1.6-5.9-1.77636e-15l-13.4,13.5-53.6,53.5c-0.7,0.8-1.2,1.8-1.2,2.9zm71.2-61.1l13.5,13.5-7.6,7.6-13.5-13.5 7.6-7.6zm-62.9,62.9l49.4-49.4 13.5,13.5-49.4,49.3-13.6,.1 .1-13.5z"/>
@@ -141,6 +141,9 @@
 	<script type="text/javascript" src="./js/jquery.outside.js"></script>
 	<script type="text/javascript" src="./js/jquery.ui.position.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.contextMenu.min.js"></script>
+
+	<script type="text/javascript" src="./js/bootstrap-tooltip.js"></script>
+
 	
 	<!-- highlightjs -->
 	<script type="text/javascript" src="./js/highlight.js"></script>
@@ -170,8 +173,8 @@
 			Search.init(EM, Path)
 			Sidebar.init()
 			Shorcuts.init()
-			window.items = new Items(Path, EM); // for debug
 
+			window.items = new Items(Path, EM); // for debug
 
 			fireNavigation = function (e) {
 				e.data.em.fire('update-path',
@@ -181,6 +184,8 @@
 
 			// to avoid repetion and mutilple listeners
 			$(document.body).on('click', '[data-href]', {"em": EM}, fireNavigation)
+
+			$('[data-toggle="tooltip"]').tooltip()
 
 			EM.fire('navigate', location.hash.slice(1) || '/')
 
