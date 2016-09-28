@@ -112,7 +112,7 @@ class Sidebar
 			return kwargs.$target.html(Mustache.render(@template, dataForTemplate))
 
 		if kwargs.deploy
-			$toDeploy = kwargs.$target.find('ul')
+			$toDeploy = kwargs.$target.find('ul').first()
 			if $toDeploy.length == 0
 				$toDeploy = $(Mustache.render(@template, dataForTemplate)).slideUp(0)
 				kwargs.$target.append($toDeploy)

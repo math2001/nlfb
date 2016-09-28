@@ -141,7 +141,7 @@ Sidebar = (function() {
       return kwargs.$target.html(Mustache.render(this.template, dataForTemplate));
     }
     if (kwargs.deploy) {
-      $toDeploy = kwargs.$target.find('ul');
+      $toDeploy = kwargs.$target.find('ul').first();
       if ($toDeploy.length === 0) {
         $toDeploy = $(Mustache.render(this.template, dataForTemplate)).slideUp(0);
         kwargs.$target.append($toDeploy);
