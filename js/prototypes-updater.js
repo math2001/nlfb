@@ -1,4 +1,4 @@
-var code, copyObject, copyText, forEach, openInNewTab;
+var all, any, code, copyObject, copyText, forEach, globMatch, openInNewTab;
 
 forEach = function(obj, func) {
   var i, j, key, keys, len;
@@ -68,6 +68,53 @@ openInNewTab = function(url) {
   }).appendTo(document.body);
   $el[0].click();
   return $el.remove();
+};
+
+any = function(arr) {
+  var el, j, len;
+  for (j = 0, len = arr.length; j < len; j++) {
+    el = arr[j];
+    if (el) {
+      return true;
+    }
+  }
+  return false;
+};
+
+all = function(arr) {
+  var el, j, len;
+  for (j = 0, len = arr.length; j < len; j++) {
+    el = arr[j];
+    if (!el) {
+      return false;
+    }
+  }
+  return true;
+};
+
+globMatch = function(pattern, elements) {
+  var element, j, len, match, regex;
+  pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\?\.\^\$\|]/g, "\\$&");
+  pattern = '|' + pattern;
+  pattern = pattern.replace(/[^\\]\*/, '.*');
+  if (pattern[0] === '|') {
+    pattern = pattern.slice(1);
+  }
+  regex = new RegExp(pattern);
+  if (typeof elements === 'object') {
+    match = [];
+    for (j = 0, len = elements.length; j < len; j++) {
+      element = elements[j];
+      if (regex.test(element)) {
+        match.push(element);
+      }
+    }
+    return match;
+  } else if (typeof elements === 'string') {
+    return regex.test(elements);
+  } else {
+    return console.error("Does not support " + (typeof elements));
+  }
 };
 
 Array.prototype.__update = function(arr) {

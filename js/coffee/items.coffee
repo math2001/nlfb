@@ -11,15 +11,10 @@ class Items
 
 		@bindEvent()
 
-		@supportedIcons = [
-			"ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", 
-			"htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", 
-			"py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt"
-		]
 
 	getIconForFile: (extension) ->
 		ext = 'default'
-		if extension in @supportedIcons
+		if extension in CONFIG.supported_icons
 			ext = extension
 		else if extension.indexOf('git') >= 0
 			ext = 'git'
@@ -140,7 +135,8 @@ class Items
 				else
 					fileData.icon = @getIconForFile(@path.extension(fileData.path))
 
-				if ~CONFIG.hidden_files.indexOf(file)
+				# hide files
+				if any (globMatch(checker, file) for checker in CONFIG.hidden_files)  # ~CONFIG.hidden_files.indexOf(file)
 					fileData.isHidden = true
 				else
 					fileData.isHidden = false
@@ -235,6 +231,6 @@ class Items
 		else
 			@$items.html(html)
 		
-
+	
 
 		

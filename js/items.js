@@ -14,13 +14,12 @@ Items = (function() {
       'image': $('#items-template-image').html()
     };
     this.bindEvent();
-    this.supportedIcons = ["ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", "htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", "py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt"];
   }
 
   Items.prototype.getIconForFile = function(extension) {
     var ext;
     ext = 'default';
-    if (indexOf.call(this.supportedIcons, extension) >= 0) {
+    if (indexOf.call(CONFIG.supported_icons, extension) >= 0) {
       ext = extension;
     } else if (extension.indexOf('git') >= 0) {
       ext = 'git';
@@ -131,7 +130,7 @@ Items = (function() {
         folders: []
       };
       filesIter = function(file, val) {
-        var fileData, htmlName, isImage;
+        var checker, fileData, htmlName, isImage;
         fileData = {
           name: file,
           path: this.path.join(file)
@@ -147,7 +146,16 @@ Items = (function() {
         } else {
           fileData.icon = this.getIconForFile(this.path.extension(fileData.path));
         }
-        if (~CONFIG.hidden_files.indexOf(file)) {
+        if (any((function() {
+          var i, len, ref, results;
+          ref = CONFIG.hidden_files;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            checker = ref[i];
+            results.push(globMatch(checker, file));
+          }
+          return results;
+        })())) {
           fileData.isHidden = true;
         } else {
           fileData.isHidden = false;

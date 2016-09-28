@@ -4,9 +4,14 @@
 		"_nlfb"
 	],
 	"hidden_files": [
-		
+		"*.pyc"
 	],
 	"hidden_folders": [
 		".git"
+	],
+	"supported_icons": [
+		"ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", 
+		"htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", 
+		"py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt", "pyc"
 	]
 }

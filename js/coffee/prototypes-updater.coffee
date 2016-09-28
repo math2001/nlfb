@@ -56,6 +56,34 @@ openInNewTab = (url) ->
 	$el[0].click()
 	$el.remove()
 
+any = (arr) ->
+	for el in arr
+		if el
+			return true
+	return false
+
+all = (arr) ->
+	for el in arr
+		if not el
+			return false
+	return true
+
+globMatch = (pattern, elements) ->
+	pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\?\.\^\$\|]/g, "\\$&")
+	pattern = '|' + pattern
+	pattern = pattern.replace(/[^\\]\*/, '.*')
+	pattern = pattern.slice(1) if pattern[0] == '|'
+	regex = new RegExp(pattern)
+	if typeof elements == 'object'
+		match = []
+		for element in elements
+			match.push element if regex.test(element)
+		return match
+	else if typeof elements == 'string'
+		return regex.test(elements)
+	else
+		return console.error "Does not support #{typeof elements}"
+
 Array::__update = (arr) ->
 	# this = arr
 	while this.length > 0
