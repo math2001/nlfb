@@ -102,6 +102,21 @@ class Items
 
 		@em.on('empty-search', normalRender.bind(@))
 
+		checkZoom = (e) ->
+			if e.ctrlKey
+				if e.originalEvent.deltaY < 0
+					value = parseInt(@$items.attr('data-zoom')) + 1
+					if value <= parseInt(@$items.attr('data-zoom-max'))
+						@$items.attr('data-zoom',  value)
+				else
+					value = parseInt(@$items.attr('data-zoom')) - 1
+					if value >= parseInt(@$items.attr('data-zoom-min'))
+						@$items.attr('data-zoom',  value)
+				e.preventDefault()
+			
+
+		$(document.body).bind('wheel', checkZoom.bind(@))
+
 	render: (kwargs={}) ->
 
 		kwargs.animate = true if kwargs.animate == undefined
@@ -149,7 +164,6 @@ class Items
 					hasIndexOrExt = val
 				if typeof hasIndexOrExt == 'string'
 					# it's the extension of the 'screenshot' file
-					console.log folder, @path.join(folder + '/screenshot.' + hasIndexOrExt)
 					folderData.icon = @path.join(folder + '/screenshot.' + hasIndexOrExt)
 				else if hasIndexOrExt
 					folderData.icon = './img/folder-index.svg'

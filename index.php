@@ -63,7 +63,7 @@
 						<li class="mute">Loading...</li>
 					</ul>
 			 	</div>
-		 		<div class="items" hiding-files=on view-mode=icon>
+		 		<div class="items" hiding-files=on view-mode=icon data-zoom="6" data-zoom-min=0 data-zoom-max=6>
 					
 		 		</div>
 				</ul>
@@ -177,6 +177,9 @@
 			window.items = new Items(Path, EM); // for debug
 
 			fireNavigation = function (e) {
+				if (e.ctrlKey) {
+					openInNewTab('http://' + CONFIG.localhost + '#' + $(this).attr('data-href'))
+				}
 				e.data.em.fire('update-path',
 					$(this).attr('data-href')
 				)

@@ -32,8 +32,9 @@
 		"sass"     : "sass",
 		"sketch"   : "sketch",
 		"styl"     : "styl",
-		"*.sublime": "sublime",
+		"sublime*": "sublime",
 		"txt"      : "txt",
 		"pyc"      : "pyc"
-	}
+	},
+	"localhost": "local.dev"
 }

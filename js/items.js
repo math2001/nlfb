@@ -83,7 +83,7 @@ Items = (function() {
   };
 
   Items.prototype.bindEvent = function() {
-    var normalRender, renderSearch;
+    var checkZoom, normalRender, renderSearch;
     this.em.on('navigate', this.loadItems.bind(this));
     renderSearch = function(mess) {
       return this.render({
@@ -103,7 +103,25 @@ Items = (function() {
         animate: false
       });
     };
-    return this.em.on('empty-search', normalRender.bind(this));
+    this.em.on('empty-search', normalRender.bind(this));
+    checkZoom = function(e) {
+      var value;
+      if (e.ctrlKey) {
+        if (e.originalEvent.deltaY < 0) {
+          value = parseInt(this.$items.attr('data-zoom')) + 1;
+          if (value <= parseInt(this.$items.attr('data-zoom-max'))) {
+            this.$items.attr('data-zoom', value);
+          }
+        } else {
+          value = parseInt(this.$items.attr('data-zoom')) - 1;
+          if (value >= parseInt(this.$items.attr('data-zoom-min'))) {
+            this.$items.attr('data-zoom', value);
+          }
+        }
+        return e.preventDefault();
+      }
+    };
+    return $(document.body).bind('wheel', checkZoom.bind(this));
   };
 
   Items.prototype.render = function(kwargs) {
@@ -171,7 +189,6 @@ Items = (function() {
           hasIndexOrExt = val;
         }
         if (typeof hasIndexOrExt === 'string') {
-          console.log(folder, this.path.join(folder + '/screenshot.' + hasIndexOrExt));
           folderData.icon = this.path.join(folder + '/screenshot.' + hasIndexOrExt);
         } else if (hasIndexOrExt) {
           folderData.icon = './img/folder-index.svg';

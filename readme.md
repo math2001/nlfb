@@ -24,10 +24,10 @@ That's it, open [localhost](http://localhost) and *savourez*.
 - open in **real** (new tab)
 - Sidebar
 - ignored files/folders/projects
+- use a screenshot.(whatever) for project instead of a folder images (better if it's a square)
 
 ## Features to add
 
 - load full sidebar at the beginning (settings)
 - customs alias
 - add icons to context menu
-- add the use of a screenshot.(jpg|png) for project instead of a folder images

@@ -76,29 +76,11 @@
 	top nav-bar-height + 5
 	bottom 0
 	
-	&[showing="on"]
-		left 50px
-		right -50px
-		opacity 0
-		
-
-	&[view-mode=list] .item
-		display block
-		padding 2px
-		cursor default
-		height 25px
-		&:hover, &[focused=on]
-			background-color #e5ebf7
-		
-		img
-			max-width 20px
-			max-height 20px
-			vertical-align middle
-	
-	&[view-mode=icon] .item
+	// icon
+	.item
+		transition width .5s
 		word-wrap break-word
 		display inline-block
-		width 75px
 		margin 5px
 		vertical-align top
 		text-overflow ellipsis
@@ -111,17 +93,56 @@
 			margin 0 auto
 		&:hover
 			background-color #e5ebf7
+
+	&[data-zoom="0"] .item
+		margin unset
+		text-align left
+		vertical-align auto
+		display block
+		padding 2px
+		cursor default
+		height 25px
+		&:hover, &[focused=on]
+			background-color #e5ebf7
+		
+		img
+			max-width 20px
+			max-height 20px
+			vertical-align middle
+			display inline-block
+			margin unset
+			width auto
+			height auto
+	
+	& > img
+		max-height 100%
+		max-width 100%
+		
+	
+
+
+	&[data-zoom="1"] .item
+		width 60px
+	&[data-zoom="2"] .item
+		width 70px
+	&[data-zoom="3"] .item
+		width 80px
+	&[data-zoom="4"] .item
+		width 100px
+	&[data-zoom="5"] .item
+		width 120px
+	&[data-zoom="6"] .item
+		width 140px
+	
+			
+			
 	
 	&[hiding-files][view-mode] .item-hide
 		opacity 0.5
-		// transition-property opacity, height
-		// transition-duration 1s
 
 	&[hiding-files=on][view-mode]
 		.item-hide
 			display none
-			// transition-property opacity, height
-			// transition-duration 1s
 	
 /* ---------------------------------------------- */
 /* ------------ message (404, empty) ------------ */

@@ -71,9 +71,7 @@ all = (arr) ->
 
 globMatch = (pattern, elements) ->
 	pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\?\.\^\$\|]/g, "\\$&")
-	pattern = '|' + pattern
-	pattern = pattern.replace(/[^\\]\*/, '.*')
-	pattern = pattern.slice(1) if pattern[0] == '|'
+	pattern = pattern.replace(/([^\\]?)\*/, '$1.*')
 
 	regex = new RegExp('^' + pattern + '$')
 

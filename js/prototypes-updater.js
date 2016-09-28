@@ -97,11 +97,7 @@ all = function(arr) {
 globMatch = function(pattern, elements) {
   var element, j, len, match, regex;
   pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\?\.\^\$\|]/g, "\\$&");
-  pattern = '|' + pattern;
-  pattern = pattern.replace(/[^\\]\*/, '.*');
-  if (pattern[0] === '|') {
-    pattern = pattern.slice(1);
-  }
+  pattern = pattern.replace(/([^\\]?)\*/, '$1.*');
   regex = new RegExp('^' + pattern + '$');
   if (typeof elements === 'object') {
     match = [];
