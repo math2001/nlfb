@@ -91,6 +91,16 @@ function hasFolder($path) {
 
 function format_items($path) {
 
+	function indexNoticer($items) {
+		foreach ($items as $k => $item) {
+			$pi = pathinfo($item);
+			if ($pi['filename'] == 'screenshot') {
+				return $pi['extension'];
+			}
+		}
+		return has_any('index.php', 'index.html', $items);
+	}
+
 	$fitems = [
 		'files' => [],
 		'folders' => [],
@@ -106,8 +116,7 @@ function format_items($path) {
 			
 			if (isset($_GET['noticer'])) {
 				if ($_GET['noticer'] == 'index') {
-					$fitems['folders'][$item] = has_any('index.php', 'index.html',
-					listdir($temp_path));
+					$fitems['folders'][$item] = indexNoticer(listdir($temp_path));
 				} elseif ($_GET['noticer'] == 'hasFolder') {
 					$fitems['folders'][$item] = hasFolder($temp_path);
 				} else {

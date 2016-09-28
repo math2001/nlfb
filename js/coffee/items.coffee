@@ -143,16 +143,20 @@ class Items
 			foldersIter = (folder, val) ->
 				folderData = { name: folder, path: @path.join(folder) }
 				if kwargs.isSearch is true
-					[hasIndex, htmlName] = val
+					[hasIndexOrExt, htmlName] = val
 					folderData.name = htmlName # letters are bolded
 				else
-					hasIndex = val
-				if hasIndex
+					hasIndexOrExt = val
+				if typeof hasIndexOrExt == 'string'
+					# it's the extension of the 'screenshot' file
+					console.log folder, @path.join(folder + '/screenshot.' + hasIndexOrExt)
+					folderData.icon = @path.join(folder + '/screenshot.' + hasIndexOrExt)
+				else if hasIndexOrExt
 					folderData.icon = './img/folder-index.svg'
 				else
 					folderData.icon = './img/folder.svg'
 
-				if ~CONFIG.hidden_folders.indexOf(folder)
+				if any (globMatch(checker, folder) for checker in CONFIG.hidden_folders)
 					folderData.isHidden = true
 				else
 					folderData.isHidden = false

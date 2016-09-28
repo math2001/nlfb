@@ -195,9 +195,36 @@
 				CONFIG = $.extend({ // makes it global
 					browsing_animation_total_time: 500,
 					deployment_transition_time: 250,
-					exclude_projects: ['_nlfb'],
-					hidden_files: [],
-					hidden_folders: [".git"]
+					exclude_projects: ["_nlfb"],
+					hidden_files: ["*.pyc"],
+					hidden_folders: ['.git'],
+					"supported_icons": {
+						"ai"       : "ai",
+						"coffee"   : "coffee",
+						"css"      : "css",
+						"ctp"      : "ctp",
+						"eps"      : "eps",
+						"gif"      : "gif",
+						"git*"      : "git",
+						"htaccess" : "htaccess",
+						"html"     : "html",
+						"js"       : "js",
+						"json"     : "json",
+						"less"     : "less",
+						"md"       : "md",
+						"pdf"      : "pdf",
+						"php"      : "php",
+						"psd"      : "psd",
+						"py"       : "py",
+						"rb"       : "rb",
+						"rust"     : "rust",
+						"sass"     : "sass",
+						"sketch"   : "sketch",
+						"styl"     : "styl",
+						"*.sublime": "sublime",
+						"txt"      : "txt",
+						"pyc"      : "pyc"
+					}
 				}, config)
 				main()
 

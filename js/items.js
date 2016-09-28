@@ -159,23 +159,35 @@ Items = (function() {
         return templateData.files.push(fileData);
       };
       foldersIter = function(folder, val) {
-        var folderData, hasIndex, htmlName;
+        var checker, folderData, hasIndexOrExt, htmlName;
         folderData = {
           name: folder,
           path: this.path.join(folder)
         };
         if (kwargs.isSearch === true) {
-          hasIndex = val[0], htmlName = val[1];
+          hasIndexOrExt = val[0], htmlName = val[1];
           folderData.name = htmlName;
         } else {
-          hasIndex = val;
+          hasIndexOrExt = val;
         }
-        if (hasIndex) {
+        if (typeof hasIndexOrExt === 'string') {
+          console.log(folder, this.path.join(folder + '/screenshot.' + hasIndexOrExt));
+          folderData.icon = this.path.join(folder + '/screenshot.' + hasIndexOrExt);
+        } else if (hasIndexOrExt) {
           folderData.icon = './img/folder-index.svg';
         } else {
           folderData.icon = './img/folder.svg';
         }
-        if (~CONFIG.hidden_folders.indexOf(folder)) {
+        if (any((function() {
+          var i, len, ref, results;
+          ref = CONFIG.hidden_folders;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            checker = ref[i];
+            results.push(globMatch(checker, folder));
+          }
+          return results;
+        })())) {
           folderData.isHidden = true;
         } else {
           folderData.isHidden = false;
