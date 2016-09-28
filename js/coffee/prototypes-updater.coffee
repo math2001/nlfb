@@ -6,7 +6,8 @@ forEach = (obj, func) ->
 	keys = Object.keys(obj);
 
 	for key, i in keys
-		func(key, obj[key], obj, i)
+		if 'stop' == func(key, obj[key], obj, i)
+			return obj
 		
 	return obj
 
@@ -73,7 +74,9 @@ globMatch = (pattern, elements) ->
 	pattern = '|' + pattern
 	pattern = pattern.replace(/[^\\]\*/, '.*')
 	pattern = pattern.slice(1) if pattern[0] == '|'
-	regex = new RegExp(pattern)
+
+	regex = new RegExp('^' + pattern + '$')
+
 	if typeof elements == 'object'
 		match = []
 		for element in elements

@@ -1,5 +1,4 @@
-var Items,
-  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+var Items;
 
 Items = (function() {
   function Items(path1, em) {
@@ -19,16 +18,13 @@ Items = (function() {
   Items.prototype.getIconForFile = function(extension) {
     var ext;
     ext = 'default';
-    if (indexOf.call(CONFIG.supported_icons, extension) >= 0) {
-      ext = extension;
-    } else if (extension.indexOf('git') >= 0) {
-      ext = 'git';
-    } else if (extension.indexOf('sublime') >= 0) {
-      ext = 'sublime';
-    } else if (extension === 'scss') {
-      ext = 'sass';
-    }
-    return './img/file_types/' + ext + '.svg';
+    forEach(CONFIG.supported_icons, function(glob, file) {
+      if (globMatch(glob, extension)) {
+        ext = file;
+        return 'stop';
+      }
+    });
+    return "./img/file_types/" + ext + ".svg";
   };
 
   Items.prototype.loadItems = function(path) {

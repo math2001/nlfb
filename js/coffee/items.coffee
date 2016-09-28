@@ -14,16 +14,13 @@ class Items
 
 	getIconForFile: (extension) ->
 		ext = 'default'
-		if extension in CONFIG.supported_icons
-			ext = extension
-		else if extension.indexOf('git') >= 0
-			ext = 'git'
-		else if extension.indexOf('sublime') >= 0
-			ext = 'sublime'
-		else if extension == 'scss'
-			ext = 'sass'
-		
-		'./img/file_types/' + ext + '.svg'
+		forEach(CONFIG.supported_icons, (glob, file) ->
+			if globMatch(glob, extension)
+				ext = file
+				return 'stop'
+		)
+		return "./img/file_types/#{ext}.svg"
+
 	
 	loadItems: (path) ->
 		done = (mess, textStatus, jqXHR) ->
@@ -136,7 +133,7 @@ class Items
 					fileData.icon = @getIconForFile(@path.extension(fileData.path))
 
 				# hide files
-				if any (globMatch(checker, file) for checker in CONFIG.hidden_files)  # ~CONFIG.hidden_files.indexOf(file)
+				if any (globMatch(checker, file) for checker in CONFIG.hidden_files)
 					fileData.isHidden = true
 				else
 					fileData.isHidden = false

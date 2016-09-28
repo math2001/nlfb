@@ -8,7 +8,9 @@ forEach = function(obj, func) {
   keys = Object.keys(obj);
   for (i = j = 0, len = keys.length; j < len; i = ++j) {
     key = keys[i];
-    func(key, obj[key], obj, i);
+    if ('stop' === func(key, obj[key], obj, i)) {
+      return obj;
+    }
   }
   return obj;
 };
@@ -100,7 +102,7 @@ globMatch = function(pattern, elements) {
   if (pattern[0] === '|') {
     pattern = pattern.slice(1);
   }
-  regex = new RegExp(pattern);
+  regex = new RegExp('^' + pattern + '$');
   if (typeof elements === 'object') {
     match = [];
     for (j = 0, len = elements.length; j < len; j++) {

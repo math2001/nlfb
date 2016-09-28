@@ -9,9 +9,31 @@
 	"hidden_folders": [
 		".git"
 	],
-	"supported_icons": [
-		"ai", "coffee", "css", "ctp", "default", "edit", "eps", "files", "gif", "git", 
-		"htaccess", "html", "jpg", "js", "json", "less", "md", "pdf", "php", "png", "psd", 
-		"py", "rb", "rust", "sass", "sketch", "styl", "sublime", "txt", "pyc"
-	]
+	"supported_icons": {
+		"ai"       : "ai",
+		"coffee"   : "coffee",
+		"css"      : "css",
+		"ctp"      : "ctp",
+		"eps"      : "eps",
+		"gif"      : "gif",
+		"git*"      : "git",
+		"htaccess" : "htaccess",
+		"html"     : "html",
+		"js"       : "js",
+		"json"     : "json",
+		"less"     : "less",
+		"md"       : "md",
+		"pdf"      : "pdf",
+		"php"      : "php",
+		"psd"      : "psd",
+		"py"       : "py",
+		"rb"       : "rb",
+		"rust"     : "rust",
+		"sass"     : "sass",
+		"sketch"   : "sketch",
+		"styl"     : "styl",
+		"*.sublime": "sublime",
+		"txt"      : "txt",
+		"pyc"      : "pyc"
+	}
 }
