@@ -71,3 +71,27 @@ kbd
 	text-align center
 	background-color white
 	padding 0 3px
+	text-transform uppercase
+
+.hint
+	padding 10px 
+	background-color lighten(#B7D8F9, 40%)
+	border-left 8px solid #6b84fb
+	&::before
+		content: ""
+		display inline-block
+		width 40px
+		height @width
+		line-height @width - 3
+		font-size 20px
+		color @background-color
+		font-weight bold
+		background-image url(../img/idea-2.svg)
+		background-size 100% 100%
+		background-position center center
+		background-repeat no-repeat
+		border-radius 50px
+		text-align center
+		vertical-align middle
+		margin-right 5px
+		margin-bottom 10px
