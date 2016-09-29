@@ -61,10 +61,21 @@
 			<article>
 				<h3 id="other">Other things...</h3>
 				<p>There's a custom context menu with few options.</p>
-				<img src="img/contextmenu.gif">
+				<img src="img/other.gif">
 				<p class="hint">You can now resize the icons by pressing <kbd>ctrl</kbd> and pushing/pulling the wheel of your mouse</p>
 			</article>
-
+			<article>
+				<h3 id="installation">What do I need to do to install this? Is it a 100 step thing?</h3>
+				<p>Installing <code>NLFB</code> is really quick, and easy.</p>
+				<h4>First step</h4>
+				<p>If you have <code>git</code>, open a terminal, get into your <code>www</code> directory and run: 
+				<pre><code>$ git clone "https://github.com/math2001/nlfb.git" "_nlfb"</code></pre>
+				If you don't, download <a href="https://github.com/math2001/nlfb/archive/master.zip">this zip</a> and extract it into your <code>www</code> folder</p>
+				<h4>Second and last step <small>told you it was quick!</small></h4>
+				<p>Open the <code>index.php</code> file in your favorite text editor and paste this line at the very beginning</p>
+				<pre><code>&lt;?php header('location: /_nlfb/'); ?&gt;</code></pre>
+				<p class="center"><big>That's it! You're done! Open <a href="http://localhost">localhost</a> and enjoy!</big></p>
+			</article>
 			<article>
 				<p class="text-center">
 					<span class="inserter" data-template-id="#github-link"></span>
@@ -120,7 +131,8 @@
 			</article>
 			<article>
 				<h3 id="screenshot">Replace the folder icon by <b>your</b> image</h3>
-				<p>You can replace the folder icon by your image. And its really simple! All you have to do is to save this image at the root of your folder, and name it <code>screenshot.&lt;whatever&gt;</code></p>
+				<p>You can replace the folder icon by your image. And its really simple! All you have to do is to save this image at the root of your folder, and name it <code>screenshot.&lt;whatever&gt;</code>. And it works with any folder!</p>
+				<p class="hint">Try to use <b>square</b> picture, it will look better.</p>
 			</article>
 			
 			<article>
