@@ -26,6 +26,7 @@ pre code
 pre
 	padding 10px
 	background-color #393a3d
+	margin 15px 0
 
 button, .btn
 	margin 0 5px
@@ -94,8 +95,19 @@ kbd
 		background-size 100% 100%
 		background-position center center
 		background-repeat no-repeat
-		border-radius 50px
 		text-align center
 		vertical-align middle
 		margin-right 5px
 		margin-bottom 10px
+
+.protip
+	@extend .hint
+	background-color lighten(#DF994D, 50%)
+	border-left 8px solid darken(#DF994D, 10%)
+	&::before
+		background-image url(../img/protip.svg)
+	
+
+h2
+	border-bottom 1px solid #ccc
+	padding-bottom 5px

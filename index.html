@@ -24,16 +24,29 @@
 			<h1>NLFB - Nice Localhost File Browser</h1>
 			<article>
 				<p>NLFB is a simple one-page web "app" that gives you a pretty nice interface to browse your projects.</p>
-				<p>It comes with different useful features, such as</p>
+				<p>It comes with different useful features, such as:</p>
 				<ul>
-					<li><a scrollTo="#sidebar">A side bar, listing all your projects</a></li>
-					<li><a scrollTo="#searchbar">A special search bar</a></li>
-					<li><a scrollTo="#breadcrumbs">Breadcrumbs and type path "feature"</a></li>
-					<li><a scrollTo="#code">A colored code previewer</a></li>
-					<li><a scrollTo="#other">And few other things...</a></li>
+					<li>Discover: 
+						<ul>
+							<li><a scrollTo="#sidebar">A side bar, listing all your projects</a></li>
+							<li><a scrollTo="#searchbar">A special search bar</a></li>
+							<li><a scrollTo="#breadcrumbs">Breadcrumbs and type path "feature"</a></li>
+							<li><a scrollTo="#code">A colored code previewer</a></li>
+							<li><a scrollTo="#other">And few other things...</a></li>
+						</ul>
+					</li>
+					<li>Install
+						<ul>
+							<li><a scrollTo="#installation">Installing NLFB</a></li>
+							<li><a scrollTo="#bonus">Bonus</a></li>
+						</ul>
+					</li>
 				</ul>
+				
+				
 			</article>
 
+			<h2>Discover</h2>
 			<article>
 				<h3 id="sidebar">The side bar</h3>
 				<img src="img/sidebar.gif">
@@ -42,13 +55,15 @@
 
 			<article>
 				<h3 id="searchbar">The special search bar</h3>
-				<p>It search for folders and files through the current directory. The special point is that it is based on the order of the letters, so says you type <code>ctrl</code>, it would bring up <code>controller</code> (if there's any of course)</p>
+				<p>The search bar looks for folders and files through the current directory. The special point is that it is based on the order of the letters, so says you type <code>ctrl</code>, it would bring up <code>controller</code> (if there's any of course)</p>
 				<img src="img/search.gif">
 			</article>
 
 			<article>
 				<h3 id="breadcrumbs">Breadcrumbs and type path "feature"</h3>
 				<img src="img/breadcrumbs.gif">
+				<p>Type your path and hit <kbd>enter</kbd> to get there,</p>
+				<p class="hint">Hold <kbd>ctrl</kbd> to keep the panel open.</p>
 			</article>
 
 			<article>
@@ -65,23 +80,25 @@
 				<p class="hint">You can now resize the icons by pressing <kbd>ctrl</kbd> and pushing/pulling the wheel of your mouse</p>
 			</article>
 			<article>
-				<h3 id="installation">What do I need to do to install this? Is it a 100 step thing?</h3>
-				<p>Installing <code>NLFB</code> is really quick, and easy.</p>
+				<h2 id="installation">What do I need to do to install this? Is it a 100 step thing?</h2>
+				<p><b>No</b>, installing <code>NLFB</code> is really quick, and easy.</p>
 				<h4>First step</h4>
 				<p>If you have <code>git</code>, open a terminal, get into your <code>www</code> directory and run: 
 				<pre><code>$ git clone "https://github.com/math2001/nlfb.git" "_nlfb"</code></pre>
-				If you don't, download <a href="https://github.com/math2001/nlfb/archive/master.zip">this zip</a> and extract it into your <code>www</code> folder</p>
+				If you don't, download <a href="https://github.com/math2001/nlfb/archive/master.zip">this zip</a> and extract it into your <code>www</code> directory.</p>
 				<h4>Second and last step <small>told you it was quick!</small></h4>
-				<p>Open the <code>index.php</code> file in your favorite text editor and paste this line at the very beginning</p>
+				<p>Open the <code>index.php</code> file in your favorite text editor and paste this line at the very beginning:</p>
 				<pre><code>&lt;?php header('location: /_nlfb/'); ?&gt;</code></pre>
-				<p class="center"><big>That's it! You're done! Open <a href="http://localhost">localhost</a> and enjoy!</big></p>
+				<p class="text-center" style="margin: 50px 0;"><big>That's it! You're done! Open <a href="http://localhost">localhost</a> and enjoy!</big></p>
+				<h3 id="bonus">Bonus</h3>
+				<p>Say you're on <code>http://localhost/something</code>.  Well, if you want to open it in <code>NLFB</code>, just click on this link
+				<a href="javascript:var a=document.createElement('a');a.target='_blank';a.href='http://localhost/#' + (window.location + '').split('/').slice(3).join('/');a.click()">Open with NLFB</a> (drag it to your bookmark bar), it will open it in a new tab.</p>
 			</article>
 			<article>
 				<p class="text-center">
 					<span class="inserter" data-template-id="#github-link"></span>
 					<a class="btn" href="#3">Find out more!</a>
 				</p>
-				
 				<p class="text-center" style="margin-top: 50px;">Made with &hearts; by math2001</p>
 			</article>
 		</div>
@@ -134,6 +151,8 @@
 				<p>You can replace the folder icon by your image. And its really simple! All you have to do is to save this image at the root of your folder, and name it <code>screenshot.&lt;whatever&gt;</code>. And it works with any folder!</p>
 				<p class="hint">Try to use <b>square</b> picture, it will look better.</p>
 			</article>
+
+			<p class="protip">To open a link in a new tab, just hold <kbd>ctrl</kbd> while you click</p>
 			
 			<article>
 				<p class="text-center">
@@ -154,7 +173,9 @@
 				<h3>Credits for logo</h3>
 				<div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 				<div>Icons made by <a href="http://www.flaticon.com/authors/puppets" title="Puppets">Puppets</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-				<div>Thanks to <a href="http://getbootstrap.com/">bootstrap</a> for their <a href="">tooltips helper</a></div>
+				<div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+				<div>Thanks to <a href="http://getbootstrap.com/">bootstrap</a> for their <a href="">tooltips helper</a>.</div>
+				<div>Thanks also to <a href="highlightjs.org">highlightjs</a> for its colorations.</div>
 			</article>
 			<article>
 				<p class="text-center">

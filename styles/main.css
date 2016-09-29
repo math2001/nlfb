@@ -27,6 +27,7 @@ pre code {
 pre {
   padding: 10px;
   background-color: #393a3d;
+  margin: 15px 0;
 }
 button,
 .btn {
@@ -92,12 +93,14 @@ kbd {
   padding: 0 3px;
   text-transform: uppercase;
 }
-.hint {
+.hint,
+.protip {
   padding: 10px;
   background-color: #d4e8fb;
   border-left: 8px solid #6b84fb;
 }
-.hint::before {
+.hint::before,
+.protip::before {
   content: "";
   display: inline-block;
   width: 40px;
@@ -110,11 +113,21 @@ kbd {
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
-  border-radius: 50px;
   text-align: center;
   vertical-align: middle;
   margin-right: 5px;
   margin-bottom: 10px;
+}
+.protip {
+  background-color: #efcca6;
+  border-left: 8px solid #da8a34;
+}
+.protip::before {
+  background-image: url("../img/protip.svg");
+}
+h2 {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
 }
 * {
   outline: none;
