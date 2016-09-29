@@ -1,8 +1,8 @@
-var gulp = require('gulp');
-var coffee = require('gulp-coffee')
-var stylus = require('gulp-stylus')
-var livereload = require('gulp-livereload')
-var plumber = require('gulp-plumber')
+var gulp       = require('gulp'),
+	coffee     = require('gulp-coffee'),
+	stylus     = require('gulp-stylus'),
+	livereload = require('gulp-livereload'),
+	plumber    = require('gulp-plumber')
 
 gulp.task('coffee-compile', function () {
 	return gulp.src('js/coffee/*.coffee')
