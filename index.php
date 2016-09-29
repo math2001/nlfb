@@ -178,7 +178,7 @@
 
 			fireNavigation = function (e) {
 				if (e.ctrlKey) {
-					openInNewTab('http://' + CONFIG.localhost + '#' + $(this).attr('data-href'))
+					return openInNewTab('http://' + CONFIG.localhost + '#' + $(this).attr('data-href'))
 				}
 				e.data.em.fire('update-path',
 					$(this).attr('data-href')
