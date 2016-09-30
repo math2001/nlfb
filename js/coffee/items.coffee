@@ -81,7 +81,7 @@ class Items
 
 		path = path or Path.path
 		$.ajax
-			url: "getitems.php",
+			url: "server.php",
 			method: "GET",
 			data:
 				path: path

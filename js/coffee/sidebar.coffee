@@ -39,12 +39,12 @@ class Sidebar
 			})
 
 		$.ajax(
-			url: "getitems.php"
+			url: "server.php"
 			data:
 				path: kwargs.path
-				filter: 'folders'
-				noticer: 'hasFolder'
-			method: 'GET'
+				filter: "folders"
+				noticer: "hasFolder"
+			method: "GET"
 		)
 		.done done.bind(@)
 		.fail fail

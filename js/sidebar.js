@@ -53,13 +53,13 @@ Sidebar = (function() {
       });
     };
     return $.ajax({
-      url: "getitems.php",
+      url: "server.php",
       data: {
         path: kwargs.path,
-        filter: 'folders',
-        noticer: 'hasFolder'
+        filter: "folders",
+        noticer: "hasFolder"
       },
-      method: 'GET'
+      method: "GET"
     }).done(done.bind(this)).fail(fail);
   };
 

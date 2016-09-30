@@ -91,7 +91,7 @@ Items = (function() {
     };
     path = path || Path.path;
     return $.ajax({
-      url: "getitems.php",
+      url: "server.php",
       method: "GET",
       data: {
         path: path,

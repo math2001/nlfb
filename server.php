@@ -40,10 +40,18 @@
 
 ?>
 <?php
-
+// $time = microtime(true);
 $CONF = [
 	"base_path" => "C:/wamp/www/"
 ];
+
+if (isset($_GET['getconfig']) AND $_GET['getconfig'] == 'yes') {
+	header('content-type: application/json');
+	if (is_file('config.json')) {
+		die(file_get_contents('config.json'));
+	}
+	die('{}');
+}
 
 
 if (!isset($_GET['path'])) {
@@ -158,6 +166,5 @@ if (is_dir($path)) {
 	}
 	die();
 }
-
 
 ?>

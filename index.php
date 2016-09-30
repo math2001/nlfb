@@ -202,7 +202,13 @@
 
 		}
 		$(document).ready(function runner () {
-			$.getJSON('config.json', function getConfig(config) {
+			$.ajax({
+				url: "server.php",
+				method: "GET", // explicit is better than implicit
+				data: {
+					"getconfig": "yes"
+				}
+			}).done(function setGlobalConfig(config) {
 				CONFIG = $.extend({ // makes it global
 					browsing_animation_total_time: 500,
 					deployment_transition_time: 250,
@@ -243,7 +249,8 @@
 					"localhost": "localhost"
 				}, config)
 				main()
-
+			}).fail(function warningNoConfig() {
+				alert('Error during loading config. Please report this problem at github.com/math2001/nlfb/')
 			})
 		})
 
