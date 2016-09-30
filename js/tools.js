@@ -97,16 +97,16 @@ Tools = (function() {
         name: 'Toogle hidden items',
         callback: this.toggleHiddenFiles.bind(this)
       },
-      viewMode: {
-        name: 'View mode',
+      zoom: {
+        name: 'Zoom',
         items: {
-          icon: {
-            name: "Icons",
-            callback: this.changeViewMode.bind(this)
+          'in': {
+            name: 'Zoom in',
+            callback: this.zoom.bind(this)
           },
-          list: {
-            name: "List",
-            callback: this.changeViewMode.bind(this)
+          'out': {
+            name: 'Zoom out',
+            callback: this.zoom.bind(this)
           }
         }
       }
@@ -134,17 +134,17 @@ Tools = (function() {
   };
 
   Tools.openInReal = function(key, opt) {
-    return openInNewTab('http://localhost/' + opt.$trigger.attr('data-href').slice(1));
+    console.log(CONFIG.localhost);
+    return openInNewTab('http://' + CONFIG.localhost + '/' + opt.$trigger.attr('data-href').slice(1));
   };
 
   Tools.toggleHiddenFiles = function(key, opt) {
     return this.$items.attr('hiding-files', this.$items.attr('hiding-files') === 'on' ? 'off' : 'on');
   };
 
-  Tools.changeViewMode = function(key, opt) {
-    return this.$items.fadeOut(400, function() {
-      return $(this).attr('view-mode', key).fadeIn(400);
-    });
+  Tools.zoom = function(key, opt) {
+    Items.zoom(key);
+    return false;
   };
 
   return Tools;

@@ -1,10 +1,10 @@
 class Items
 
-	constructor: (@path, @em) ->
+	@init:  ->
 		@files = {}
 		@folders = {}
 		@$items = $('.items')
-		@templates = 
+		@templates =
 			'files and folders': $('#items-template-faf').html()
 			'code': $('#items-template-code').html()
 			'image': $('#items-template-image').html()
@@ -12,7 +12,7 @@ class Items
 		@bindEvent()
 
 
-	getIconForFile: (extension) ->
+	@getIconForFile: (extension) ->
 		ext = 'default'
 		forEach(CONFIG.supported_icons, (glob, file) ->
 			if globMatch(glob, extension)
@@ -21,8 +21,20 @@ class Items
 		)
 		return "./img/file_types/#{ext}.svg"
 
-	
-	loadItems: (path) ->
+	@zoom: (zoomIn) ->
+		if typeof zoomIn == 'string'
+			zoomIn = zoomIn == 'in'
+		if zoomIn == true
+			value = parseInt(@$items.attr('data-zoom')) + 1
+			if value <= parseInt(@$items.attr('data-zoom-max'))
+				@$items.attr('data-zoom',  value)
+		else
+			value = parseInt(@$items.attr('data-zoom')) - 1
+			if value >= parseInt(@$items.attr('data-zoom-min'))
+				@$items.attr('data-zoom',  value)
+
+
+	@loadItems: (path) ->
 		done = (mess, textStatus, jqXHR) ->
 			if jqXHR.getResponseHeader('content-type') == 'application/json'
 
@@ -43,19 +55,19 @@ class Items
 					@folders = dataForEvent.folders = null
 
 
-				@em.fire('got-items', dataForEvent) # share files and folders
-	
+				EM.fire('got-items', dataForEvent) # share files and folders
+
 				@render({
 					files: @files
 					folders: @folders
-					type: 'files and folders'	
+					type: 'files and folders'
 				})
 
 			else if jqXHR.getResponseHeader('content-type') == 'text/plain'
 				# view code
 				@render({ content: mess, type: 'code' })
 			else if jqXHR.getResponseHeader('content-type') == 'image/png'
-				@render({ path: @path.path, type: 'image' })
+				@render({ path: Path.path, type: 'image' })
 			else
 				# coffeescript apparently cannot handle a finninshing else if
 
@@ -66,20 +78,20 @@ class Items
 			console.error 'Fail on loading items:', textStatus.wrap()
 			console.info jqXHR.getAllResponseHeaders()
 			console.info jqXHR.responseText
-			
-		path = path or @path.path
+
+		path = path or Path.path
 		$.ajax
 			url: "getitems.php",
 			method: "GET",
-			data: 
+			data:
 				path: path
 				noticer: 'index'
 		.done done.bind(@)
 		.fail fail.bind(@)
 
-	bindEvent: ->
+	@bindEvent: ->
 		# listen to the event manager to reload items.
-		@em.on('navigate', @loadItems.bind(@))
+		EM.on('navigate', @loadItems.bind(@))
 
 		renderSearch = (mess) ->
 			@render(
@@ -90,7 +102,7 @@ class Items
 				animate: false
 			)
 
-		@em.on('search', renderSearch.bind(@))
+		EM.on('search', renderSearch.bind(@))
 
 		normalRender = ->
 			@render(
@@ -100,24 +112,20 @@ class Items
 				animate: false
 			)
 
-		@em.on('empty-search', normalRender.bind(@))
+		EM.on('empty-search', normalRender.bind(@))
 
 		checkZoom = (e) ->
 			if e.ctrlKey
 				if e.originalEvent.deltaY < 0
-					value = parseInt(@$items.attr('data-zoom')) + 1
-					if value <= parseInt(@$items.attr('data-zoom-max'))
-						@$items.attr('data-zoom',  value)
+					@zoom 'in'
 				else
-					value = parseInt(@$items.attr('data-zoom')) - 1
-					if value >= parseInt(@$items.attr('data-zoom-min'))
-						@$items.attr('data-zoom',  value)
+					@zoom 'out'
 				e.preventDefault()
-			
+
 
 		$(document.body).bind('wheel', checkZoom.bind(@))
 
-	render: (kwargs={}) ->
+	@render: (kwargs={}) ->
 
 		kwargs.animate = true if kwargs.animate == undefined
 
@@ -135,7 +143,7 @@ class Items
 			}
 
 			filesIter = (file, val) ->
-				fileData = { name: file, path: @path.join(file) }
+				fileData = { name: file, path: Path.join(file) }
 				if kwargs.isSearch is true
 					[isImage, htmlName] = val
 					fileData.name = htmlName # letters are bolded
@@ -145,7 +153,7 @@ class Items
 				if isImage # it is an image
 					fileData.icon = fileData.path
 				else
-					fileData.icon = @getIconForFile(@path.extension(fileData.path))
+					fileData.icon = @getIconForFile(Path.extension(fileData.path))
 
 				# hide files
 				if any (globMatch(checker, file) for checker in CONFIG.hidden_files)
@@ -154,9 +162,9 @@ class Items
 					fileData.isHidden = false
 
 				templateData.files.push(fileData)
-		
+
 			foldersIter = (folder, val) ->
-				folderData = { name: folder, path: @path.join(folder) }
+				folderData = { name: folder, path: Path.join(folder) }
 				if kwargs.isSearch is true
 					[hasIndexOrExt, htmlName] = val
 					folderData.name = htmlName # letters are bolded
@@ -164,7 +172,7 @@ class Items
 					hasIndexOrExt = val
 				if typeof hasIndexOrExt == 'string'
 					# it's the extension of the 'screenshot' file
-					folderData.icon = @path.join(folder + '/screenshot.' + hasIndexOrExt)
+					folderData.icon = Path.join(folder + '/screenshot.' + hasIndexOrExt)
 				else if hasIndexOrExt
 					folderData.icon = './img/folder-index.svg'
 				else
@@ -186,8 +194,8 @@ class Items
 				console.log 'empty!'
 
 		else if kwargs.type == 'code'
-			if @path.extension() isnt 'txt'
-				ext = @path.extension()
+			if Path.extension() isnt 'txt'
+				ext = Path.extension()
 				if ext.indexOf('php') >= 0
 					ext = 'html'
 				if hljs.getLanguage(ext)
@@ -204,7 +212,7 @@ class Items
 		else if kwargs.type == 'image'
 			return console.error 'No path for image!' if kwargs.path is undefined
 			templateData = { path: kwargs.path }
-		
+
 		else
 			console.error "Unknown type '#{kwargs.type}'! Impossible to render."
 
@@ -215,7 +223,7 @@ class Items
 			totalAnimationTime = CONFIG.browsing_animation_total_time
 
 			$newItems = @$items.clone()
-			
+
 			$newItems.html(html)
 
 			showNewItems = (_this, $newItems) ->
@@ -225,7 +233,7 @@ class Items
 					right: 0
 				, totalAnimationTime / 2, ->
 					_this.$items = $newItems
-					_this.em.fire('items-var-changed', _this.$items)
+					EM.fire('items-var-changed', _this.$items)
 				)
 
 			$newItems.css(
@@ -245,7 +253,6 @@ class Items
 			)
 		else
 			@$items.html(html)
-		
-	
 
-		
+
+

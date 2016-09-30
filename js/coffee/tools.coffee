@@ -5,7 +5,7 @@ class Tools
 	#	- refresh button
 	#	- edit path button
 	#	- dirname button
-	
+
 	@init: (@em, @path) ->
 		@$dirname  = $('#dirname')
 		@$refresh  = $('#refresh')
@@ -35,9 +35,9 @@ class Tools
 		@$editpathPanel.fadeIn(400)
 		@$editpathInput.focus()
 
-	@bindDOM: () ->
-		
 
+
+	@bindDOM: () ->
 		searchCommand = (e) ->
 			$this = $(this)
 			if e.keyCode == code('enter')
@@ -55,7 +55,7 @@ class Tools
 			else if e.keyCode == code('escape')
 				$this.val('')
 				e.data.this.$editpathPanel.fadeOut()
-			
+
 
 		@$editpathInput.bind('keydown', { this: @ }, searchCommand)
 
@@ -63,7 +63,7 @@ class Tools
 		@$refresh.bind('click', @refresh.bind(@))
 		@$editpath.bind('click', @showEditPathPanel.bind(@))
 
-		specificToItems = 
+		specificToItems =
 			open:
 				name: "Open in real",
 				accesskey: "r"
@@ -72,14 +72,14 @@ class Tools
 				name: "Copy",
 				accesskey: "c"
 				items:
-					name: 
+					name:
 						name: "Name",
 						callback: @copyName
-					
+
 					path:
 						name: "Path",
 						callback: @copyPath
-					
+
 					pathForUrl:
 						name: "Path for url",
 						callback: @copyPath
@@ -89,15 +89,15 @@ class Tools
 				name: 'Toogle hidden items'
 				callback: @toggleHiddenFiles.bind(@)
 
-			viewMode:
-				name: 'View mode'
+			zoom:
+				name: 'Zoom',
 				items:
-					icon:
-						name: "Icons"
-						callback: @changeViewMode.bind(@)
-					list:
-						name: "List"
-						callback: @changeViewMode.bind(@)
+					'in':
+						name: 'Zoom in'
+						callback: @zoom.bind(@)
+					'out':
+						name: 'Zoom out'
+						callback: @zoom.bind(@)
 
 		$.contextMenu(
 			selector: '.items'
@@ -109,6 +109,7 @@ class Tools
 			items: $.extend specificToItems, view
 		)
 
+	# --- context menu functions ---
 
 	@copyName: (key, opt) ->
 		copyText(opt.$trigger.find('a').text())
@@ -121,10 +122,12 @@ class Tools
 			return copyText(opt.$trigger.attr('data-href'))
 
 	@openInReal: (key, opt) ->
-		openInNewTab('http://localhost/' + opt.$trigger.attr('data-href').slice(1))
+		console.log CONFIG.localhost
+		openInNewTab('http://' + CONFIG.localhost + '/' + opt.$trigger.attr('data-href').slice(1))
 
 	@toggleHiddenFiles: (key, opt) ->
 		@$items.attr('hiding-files', if @$items.attr('hiding-files') == 'on' then 'off' else 'on')
 
-	@changeViewMode: (key, opt) ->
-		@$items.fadeOut(400, -> $(this).attr('view-mode', key).fadeIn(400))
+	@zoom: (key, opt) ->
+		Items.zoom(key)
+		return false # keep the context menu open

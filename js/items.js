@@ -1,9 +1,9 @@
 var Items;
 
 Items = (function() {
-  function Items(path1, em) {
-    this.path = path1;
-    this.em = em;
+  function Items() {}
+
+  Items.init = function() {
     this.files = {};
     this.folders = {};
     this.$items = $('.items');
@@ -12,10 +12,10 @@ Items = (function() {
       'code': $('#items-template-code').html(),
       'image': $('#items-template-image').html()
     };
-    this.bindEvent();
-  }
+    return this.bindEvent();
+  };
 
-  Items.prototype.getIconForFile = function(extension) {
+  Items.getIconForFile = function(extension) {
     var ext;
     ext = 'default';
     forEach(CONFIG.supported_icons, function(glob, file) {
@@ -27,7 +27,25 @@ Items = (function() {
     return "./img/file_types/" + ext + ".svg";
   };
 
-  Items.prototype.loadItems = function(path) {
+  Items.zoom = function(zoomIn) {
+    var value;
+    if (typeof zoomIn === 'string') {
+      zoomIn = zoomIn === 'in';
+    }
+    if (zoomIn === true) {
+      value = parseInt(this.$items.attr('data-zoom')) + 1;
+      if (value <= parseInt(this.$items.attr('data-zoom-max'))) {
+        return this.$items.attr('data-zoom', value);
+      }
+    } else {
+      value = parseInt(this.$items.attr('data-zoom')) - 1;
+      if (value >= parseInt(this.$items.attr('data-zoom-min'))) {
+        return this.$items.attr('data-zoom', value);
+      }
+    }
+  };
+
+  Items.loadItems = function(path) {
     var done, fail;
     done = function(mess, textStatus, jqXHR) {
       var dataForEvent;
@@ -45,7 +63,7 @@ Items = (function() {
         } else {
           this.folders = dataForEvent.folders = null;
         }
-        this.em.fire('got-items', dataForEvent);
+        EM.fire('got-items', dataForEvent);
         return this.render({
           files: this.files,
           folders: this.folders,
@@ -58,7 +76,7 @@ Items = (function() {
         });
       } else if (jqXHR.getResponseHeader('content-type') === 'image/png') {
         return this.render({
-          path: this.path.path,
+          path: Path.path,
           type: 'image'
         });
       } else {
@@ -71,7 +89,7 @@ Items = (function() {
       console.info(jqXHR.getAllResponseHeaders());
       return console.info(jqXHR.responseText);
     };
-    path = path || this.path.path;
+    path = path || Path.path;
     return $.ajax({
       url: "getitems.php",
       method: "GET",
@@ -82,9 +100,9 @@ Items = (function() {
     }).done(done.bind(this)).fail(fail.bind(this));
   };
 
-  Items.prototype.bindEvent = function() {
+  Items.bindEvent = function() {
     var checkZoom, normalRender, renderSearch;
-    this.em.on('navigate', this.loadItems.bind(this));
+    EM.on('navigate', this.loadItems.bind(this));
     renderSearch = function(mess) {
       return this.render({
         type: 'files and folders',
@@ -94,7 +112,7 @@ Items = (function() {
         animate: false
       });
     };
-    this.em.on('search', renderSearch.bind(this));
+    EM.on('search', renderSearch.bind(this));
     normalRender = function() {
       return this.render({
         type: 'files and folders',
@@ -103,20 +121,13 @@ Items = (function() {
         animate: false
       });
     };
-    this.em.on('empty-search', normalRender.bind(this));
+    EM.on('empty-search', normalRender.bind(this));
     checkZoom = function(e) {
-      var value;
       if (e.ctrlKey) {
         if (e.originalEvent.deltaY < 0) {
-          value = parseInt(this.$items.attr('data-zoom')) + 1;
-          if (value <= parseInt(this.$items.attr('data-zoom-max'))) {
-            this.$items.attr('data-zoom', value);
-          }
+          this.zoom('in');
         } else {
-          value = parseInt(this.$items.attr('data-zoom')) - 1;
-          if (value >= parseInt(this.$items.attr('data-zoom-min'))) {
-            this.$items.attr('data-zoom', value);
-          }
+          this.zoom('out');
         }
         return e.preventDefault();
       }
@@ -124,7 +135,7 @@ Items = (function() {
     return $(document.body).bind('wheel', checkZoom.bind(this));
   };
 
-  Items.prototype.render = function(kwargs) {
+  Items.render = function(kwargs) {
     var $newItems, _this, code, ext, filesIter, foldersIter, html, language, obj, showNewItems, templateData, totalAnimationTime;
     if (kwargs == null) {
       kwargs = {};
@@ -147,7 +158,7 @@ Items = (function() {
         var checker, fileData, htmlName, isImage;
         fileData = {
           name: file,
-          path: this.path.join(file)
+          path: Path.join(file)
         };
         if (kwargs.isSearch === true) {
           isImage = val[0], htmlName = val[1];
@@ -158,7 +169,7 @@ Items = (function() {
         if (isImage) {
           fileData.icon = fileData.path;
         } else {
-          fileData.icon = this.getIconForFile(this.path.extension(fileData.path));
+          fileData.icon = this.getIconForFile(Path.extension(fileData.path));
         }
         if (any((function() {
           var i, len, ref, results;
@@ -180,7 +191,7 @@ Items = (function() {
         var checker, folderData, hasIndexOrExt, htmlName;
         folderData = {
           name: folder,
-          path: this.path.join(folder)
+          path: Path.join(folder)
         };
         if (kwargs.isSearch === true) {
           hasIndexOrExt = val[0], htmlName = val[1];
@@ -189,7 +200,7 @@ Items = (function() {
           hasIndexOrExt = val;
         }
         if (typeof hasIndexOrExt === 'string') {
-          folderData.icon = this.path.join(folder + '/screenshot.' + hasIndexOrExt);
+          folderData.icon = Path.join(folder + '/screenshot.' + hasIndexOrExt);
         } else if (hasIndexOrExt) {
           folderData.icon = './img/folder-index.svg';
         } else {
@@ -221,8 +232,8 @@ Items = (function() {
         console.log('empty!');
       }
     } else if (kwargs.type === 'code') {
-      if (this.path.extension() !== 'txt') {
-        ext = this.path.extension();
+      if (Path.extension() !== 'txt') {
+        ext = Path.extension();
         if (ext.indexOf('php') >= 0) {
           ext = 'html';
         }
@@ -264,7 +275,7 @@ Items = (function() {
           right: 0
         }, totalAnimationTime / 2, function() {
           _this.$items = $newItems;
-          return _this.em.fire('items-var-changed', _this.$items);
+          return EM.fire('items-var-changed', _this.$items);
         });
       };
       $newItems.css({

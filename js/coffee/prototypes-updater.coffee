@@ -2,13 +2,13 @@ forEach = (obj, func) ->
 	# function (key, value, obj, nb_key) { /* do stuff */ }
 	if typeof obj != 'object'
 		console.error "forEach(...) needs an OBJECT (not a '#{typeof obj}' and a function"
-		
+
 	keys = Object.keys(obj);
 
 	for key, i in keys
 		if 'stop' == func(key, obj[key], obj, i)
 			return obj
-		
+
 	return obj
 
 copyObject = (obj) -> $.extend({}, obj)
@@ -132,6 +132,8 @@ String::strip = (charToRemove=' ') ->
 String::wrap = (char='"') ->
 	return char + this + char
 
+String::capitalize = ->
+	return this[0].toUpperCase() + this.slice(1)
 
 
 $.fn.exists = (nice=false) ->
@@ -143,3 +145,12 @@ $.arrayDiff = (arr1, arr2) ->
 		arr.push val if arr2.indexOf(val) == -1
 	return arr
 
+$.fn.outerHTML = (html) ->
+	if html
+		if typeof html == typeof alert
+			html = html.bind(this)()
+		this.each(->
+			@outerHTML = html
+		)
+	else
+		this.outerHTML

@@ -187,6 +187,10 @@ String.prototype.wrap = function(char) {
   return char + this + char;
 };
 
+String.prototype.capitalize = function() {
+  return this[0].toUpperCase() + this.slice(1);
+};
+
 $.fn.exists = function(nice) {
   if (nice == null) {
     nice = false;
@@ -204,4 +208,17 @@ $.arrayDiff = function(arr1, arr2) {
     }
   }
   return arr;
+};
+
+$.fn.outerHTML = function(html) {
+  if (html) {
+    if (typeof html === typeof alert) {
+      html = html.bind(this)();
+    }
+    return this.each(function() {
+      return this.outerHTML = html;
+    });
+  } else {
+    return this.outerHTML;
+  }
 };

@@ -7,13 +7,13 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link rel="icon" type="image/png" href="./img/folder.png">
 	<meta name="viewport" content="width=device-width" />
-	<title>Localhost</title>
+	<title class="insert-localhost" data-capitalize=on>Localhost</title>
 </head>
 <body>
 
 	<div class="wrapper">
 		<header>
-			<a href="/" class="brand">Localhost</a>
+			<a href="/" class="brand insert-localhost" data-capitalize=on>Localhost</a>
 			<nav>
 				<ul>
 					<li><a href="/phpmyadmin/">phpmyadmin</a></li>
@@ -64,7 +64,7 @@
 					</ul>
 			 	</div>
 		 		<div class="items" hiding-files=on view-mode=icon data-zoom="3" data-zoom-min=0 data-zoom-max=6>
-					
+
 		 		</div>
 				</ul>
 			</article>
@@ -84,14 +84,14 @@
 		</div>
 
 	</div>
-	
+
 	<div class="credit" style="display: none;">
 		<!--  -->
 		<div>Icons made by <a href="http://www.flaticon.com/authors/lucy-g" title="Lucy G">Lucy G</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 		<!-- arrow -->
 		<div>Icons made by <a href="http://www.flaticon.com/authors/vaadin" title="Vaadin">Vaadin</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	</div>
-	
+
 	<!-- Template for mustache -->
 	<script type="text/template" id="items-template-faf">
 		{{ #folders }}
@@ -137,19 +137,19 @@
 	<!-- Jquery -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
-	
+
 	<script type="text/javascript" src="./js/jquery.outside.js"></script>
 	<script type="text/javascript" src="./js/jquery.ui.position.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.contextMenu.min.js"></script>
 
 	<script type="text/javascript" src="./js/bootstrap-tooltip.js"></script>
 
-	
+
 	<!-- highlightjs -->
 	<script type="text/javascript" src="./js/highlight.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/stylus.min.js"></script>
 
-	
+
 	<script type="text/javascript" src="./js/prototypes-updater.js"></script>
 
 	<script type="text/javascript" src="./js/event-manager.js"></script>
@@ -166,6 +166,12 @@
 	<script type="text/javascript">
 		function main () {
 
+			$(".insert-localhost").text(function () {
+				var capitalize = $(this).attr('data-capitalize') == 'on'
+				$(this).removeClass('insert-localhost').removeAttr('data-capitalize')
+				return capitalize ? CONFIG.localhost.capitalize() : CONFIG.localhost
+			})
+
 			Hash.init(EM);
 			Path.init(EM);
 			Tools.init(EM, Path)
@@ -174,7 +180,8 @@
 			Sidebar.init()
 			Shorcuts.init()
 
-			window.items = new Items(Path, EM); // for debug
+			// new Items(Path, EM);
+			Items.init()
 
 			fireNavigation = function (e) {
 				if (e.ctrlKey) {

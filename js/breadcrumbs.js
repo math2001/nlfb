@@ -21,7 +21,7 @@ Breadcrumbs = (function() {
     data = {
       splitedPath: [
         {
-          name: 'Localhost',
+          name: CONFIG.localhost.capitalize(),
           path: '/'
         }
       ]

@@ -12,7 +12,7 @@ class Breadcrumbs
 		path = path.split('/').remove('')
 		data = {
 			splitedPath: [
-				{ name: 'Localhost', path: '/' }
+				{ name: CONFIG.localhost.capitalize(), path: '/' }
 			]
 		}
 		for bit, i in path
