@@ -120,14 +120,12 @@ class Tools
 		copyText(opt.$trigger.find('a').text())
 
 	@copyPath: (key, opt) ->
-		# console.log opt
 		if key == 'pathForUrl'
 			return copyText encodeURI opt.$trigger.attr 'data-href'
 		else
 			return copyText(opt.$trigger.attr('data-href'))
 
 	@openInReal: (key, opt) ->
-		console.log CONFIG.localhost
 		openInNewTab('http://' + CONFIG.localhost + '/' + opt.$trigger.attr('data-href').slice(1))
 
 	@toggleHiddenFiles: (key, opt) ->

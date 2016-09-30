@@ -9,7 +9,7 @@ forEach = (obj, func) ->
 		if 'stop' == func(key, obj[key], obj, i)
 			return obj
 
-	return obj
+	obj
 
 copyObject = (obj) -> $.extend({}, obj)
 
@@ -71,7 +71,7 @@ all = (arr) ->
 
 globMatch = (pattern, elements) ->
 	pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\.\^\$]/g, "\\$&")
-	pattern = pattern.replace(/([^\\]?)\*/, '$1.*')
+	pattern = pattern.replace(/([^\\]?)\*/g, '$1.*')
 
 	regex = new RegExp('^' + pattern + '$')
 

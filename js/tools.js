@@ -138,7 +138,6 @@ Tools = (function() {
   };
 
   Tools.openInReal = function(key, opt) {
-    console.log(CONFIG.localhost);
     return openInNewTab('http://' + CONFIG.localhost + '/' + opt.$trigger.attr('data-href').slice(1));
   };
 
