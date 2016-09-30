@@ -148,6 +148,7 @@
 	<!-- highlightjs -->
 	<script type="text/javascript" src="./js/highlight.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/stylus.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js"></script>
 
 
 	<script type="text/javascript" src="./js/prototypes-updater.js"></script>
@@ -228,13 +229,14 @@
 						"py"       : "py",
 						"rb"       : "rb",
 						"rust"     : "rust",
-						"sass"     : "sass",
+						"sass|scss": "sass",
 						"sketch"   : "sketch",
 						"styl"     : "styl",
 						"*.sublime": "sublime",
 						"txt"      : "txt",
 						"pyc"      : "pyc",
-						"xml"      : "xml"
+						"xml"      : "xml",
+						"ya?ml"      : "yml"
 					},
 					"localhost": "localhost"
 				}, config)

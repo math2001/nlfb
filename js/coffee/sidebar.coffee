@@ -5,12 +5,13 @@ class Sidebar
 		@$projects = @$sidebar.find('.projects')
 		@$sidebarResizer = $('#sep')
 		@template = $('#sidebar-template').html()
-		
+
 		@loadItems({ path: '/', $target: @$projects, init: true })
 		@bindDOM()
 		@bindEvents()
 
 		@resizingSidebar = false
+		@sidebarIsHidden = false
 
 	@loadItems: (kwargs) ->
 		return console.error('Need path to load items.') if kwargs.path == undefined
@@ -29,7 +30,7 @@ class Sidebar
 			else
 				folders = mess.folders
 
-			@render({ 
+			@render({
 				folders: folders
 				$target: kwargs.$target
 				basePath: kwargs.path
@@ -39,7 +40,7 @@ class Sidebar
 
 		$.ajax(
 			url: "getitems.php"
-			data: 
+			data:
 				path: kwargs.path
 				filter: 'folders'
 				noticer: 'hasFolder'
@@ -120,3 +121,30 @@ class Sidebar
 		else
 			kwargs.$target.find('ul').first().slideUp(CONFIG.deployment_transition_time)
 
+	@show: ->
+		sidebarWidth = Math.round( parseInt( Sidebar.$sidebar.attr("data-prev-width") ) / document.body.clientWidth * 100)
+		@$sidebarResizer.show()
+		@$sidebar.animate(
+			width: sidebarWidth + '%'
+		, 500)
+		Items.$items.parent().animate(
+			width: (100 - sidebarWidth) + '%'
+		, 500)
+
+	@hide: ->
+		@$sidebarResizer.hide()
+		@$sidebar.attr('data-prev-width', @$sidebar.css("width")).animate(
+			width: '0%'
+		, 500)
+		Items.$items.parent().animate(
+			width: '100%'
+		, 500)
+
+	@toggle: ->
+		if @sidebarIsHidden
+			@show()
+			@sidebarIsHidden = false
+		else
+			@hide()
+			@sidebarIsHidden = true
+		true

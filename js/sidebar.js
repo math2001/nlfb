@@ -15,7 +15,8 @@ Sidebar = (function() {
     });
     this.bindDOM();
     this.bindEvents();
-    return this.resizingSidebar = false;
+    this.resizingSidebar = false;
+    return this.sidebarIsHidden = false;
   };
 
   Sidebar.loadItems = function(kwargs) {
@@ -150,6 +151,39 @@ Sidebar = (function() {
     } else {
       return kwargs.$target.find('ul').first().slideUp(CONFIG.deployment_transition_time);
     }
+  };
+
+  Sidebar.show = function() {
+    var sidebarWidth;
+    sidebarWidth = Math.round(parseInt(Sidebar.$sidebar.attr("data-prev-width")) / document.body.clientWidth * 100);
+    this.$sidebarResizer.show();
+    this.$sidebar.animate({
+      width: sidebarWidth + '%'
+    }, 500);
+    return Items.$items.parent().animate({
+      width: (100 - sidebarWidth) + '%'
+    }, 500);
+  };
+
+  Sidebar.hide = function() {
+    this.$sidebarResizer.hide();
+    this.$sidebar.attr('data-prev-width', this.$sidebar.css("width")).animate({
+      width: '0%'
+    }, 500);
+    return Items.$items.parent().animate({
+      width: '100%'
+    }, 500);
+  };
+
+  Sidebar.toggle = function() {
+    if (this.sidebarIsHidden) {
+      this.show();
+      this.sidebarIsHidden = false;
+    } else {
+      this.hide();
+      this.sidebarIsHidden = true;
+    }
+    return true;
   };
 
   return Sidebar;

@@ -70,7 +70,7 @@ all = (arr) ->
 	return true
 
 globMatch = (pattern, elements) ->
-	pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\?\.\^\$\|]/g, "\\$&")
+	pattern = pattern.replace(/[\-\[\]\/\{\}\(\)\+\.\^\$]/g, "\\$&")
 	pattern = pattern.replace(/([^\\]?)\*/, '$1.*')
 
 	regex = new RegExp('^' + pattern + '$')

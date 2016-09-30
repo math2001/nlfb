@@ -77,12 +77,13 @@ body {
 }
 .sep {
   width: 2px;
-  border: 2px solid transparent;
+  border: 5px solid rgba(255,0,0,0.333);
+  opacity: 0;
   position: absolute;
   left: 20%;
   top: 0;
   bottom: 0;
-  background-color: transparent;
+  background-color: rgba(0,255,0,0.733);
   cursor: e-resize;
   z-index: 500;
 }

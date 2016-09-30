@@ -94,8 +94,12 @@ Tools = (function() {
     };
     view = {
       hiddenFiles: {
-        name: 'Toogle hidden items',
+        name: 'Toggle hidden items',
         callback: this.toggleHiddenFiles.bind(this)
+      },
+      sideBar: {
+        name: 'Toggle sidebar',
+        callback: this.toggleSidebar.bind(this)
       },
       zoom: {
         name: 'Zoom',
@@ -145,6 +149,10 @@ Tools = (function() {
   Tools.zoom = function(key, opt) {
     Items.zoom(key);
     return false;
+  };
+
+  Tools.toggleSidebar = function(key, opt) {
+    return Sidebar.toggle();
   };
 
   return Tools;

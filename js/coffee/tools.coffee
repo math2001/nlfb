@@ -86,8 +86,12 @@ class Tools
 
 		view =
 			hiddenFiles:
-				name: 'Toogle hidden items'
+				name: 'Toggle hidden items'
 				callback: @toggleHiddenFiles.bind(@)
+
+			sideBar:
+				name: 'Toggle sidebar'
+				callback: @toggleSidebar.bind(@)
 
 			zoom:
 				name: 'Zoom',
@@ -98,6 +102,7 @@ class Tools
 					'out':
 						name: 'Zoom out'
 						callback: @zoom.bind(@)
+
 
 		$.contextMenu(
 			selector: '.items'
@@ -131,3 +136,6 @@ class Tools
 	@zoom: (key, opt) ->
 		Items.zoom(key)
 		return false # keep the context menu open
+
+	@toggleSidebar: (key, opt) ->
+		Sidebar.toggle()
