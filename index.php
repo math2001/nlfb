@@ -225,7 +225,7 @@
 						"gif"         : "gif",
 						"git*"        : "git",
 						"htaccess"    : "htaccess",
-						"html"        : "html",
+						"html?"       : "html",
 						"js"          : "js",
 						"json"        : "json",
 						"less"        : "less",

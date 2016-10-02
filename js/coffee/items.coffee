@@ -69,7 +69,9 @@ class Items
 			else if jqXHR.getResponseHeader('content-type') == 'image/png'
 				@render({ path: Path.path, type: 'image' })
 			else
-				# coffeescript apparently cannot handle a finninshing else if
+				alert "Unknown content-type: '#{jqXHR.getResponseHeader('content-type')}'!"
+				console.error "Unknown content-type: '#{jqXHR.getResponseHeader('content-type')}'!"
+				console.log jqXHR.getAllResponseHeaders()
 
 
 

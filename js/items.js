@@ -80,7 +80,9 @@ Items = (function() {
           type: 'image'
         });
       } else {
-
+        alert("Unknown content-type: '" + (jqXHR.getResponseHeader('content-type')) + "'!");
+        console.error("Unknown content-type: '" + (jqXHR.getResponseHeader('content-type')) + "'!");
+        return console.log(jqXHR.getAllResponseHeaders());
       }
     };
     fail = function(jqXHR, textStatus, errorThrown) {
