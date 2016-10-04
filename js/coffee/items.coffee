@@ -38,6 +38,7 @@ class Items
 		done = (mess, textStatus, jqXHR) ->
 
 			contentType = jqXHR.getResponseHeader('content-type')
+			console.log 'loadItems.contentType', contentType
 
 			if contentType.indexOf('application/json') >= 0
 

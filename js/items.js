@@ -50,6 +50,7 @@ Items = (function() {
     done = function(mess, textStatus, jqXHR) {
       var contentType, dataForEvent;
       contentType = jqXHR.getResponseHeader('content-type');
+      console.log('loadItems.contentType', contentType);
       if (contentType.indexOf('application/json') >= 0) {
         dataForEvent = {};
         if (Object.keys(mess.files).length > 0) {

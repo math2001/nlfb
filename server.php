@@ -19,11 +19,11 @@
 	function pathjoin() {
 		$path = [];
 		foreach (func_get_args() as $k => $v) {
-			$path[] = trim($v, '/');
+			$path[] = trim(trim($v, '/'), DIRECTORY_SEPARATOR);
 		}
-		return implode('/', $path);
+		return implode(DIRECTORY_SEPARATOR, $path);
 	}
-	function has_any() {
+	function hasAny() {
 		$args = func_get_args();
 		$arr = $args[sizeof($args) - 1];
 		foreach (array_slice($args, 0, sizeof($args) - 1) as $k => $v) {
@@ -71,17 +71,14 @@ function is_image($item) {
 }
 
 function listdir($path) {
-	if (!is_dir($path)) {
-		return null;
-	}
 	$items = [];
-	$dir = opendir($path);
+	$dir = opendir(utf8_decode($path));
 	if (!$dir) {
 		return false;
 	}
 	while (($item = readdir($dir)) !== false) {
 		if (!in_array($item, ['.', '..'])) {
-			$items[] = $item;
+			$items[] = utf8_encode($item);
 		}
 	}
 	return $items;
@@ -97,22 +94,25 @@ function hasFolder($path) {
 	return false;
 }
 
+function indexNoticer($items) {
+	foreach ($items as $k => $item) {
+		$pi = pathinfo($item);
+		if ($pi['filename'] == 'screenshot') {
+			return $pi['extension'];
+		}
+	}
+	return hasAny('index.php', 'index.html', $items);
+}
+
 function format_items($path) {
 
-	function indexNoticer($items) {
-		foreach ($items as $k => $item) {
-			$pi = pathinfo($item);
-			if ($pi['filename'] == 'screenshot') {
-				return $pi['extension'];
-			}
-		}
-		return has_any('index.php', 'index.html', $items);
-	}
+	
 
 	$fitems = [
 		'files' => [],
 		'folders' => [],
 	];
+
 
 	$items = listdir($path);
 
@@ -120,8 +120,10 @@ function format_items($path) {
 
 	foreach ($items as $k => $item) {
 		$temp_path = pathjoin($path, $item);
-		if (is_dir($temp_path)) {
+		$temp_path_decode = utf8_decode($temp_path);
+		if (is_dir($temp_path_decode)) {
 			
+
 			if (isset($_GET['noticer'])) {
 				if ($_GET['noticer'] == 'index') {
 					$fitems['folders'][$item] = indexNoticer(listdir($temp_path));
@@ -132,9 +134,10 @@ function format_items($path) {
 				}
 			}
 
-		} elseif (is_file($temp_path)) {
+		} elseif (is_file($temp_path_decode)) {			
 			$fitems['files'][$item] = is_image($item);
 		} else {
+			die("is not a file! $temp_path_decode");
 			// debug($temp_path);
 			// header('HTTP/1.0 404 Not Found');
 			// header('content-type: text/html');
@@ -147,20 +150,20 @@ function format_items($path) {
 	return $fitems;
 
 }
-if (is_dir($path)) {
-	header("content-type: application/json");
+if (is_dir(utf8_decode($path))) {
 	echo json_encode(format_items($path), (is_ajax() ? 0 : JSON_PRETTY_PRINT));
-} elseif (is_file($path)) {
+	header("content-type: application/json");
+} elseif (is_file(utf8_decode($path))) {
 	if (is_image($path)) {
 		header('content-type: image/png'); // png/jpg/whatever does not matter,
 	} else {
 		header('content-type: text/plain');
 	}
-	echo file_get_contents($path);
+	echo utf8_encode(file_get_contents(utf8_decode($path)));
 } else {
 	header('HTTP/1.0 404 Not Found');
 	if (is_ajax()) {
-		echo "The path '$path' does not exists";
+		echo "The path '$path' does not exists!";
 	} else {
 		echo("The path <code>$path</code> does not exists!");
 	}
