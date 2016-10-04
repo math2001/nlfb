@@ -36,7 +36,10 @@ class Items
 
 	@loadItems: (path) ->
 		done = (mess, textStatus, jqXHR) ->
-			if jqXHR.getResponseHeader('content-type') == 'application/json'
+
+			contentType = jqXHR.getResponseHeader('content-type')
+
+			if contentType.indexOf('application/json') >= 0
 
 				# mess.files and mess.folders are OBJECT, not ARRAY
 
@@ -63,10 +66,10 @@ class Items
 					type: 'files and folders'
 				})
 
-			else if jqXHR.getResponseHeader('content-type') == 'text/plain'
+			else if contentType.indexOf('text/plain') >= 0
 				# view code
 				@render({ content: mess, type: 'code' })
-			else if jqXHR.getResponseHeader('content-type') == 'image/png'
+			else if contentType.indexOf('image/png') >= 0
 				@render({ path: Path.path, type: 'image' })
 			else
 				alert "Unknown content-type: '#{jqXHR.getResponseHeader('content-type')}'!"

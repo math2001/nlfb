@@ -48,8 +48,9 @@ Items = (function() {
   Items.loadItems = function(path) {
     var done, fail;
     done = function(mess, textStatus, jqXHR) {
-      var dataForEvent;
-      if (jqXHR.getResponseHeader('content-type') === 'application/json') {
+      var contentType, dataForEvent;
+      contentType = jqXHR.getResponseHeader('content-type');
+      if (contentType.indexOf('application/json') >= 0) {
         dataForEvent = {};
         if (Object.keys(mess.files).length > 0) {
           this.files = mess.files;
@@ -69,12 +70,12 @@ Items = (function() {
           folders: this.folders,
           type: 'files and folders'
         });
-      } else if (jqXHR.getResponseHeader('content-type') === 'text/plain') {
+      } else if (contentType.indexOf('text/plain') >= 0) {
         return this.render({
           content: mess,
           type: 'code'
         });
-      } else if (jqXHR.getResponseHeader('content-type') === 'image/png') {
+      } else if (contentType.indexOf('image/png') >= 0) {
         return this.render({
           path: Path.path,
           type: 'image'

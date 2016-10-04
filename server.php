@@ -42,7 +42,7 @@
 <?php
 // $time = microtime(true);
 $CONF = [
-	"base_path" => "C:/wamp/www/"
+	"base_path" => dirname(dirname(__file__))
 ];
 
 if (isset($_GET['getconfig']) AND $_GET['getconfig'] == 'yes') {
