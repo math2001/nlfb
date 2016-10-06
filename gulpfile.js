@@ -47,7 +47,7 @@ gulp.task('heavy-watcher', function () {
 	})
 })
 
-gulp.task('light-watcher', function () {
+gulp.task('lw', function () {
 	// reload only on STYLE change
 	livereload.listen()
 	gulp.watch('js/coffee/*.coffee', ['coffee-compile'])
