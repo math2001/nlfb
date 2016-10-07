@@ -38,7 +38,6 @@ class Items
 		done = (mess, textStatus, jqXHR) ->
 
 			contentType = jqXHR.getResponseHeader('content-type')
-			console.log 'loadItems.contentType', contentType
 
 			if contentType.indexOf('application/json') >= 0
 
@@ -76,6 +75,7 @@ class Items
 				alert "Unknown content-type: '#{jqXHR.getResponseHeader('content-type')}'!"
 				console.error "Unknown content-type: '#{jqXHR.getResponseHeader('content-type')}'!"
 				console.log jqXHR.getAllResponseHeaders()
+				console.log mess
 
 
 

@@ -18,7 +18,11 @@
 	}	
 	function pathjoin() {
 		$path = [];
-		foreach (func_get_args() as $k => $v) {
+		$args = func_get_args();
+		foreach ($args as $k => $v) {
+			$args[$k] = implode(DIRECTORY_SEPARATOR, explode('/', $v));
+		}
+		foreach ($args as $k => $v) {
 			$path[] = trim(trim($v, '/'), DIRECTORY_SEPARATOR);
 		}
 		return implode(DIRECTORY_SEPARATOR, $path);
@@ -61,6 +65,11 @@ if (!isset($_GET['path'])) {
 
 $path = $_GET['path'];
 $path = pathjoin($CONF['base_path'], $path);
+
+if (explode(DIRECTORY_SEPARATOR, str_replace($CONF['base_path'].DIRECTORY_SEPARATOR, '', $path))[0] == '..') {
+	header('HTTP/1.1 401 Unauthorized');
+	die();
+}
 
 function is_image($item) {
 	$pathinfo = pathinfo($item);
